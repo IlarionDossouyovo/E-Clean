@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Clean Brand Assets</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #0A2540;
+            color: white;
+            min-height: 100vh;
+        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 4rem 2rem; }
+        header { text-align: center; margin-bottom: 4rem; }
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #00C2CB, #2ECC71);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .tagline { font-size: 1.25rem; opacity: 0.7; font-weight: 300; }
+        .section { margin-bottom: 3rem; }
+        .section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        .card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.2s;
+        }
+        .card:hover { transform: translateY(-4px); background: rgba(255,255,255,0.08); }
+        .card h3 { font-size: 1rem; margin-bottom: 1rem; opacity: 0.8; }
+        .preview {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100px;
+        }
+        .preview.dark { background: #0A2540; }
+        .colors { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+        .color-box {
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .color-swatch { height: 80px; }
+        .color-info { padding: 1rem; background: rgba(0,0,0,0.3); }
+        .color-name { font-weight: 700; font-size: 0.875rem; }
+        .color-hex { font-size: 0.75rem; opacity: 0.7; font-family: monospace; }
+        .download-btn {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #00C2CB, #2ECC71);
+            color: #0A2540;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.875rem;
+        }
+        footer { text-align: center; padding: 3rem; opacity: 0.5; font-size: 0.875rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>E-Clean Brand Assets</h1>
+            <p class="tagline">Premium Cleaning Solutions for Modern Living</p>
+        </header>
+
+        <section class="section">
+            <h2>Logo Variations</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Full Logo - Light</h3>
+                    <div class="preview dark">
+                        <img src="dist/svg/logo-full-light.svg" alt="Full Logo Light" width="160">
+                    </div>
+                    <a class="download-btn" href="dist/svg/logo-full-light.svg" download>Download SVG</a>
+                </div>
+                <div class="card">
+                    <h3>Full Logo - Dark</h3>
+                    <div class="preview">
+                        <img src="dist/svg/logo-full-dark.svg" alt="Full Logo Dark" width="160">
+                    </div>
+                    <a class="download-btn" href="dist/svg/logo-full-dark.svg" download>Download SVG</a>
+                </div>
+                <div class="card">
+                    <h3>Icon Only</h3>
+                    <div class="preview dark">
+                        <img src="dist/svg/logo-icon.svg" alt="Icon Only" width="64">
+                    </div>
+                    <a class="download-btn" href="dist/svg/logo-icon.svg" download>Download SVG</a>
+                </div>
+                <div class="card">
+                    <h3>Favicon</h3>
+                    <div class="preview dark">
+                        <img src="dist/svg/favicon.svg" alt="Favicon" width="32">
+                    </div>
+                    <a class="download-btn" href="dist/svg/favicon.svg" download>Download SVG</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Color Palette</h2>
+            <div class="colors">
+                <div class="color-box">
+                    <div class="color-swatch" style="background: linear-gradient(135deg, #0A2540, #1a3a5c);"></div>
+                    <div class="color-info">
+                        <div class="color-name">Primary Blue</div>
+                        <div class="color-hex">#0A2540</div>
+                    </div>
+                </div>
+                <div class="color-box">
+                    <div class="color-swatch" style="background: #00C2CB;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Cyan</div>
+                        <div class="color-hex">#00C2CB</div>
+                    </div>
+                </div>
+                <div class="color-box">
+                    <div class="color-swatch" style="background: #2ECC71;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Eco Green</div>
+                        <div class="color-hex">#2ECC71</div>
+                    </div>
+                </div>
+                <div class="color-box">
+                    <div class="color-swatch" style="background: #FFFFFF; border:1px solid #ddd;"></div>
+                    <div class="color-info">
+                        <div class="color-name">White</div>
+                        <div class="color-hex">#FFFFFF</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Documentation</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Brand Guidelines</h3>
+                    <p style="opacity:0.7; margin-bottom:1rem;">Complete brand identity usage guide</p>
+                    <a class="download-btn" href="docs/README.md" style="background:transparent; border:1px solid #fff; color:#fff;">View Docs</a>
+                </div>
+                <div class="card">
+                    <h3>Technical Specs</h3>
+                    <p style="opacity:0.7; margin-bottom:1rem;">Detailed technical specifications</p>
+                    <a class="download-btn" href="docs/SPEC.md" style="background:transparent; border:1px solid #fff; color:#fff;">View Specs</a>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2026 E-Clean - Part of ELECTRON Group</p>
+            <p style="margin-top:0.5rem;">International B2B & B2C Cleaning Solutions</p>
+        </footer>
+    </div>
+</body>
+</html>
