@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programme Affiliation E-Clean | Gagnez avec nos produits</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0A2540;
+            --primary-light: #1a3a5c;
+            --secondary: #00C2CB;
+            --accent: #2ECC71;
+            --white: #FFFFFF;
+            --light: #F5F7FA;
+            --gray: #6B7280;
+            --gray-light: #E5E7EB;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--light);
+            color: var(--primary);
+            line-height: 1.6;
+        }
+        
+        /* Header */
+        header {
+            background: var(--primary);
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--white);
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            color: var(--primary);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0,194,203,0.4);
+        }
+        
+        .btn-outline {
+            border: 2px solid rgba(255,255,255,0.5);
+            color: var(--white);
+        }
+        
+        .btn-outline:hover {
+            background: var(--white);
+            color: var(--primary);
+        }
+        
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            padding: 6rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(0,194,203,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(46,204,113,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+        
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            margin-top: 4rem;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--secondary);
+        }
+        
+        .stat-label {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.875rem;
+        }
+        
+        /* How It Works */
+        .section {
+            padding: 5rem 2rem;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .section-title p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        
+        .step-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            transition: transform 0.3s;
+        }
+        
+        .step-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: var(--white);
+            margin: 0 auto 1.5rem;
+        }
+        
+        .step-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .step-card p {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+        
+        /* Commissions */
+        .commissions {
+            background: var(--white);
+        }
+        
+        .commission-table {
+            max-width: 900px;
+            margin: 0 auto;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.08);
+        }
+        
+        .commission-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .commission-table th {
+            background: var(--primary);
+            color: var(--white);
+            padding: 1.25rem 1.5rem;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .commission-table td {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--gray-light);
+        }
+        
+        .commission-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .commission-table tr:hover {
+            background: var(--light);
+        }
+        
+        .percentage {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+        
+        .bonus-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: var(--primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        /* Benefits */
+        .benefits {
+            background: linear-gradient(180deg, var(--light) 0%, var(--white) 100%);
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        
+        .benefit-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+        
+        .benefit-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(0,194,203,0.1), rgba(46,204,113,0.1));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .benefit-icon svg {
+            width: 30px;
+            height: 30px;
+        }
+        
+        .benefit-card h3 {
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .benefit-card p {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            background: var(--white);
+        }
+        
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        
+        .testimonial-card {
+            background: var(--light);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+        
+        .testimonial-card p {
+            font-size: 1rem;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            color: var(--gray);
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: 700;
+        }
+        
+        .testimonial-info h4 {
+            font-size: 1rem;
+        }
+        
+        .testimonial-info span {
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+        
+        /* CTA */
+        .cta {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+        
+        .cta h2 {
+            font-size: 2.5rem;
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+        
+        .cta p {
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 2rem;
+            font-size: 1.125rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: var(--white);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        
+        footer p {
+            opacity: 0.6;
+            font-size: 0.875rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .hero-stats { flex-direction: column; gap: 2rem; }
+            .nav-links { display: none; }
+            .header-content { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="#" class="logo">
+                <svg class="logo-icon" viewBox="0 0 40 40" fill="none">
+                    <path d="M20 3 L35 8 V20 C35 30 28 35 20 37 C12 35 5 30 5 20 V8 L20 3Z" fill="#FFFFFF"/>
+                    <path d="M20 10 C20 10 14 17 14 22 C14 27 17 30 20 30 C23 30 26 27 26 22 C26 17 20 10 20 10Z" fill="#00C2CB"/>
+                </svg>
+                E-Clean
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#how-it-works">Comment ça marche</a></li>
+                    <li><a href="#commissions">Commissions</a></li>
+                    <li><a href="#benefits">Avantages</a></li>
+                </ul>
+            </nav>
+            <a href="#join" class="btn btn-primary">Devenir partenaire</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Gagnez jusqu'à <span>15%</span> sur chaque vente</h1>
+            <p>Rejoignez notre programme d'affiliation et gagnez des commissions en recommandant les produits de nettoyage E-Clean à votre audience.</p>
+            <div class="hero-buttons">
+                <a href="#join" class="btn btn-primary">S'inscrire gratuitement</a>
+                <a href="#how-it-work" class="btn btn-outline">En savoir plus</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-value">500+</div>
+                    <div class="stat-label">Partenaires actifs</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">€50K+</div>
+                    <div class="stat-label">Commissions versées</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">15%</div>
+                    <div class="stat-label">Commission max</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="how-it-works">
+        <div class="section-title">
+            <h2>Comment ça marche</h2>
+            <p>Trois étapes simples pour commencer à gagner</p>
+        </div>
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>Inscrivez-vous</h3>
+                <p>Créez votre compte partenaire gratuitement en quelques secondes</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>Partagez vos liens</h3>
+                <p>Promouvez nos produits sur votre site, blog, réseaux sociaux ou email</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>Gagnez des commissions</h3>
+                <p>Recevez jusqu'à 15% sur chaque vente réalisée via vos liens</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section commissions" id="commissions">
+        <div class="section-title">
+            <h2>Tableau des commissions</h2>
+            <p>Plus vous vendez, plus vous gagnez</p>
+        </div>
+        <div class="commission-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Catégorie produits</th>
+                        <th>Commission</th>
+                        <th>Bonus</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Nettoyants ménagers</td>
+                        <td><span class="percentage">10%</span></td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Équipements professionnels</td>
+                        <td><span class="percentage">12%</span></td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Hygiène & désinfection</td>
+                        <td><span class="percentage">12%</span></td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Accessoires & pièces</td>
+                        <td><span class="percentage">15%</span></td>
+                        <td><span class="bonus-badge">TOP VENTE</span></td>
+                    </tr>
+                    <tr>
+                        <td>PackBundle promo</td>
+                        <td><span class="percentage">15%</span></td>
+                        <td><span class="bonus-badge">+5% bonus</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="section benefits" id="benefits">
+        <div class="section-title">
+            <h2>Pourquoi rejoindre E-Clean</h2>
+            <p>Tous les outils pour réussir</p>
+        </div>
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <svg fill="none" stroke="#00C2CB" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h3>Cookies 30 jours</h3>
+                    <p>Votre commission est sécurisée pendant 30 jours après le clic</p>
+                </div>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <svg fill="none" stroke="#00C2CB" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1C9.11 8 8 9.402 8 11s1.343 2 3 2 3-.895 3-2-1.343-2-3-2z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h3>Paiements mensuels</h3>
+                    <p>Recevez vos gains par virement bancaire le 1er de chaque mois</p>
+                </div>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <svg fill="none" stroke="#00C2CB" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h3>Tableau de bord</h3>
+                    <p>Suivez vos ventes, clics et commissions en temps réel</p>
+                </div>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <svg fill="none" stroke="#00C2CB" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h3>Banners & liens</h3>
+                    <p>Accédez à des visuels promotionnels prêts à utiliser</p>
+                </div>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <svg fill="none" stroke="#00C2CB" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 0a7.5 7.5 0 11-10.606 0 7.5 7.5 0 0110.606 0z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h3>Support dédié</h3>
+                    <p>Une équipe disponible pour vous aider à maximiser vos gains</p>
+                </div>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <svg fill="none" stroke="#00C2CB" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h3>Formation offerte</h3>
+                    <p>Accès aux formations marketing pour améliorer vos conversions</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section testimonials">
+        <div class="section-title">
+            <h2>Témoignages</h2>
+            <p>Ce que nos partenaires racontent</p>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <p>"J'ai réussi à générer plus de 2000€ de commission le premier mois grâce aux outils fournit par E-Clean."</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">MK</div>
+                    <div class="testimonial-info">
+                        <h4>Marie K.</h4>
+                        <span>Blogueuse beauté</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <p>"Programme simple et performant. Les cookies de 30 jours font vraiment la différence!"</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">JD</div>
+                    <div class="testimonial-info">
+                        <h4>Jean D.</h4>
+                        <span>Influenceur Instagram</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <p>"Excellent taux de conversion. Mes lecteurs adorent la qualité des produits E-Clean."</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">SL</div>
+                    <div class="testimonial-info">
+                        <h4>Sophie L.</h4>
+                        <span>Fundatrice blog household</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta" id="join">
+        <h2>Prêt à démarrer?</h2>
+        <p>Rejoignez plus de 500 partenaires et commencez à gagner aujourd'hui</p>
+        <a href="#" class="btn btn-primary" style="font-size: 1.25rem; padding: 1rem 2.5rem;">
+            Créer mon compte partenaire
+        </a>
+    </section>
+
+    <footer>
+        <p>© 2026 E-Clean - Programme d'Affiliation</p>
+        <p style="margin-top: 0.5rem;">Part of ELECTRON Group - Tous droits réservés</p>
+    </footer>
+</body>
+</html>
