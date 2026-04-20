@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalogue Produits E-Clean | Nettoyants & Équipements</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0A2540;
+            --primary-light: #1a3a5c;
+            --secondary: #00C2CB;
+            --accent: #2ECC71;
+            --white: #FFFFFF;
+            --light: #F8FAFC;
+            --gray: #64748B;
+            --gray-light: #E2E8F0;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--light);
+            color: var(--primary);
+        }
+        
+        /* Header */
+        header {
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-light);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+        }
+        
+        nav {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: var(--gray);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        nav a:hover, nav a.active {
+            color: var(--primary);
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: var(--light);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            gap: 0.5rem;
+        }
+        
+        .search-box input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 200px;
+            font-size: 0.875rem;
+        }
+        
+        .btn {
+            padding: 0.625rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.875rem;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+        
+        .cart-icon {
+            position: relative;
+        }
+        
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--secondary);
+            color: var(--primary);
+            font-size: 0.625rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        
+        /* Filters Sidebar */
+        .catalog-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .filters {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+        
+        .filter-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .filter-section h3 {
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+        
+        .filter-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+        }
+        
+        .filter-option input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+        
+        .filter-option label {
+            font-size: 0.875rem;
+            cursor: pointer;
+        }
+        
+        .price-range {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        
+        .price-range input {
+            width: 80px;
+            padding: 0.5rem;
+            border: 1px solid var(--gray-light);
+            border-radius: 6px;
+            font-size: 0.875rem;
+        }
+        
+        .price-range span {
+            color: var(--gray);
+        }
+        
+        .filter-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--light);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .filter-btn:hover {
+            background: var(--gray-light);
+        }
+        
+        /* Products Grid */
+        .products-section h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .products-count {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+        
+        .products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .sort-select {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--gray-light);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            background: var(--white);
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .product-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+        }
+        
+        .product-image {
+            position: relative;
+            height: 220px;
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .product-image img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.625rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        
+        .badge-new {
+            background: var(--secondary);
+            color: var(--primary);
+        }
+        
+        .badge-sale {
+            background: #EF4444;
+            color: var(--white);
+        }
+        
+        .badge-eco {
+            background: var(--accent);
+            color: var(--white);
+        }
+        
+        .product-info {
+            padding: 1.25rem;
+        }
+        
+        .product-category {
+            font-size: 0.625rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-name {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+        
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .stars {
+            color: #FFC107;
+            font-size: 0.875rem;
+        }
+        
+        .rating-count {
+            font-size: 0.75rem;
+            color: var(--gray);
+        }
+        
+        .product-price {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .current-price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .old-price {
+            font-size: 0.875rem;
+            color: var(--gray);
+            text-decoration: line-through;
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .product-actions .btn {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .btn-outline {
+            border: 1px solid var(--gray-light);
+            background: transparent;
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--light);
+        }
+        
+        .btn-add {
+            background: var(--primary);
+            color: var(--white);
+        }
+        
+        .btn-add:hover {
+            background: var(--primary-light);
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 3rem;
+        }
+        
+        .pagination button {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--gray-light);
+            background: var(--white);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .pagination button:hover,
+        .pagination button.active {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: var(--white);
+            padding: 4rem 2rem;
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+        }
+        
+        .footer-section h4 {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .footer-section a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.2s;
+        }
+        
+        .footer-section a:hover {
+            color: var(--white);
+        }
+        
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            font-size: 0.875rem;
+            color: rgba(255,255,255,0.5);
+        }
+        
+        @media (max-width: 1024px) {
+            .catalog-layout {
+                grid-template-columns: 1fr;
+            }
+            .filters {
+                position: static;
+            }
+            .filters-content {
+                display: flex;
+                gap: 1rem;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+            }
+            .filter-section {
+                min-width: 150px;
+                margin-bottom: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            nav {
+                order: 3;
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="#" class="logo">
+                <svg class="logo-icon" viewBox="0 0 40 40" fill="none">
+                    <path d="M20 3 L35 8 V20 C35 30 28 35 20 37 C12 35 5 30 5 20 V8 L20 3Z" fill="#0A2540"/>
+                    <path d="M20 10 C20 10 14 17 14 22 C14 27 17 30 20 30 C23 30 26 27 26 22 C26 17 20 10 20 10Z" fill="#00C2CB"/>
+                </svg>
+                E-Clean
+            </a>
+            <nav>
+                <a href="#">Accueil</a>
+                <a href="#" class="active">Catalogue</a>
+                <a href="#">Professionnel</a>
+                <a href="#">A propos</a>
+            </nav>
+            <div class="header-actions">
+                <div class="search-box">
+                    <svg width="18" height="18" fill="none" stroke="#64748B" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                    <input type="text" placeholder="Rechercher...">
+                </div>
+                <button class="btn btn-primary">Connexion</button>
+                <div class="cart-icon">
+                    <svg width="24" height="24" fill="none" stroke="#0A2540" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                    </svg>
+                    <span class="cart-badge">3</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="catalog-layout">
+        <aside class="filters">
+            <div class="filters-content">
+                <div class="filter-section">
+                    <h3>Catégories</h3>
+                    <div class="filter-options">
+                        <div class="filter-option">
+                            <input type="checkbox" id="cat1" checked>
+                            <label for="cat1">Nettoyants ménagers (45)</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="cat2">
+                            <label for="cat2">Équipements pro (28)</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="cat3">
+                            <label for="cat3">Hygiène & désinfection (32)</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="cat4">
+                            <label for="cat4">Accessoires (56)</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h3>Prix</h3>
+                    <div class="price-range">
+                        <input type="number" placeholder="Min">
+                        <span>-</span>
+                        <input type="number" placeholder="Max">
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h3>Marque</h3>
+                    <div class="filter-options">
+                        <div class="filter-option">
+                            <input type="checkbox" id="brand1">
+                            <label for="brand1">E-Clean Pro</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="brand2">
+                            <label for="brand2">Swiss Clean</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="brand3">
+                            <label for="brand3">BioShield</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h3>Certification</h3>
+                    <div class="filter-options">
+                        <div class="filter-option">
+                            <input type="checkbox" id="eco">
+                            <label for="eco">Écologique</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="bio">
+                            <label for="bio">Biologique</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="eco1">
+                            <label for="eco1">EcoCert</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="filter-btn">Appliquer les filtres</button>
+            </div>
+        </aside>
+        
+        <section class="products-section">
+            <h1>Catalogue Produits</h1>
+            <p class="products-count">161 produits trouvés</p>
+            
+            <div class="products-header">
+                <div></div>
+                <select class="sort-select">
+                    <option>Trier par: Pertinence</option>
+                    <option>Prix: Croissant</option>
+                    <option>Prix: Décroissant</option>
+                    <option>Nouveautés</option>
+                    <option>Melles ventes</option>
+                </select>
+            </div>
+            
+            <div class="products-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <span class="product-badge badge-new">Nouveau</span>
+                        <svg width="120" height="120" viewBox="0 0 120 120">
+                            <rect x="30" y="20" width="60" height="80" rx="8" fill="#E2E8F0"/>
+                            <rect x="40" y="35" width="40" height="50" fill="#00C2CB" opacity="0.3"/>
+                            <text x="60" y="65" text-anchor="middle" fill="#0A2540" font-size="10">Spray</text>
+                        </svg>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Nettoyants ménagers</div>
+                        <h3 class="product-name">Nettoyant Multi-Surfaces Ultra</h3>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="rating-count">(124)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="current-price">€12,90</span>
+                            <span class="old-price">€15,90</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn btn-outline">♥</button>
+                            <button class="btn btn-add">Ajouter</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <span class="product-badge badge-eco">Éco</span>
+                        <svg width="120" height="120" viewBox="0 0 120 120">
+                            <circle cx="60" cy="55" r="35" fill="#E2E8F0"/>
+                            <text x="60" y="60" text-anchor="middle" fill="#0A2540" font-size="12">Gel</text>
+                        </svg>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Hygiène</div>
+                        <h3 class="product-name">Gel Hydroalcoolique 500ml</h3>
+                        <div class="product-rating">
+                            <span class="stars">★★★★☆</span>
+                            <span class="rating-count">(89)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="current-price">€8,50</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn btn-outline">♥</button>
+                            <button class="btn btn-add">Ajouter</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <svg width="120" height="120" viewBox="0 0 120 120">
+                            <rect x="35" y="20" width="50" height="70" rx="4" fill="#E2E8F0"/>
+                            <rect x="40" y="30" width="40" height="40" fill="#2ECC71" opacity="0.3"/>
+                            <text x="60" y="55" text-anchor="middle" fill="#0A2540" font-size="10">Serum</text>
+                        </svg>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Équipements</div>
+                        <h3 class="product-name">Aspirateur Pro 2000W</h3>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="rating-count">(256)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="current-price">€189,00</span>
+                            <span class="old-price">€229,00</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn btn-outline">♥</button>
+                            <button class="btn btn-add">Ajouter</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 4 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <svg width="120" height="120" viewBox="0 0 120 120">
+                            <rect x="30" y="30" width="60" height="60" rx="8" fill="#E2E8F0"/>
+                            <text x="60" y="65" text-anchor="middle" fill="#0A2540" font-size="14">Serpillière</text>
+                        </svg>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Accessoires</div>
+                        <h3 class="product-name">Serpillière Microfibres</h3>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="rating-count">(312)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="current-price">€9,90</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn btn-outline">♥</button>
+                            <button class="btn btn-add">Ajouter</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 5 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <svg width="120" height="120" viewBox="0 0 120 120">
+                            <circle cx="60" cy="60" r="40" fill="#E2E8F0"/>
+                            <text x="60" y="65" text-anchor="middle" fill="#0A2540" font-size="12">Spray</text>
+                        </svg>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Désinfection</div>
+                        <h3 class="product-name">Désinfectant Surface 1L</h3>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="rating-count">(178)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="current-price">€14,90</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn btn-outline">♥</button>
+                            <button class="btn btn-add">Ajouter</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 6 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <span class="product-badge badge-sale">-25%</span>
+                        <svg width="120" height="120" viewBox="0 0 120 120">
+                            <rect x="40" y="25" width="40" height="70" rx="4" fill="#E2E8F0"/>
+                            <text x="60" y="65" text-anchor="middle" fill="#0A2540" font-size="10">Brosse</text>
+                        </svg>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">Accessoires</div>
+                        <h3 class="product-name">Brosse Électrique Autonome</h3>
+                        <div class="product-rating">
+                            <span class="stars">★★★★☆</span>
+                            <span class="rating-count">(67)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="current-price">€34,90</span>
+                            <span class="old-price">€45,90</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn btn-outline">♥</button>
+                            <button class="btn btn-add">Ajouter</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pagination">
+                <button>«</button>
+                <button class="active">1</button>
+                <button>2</button>
+                <button>3</button>
+                <button>4</button>
+                <button>»</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>E-Clean</h4>
+                <ul>
+                    <li><a href="#">À propos</a></li>
+                    <li><a href="#">Carrières</a></li>
+                    <li><a href="#">Presse</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Produits</h4>
+                <ul>
+                    <li><a href="#">Nettoyants</a></li>
+                    <li><a href="#">Équipements</a></li>
+                    <li><a href="#">Hygiène</a></li>
+                    <li><a href="#">Professionnel</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Livraison</a></li>
+                    <li><a href="#">Retours</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Légal</h4>
+                <ul>
+                    <li><a href="#">CGV</a></li>
+                    <li><a href="#">Confidentialité</a></li>
+                    <li><a href="#">Cookies</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 E-Clean - Part of ELECTRON Group. Tous droits réservés.</p>
+        </div>
+    </footer>
+</body>
+</html>

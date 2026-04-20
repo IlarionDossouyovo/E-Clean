@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | E-Clean</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0A2540;
+            --primary-light: #1a3a5c;
+            --secondary: #00C2CB;
+            --accent: #2ECC71;
+            --danger: #EF4444;
+            --warning: #F59E0B;
+            --success: #10B981;
+            --white: #FFFFFF;
+            --light: #F8FAFC;
+            --gray: #64748B;
+            --gray-light: #E2E8F0;
+            --border: #CBD5E1;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--light);
+            color: var(--primary);
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: var(--primary);
+            color: var(--white);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+        
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+        }
+        
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+        
+        .nav-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .nav-section-title {
+            font-size: 0.625rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.4);
+            padding: 0 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+        
+        .nav-item:hover, .nav-item.active {
+            background: rgba(255,255,255,0.1);
+            color: var(--white);
+            border-left-color: var(--secondary);
+        }
+        
+        .nav-item svg {
+            width: 18px;
+            height: 18px;
+        }
+        
+        .nav-badge {
+            margin-left: auto;
+            background: var(--danger);
+            color: var(--white);
+            font-size: 0.625rem;
+            padding: 0.125rem 0.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        
+        /* Main Content */
+        .main {
+            flex: 1;
+            margin-left: 260px;
+        }
+        
+        .header {
+            background: var(--white);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--gray-light);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        
+        .content {
+            padding: 2rem;
+        }
+        
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        
+        .stat-title {
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+        
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .stat-icon.blue { background: rgba(0, 194, 203, 0.1); color: var(--secondary); }
+        .stat-icon.green { background: rgba(46, 204, 113, 0.1); color: var(--accent); }
+        .stat-icon.orange { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        .stat-icon.red { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+        
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-change {
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .stat-change.positive { color: var(--accent); }
+        .stat-change.negative { color: var(--danger); }
+        
+        /* Charts Grid */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .chart-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .chart-title {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .chart-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .chart-btn {
+            padding: 0.375rem 0.75rem;
+            border: 1px solid var(--gray-light);
+            background: var(--white);
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+        
+        .chart-btn.active {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+        
+        .chart-placeholder {
+            height: 250px;
+            background: var(--light);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+        
+        /* Table */
+        .table-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .table-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .table-title {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table th {
+            text-align: left;
+            padding: 1rem 1.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: var(--light);
+            border-bottom: 1px solid var(--gray-light);
+        }
+        
+        .table td {
+            padding: 1rem 1.5rem;
+            font-size: 0.875rem;
+            border-bottom: 1px solid var(--gray-light);
+        }
+        
+        .table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .table tr:hover {
+            background: var(--light);
+        }
+        
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .status-badge.pending { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        .status-badge.completed { background: rgba(46, 204, 113, 0.1); color: var(--accent); }
+        .status-badge.processing { background: rgba(0, 194, 203, 0.1); color: var(--secondary); }
+        .status-badge.cancelled { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+        
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+        
+        .table-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--gray-light);
+            border-radius: 6px;
+            background: var(--white);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .action-btn:hover {
+            background: var(--light);
+            border-color: var(--primary);
+        }
+        
+        .action-btn.view { color: var(--secondary); }
+        .action-btn.edit { color: var(--warning); }
+        .action-btn.delete { color: var(--danger); }
+        
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .quick-action {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .quick-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .quick-action-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--light);
+        }
+        
+        .quick-action-info h4 {
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .quick-action-info p {
+            font-size: 0.75rem;
+            color: var(--gray);
+        }
+        
+        @media (max-width: 1200px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .charts-grid { grid-template-columns: 1fr; }
+            .quick-actions { grid-template-columns: repeat(2, 1fr); }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .main { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <svg class="logo-icon" viewBox="0 0 40 40" fill="none">
+                    <path d="M20 3 L35 8 V20 C35 30 28 35 20 37 C12 35 5 30 5 20 V8 L20 3Z" fill="#FFFFFF"/>
+                    <path d="M20 10 C20 10 14 17 14 22 C14 27 17 30 20 30 C23 30 26 27 26 22 C26 17 20 10 20 10Z" fill="#00C2CB"/>
+                </svg>
+                E-Clean Admin
+            </div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-section-title">Principal</div>
+                <a href="#" class="nav-item active">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-9 9h12a1 1 0 001-1V7a1 1 0 00-1-1h-3"/>
+                    </svg>
+                    Dashboard
+                </a>
+                <a href="#" class="nav-item">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                    </svg>
+                    Commandes
+                    <span class="nav-badge">12</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4l-8-4m8 4l8-4"/>
+                    </svg>
+                    Produits
+                </a>
+                <a href="#" class="nav-item">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H8m8 0a3 3 0 012.812 2.813M17 20H8m8 0V10a3 3 0 00-5.356-1.857M17 20H8"/>
+                    </svg>
+                    Clients
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Marketing</div>
+                <a href="#" class="nav-item">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    </svg>
+                    Emails
+                </a>
+                <a href="#" class="nav-item">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7a1.414 1.414 0 010-2.828L7 5V3z"/>
+                    </svg>
+                    Promotions
+                </a>
+                <a href="#" class="nav-item">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                    </svg>
+                    Affiliés
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Système</div>
+                <a href="#" class="nav-item">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    Paramètres
+                </a>
+            </div>
+        </nav>
+    </aside>
+    
+    <main class="main">
+        <header class="header">
+            <h1 class="header-title">Dashboard</h1>
+            <div class="header-actions">
+                <span style="color: var(--gray); font-size: 0.875rem;">20 Avril 2026</span>
+                <div class="user-menu">
+                    <span style="font-size: 0.875rem; font-weight: 500;">Admin User</span>
+                    <div class="user-avatar">AU</div>
+                </div>
+            </div>
+        </header>
+        
+        <div class="content">
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-title">Revenu aujourd'hui</span>
+                        <div class="stat-icon blue">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1C9.11 8 8 9.402 8 11s1.343 2 3 2 3-.895 3-2-1.343-2-3-2z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="stat-value">€4,850</div>
+                    <div class="stat-change positive">
+                        ▲ +12.5% vs hier
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-title">Commandes</span>
+                        <div class="stat-icon green">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="stat-value">156</div>
+                    <div class="stat-change positive">
+                        ▲ +8.2% vs hier
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-title">Clients nouveaux</span>
+                        <div class="stat-icon orange">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H8m8 0a3 3 0 012.812 2.813M17 20H8m8 0V10a3 3 0 00-5.356-1.857M17 20H8"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="stat-value">28</div>
+                    <div class="stat-change negative">
+                        ▼ -3.1% vs hier
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-title">Tickets support</span>
+                        <div class="stat-icon red">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 15H5a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2h-5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="stat-value">7</div>
+                    <div class="stat-change positive">
+                        ▲ +2 vs hier
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <div class="quick-action">
+                    <div class="quick-action-icon">
+                        <svg width="24" height="24" fill="none" stroke="#0A2540" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                        </svg>
+                    </div>
+                    <div class="quick-action-info">
+                        <h4>Nouveau produit</h4>
+                        <p>Ajouter au catalogue</p>
+                    </div>
+                </div>
+                <div class="quick-action">
+                    <div class="quick-action-icon">
+                        <svg width="24" height="24" fill="none" stroke="#0A2540" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <div class="quick-action-info">
+                        <h4>Campagne email</h4>
+                        <p>Créer une campagne</p>
+                    </div>
+                </div>
+                <div class="quick-action">
+                    <div class="quick-action-icon">
+                        <svg width="24" height="24" fill="none" stroke="#0A2540" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h5m5 0v2a1 1 0 01-1 1h-4a1 1 0 01-1-1v-2m5 0V5a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2z"/>
+                        </svg>
+                    </div>
+                    <div class="quick-action-info">
+                        <h4>Créer facture</h4>
+                        <p>Nouvelle facture</p>
+                    </div>
+                </div>
+                <div class="quick-action">
+                    <div class="quick-action-icon">
+                        <svg width="24" height="24" fill="none" stroke="#0A2540" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 15H5a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2h-5"/>
+                        </svg>
+                    </div>
+                    <div class="quick-action-info">
+                        <h4>Support client</h4>
+                        <p>Nouveau ticket</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Charts -->
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Revenus - 30 derniers jours</h3>
+                        <div class="chart-actions">
+                            <button class="chart-btn">Jour</button>
+                            <button class="chart-btn active">Semaine</button>
+                            <button class="chart-btn">Mois</button>
+                        </div>
+                    </div>
+                    <div class="chart-placeholder">
+                        [Graphique revenues - Zone visuelle]
+                    </div>
+                </div>
+                
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Top produits</h3>
+                    </div>
+                    <div class="chart-placeholder" style="flex-direction: column; gap: 1rem; justify-content: flex-start; padding: 1rem;">
+                        <div style="display: flex; justify-content: space-between; width: 100%;">
+                            <span>Nettoyant Multi-Surfaces</span>
+                            <strong>€2,450</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; width: 100%;">
+                            <span>Gel Hydroalcoolique</span>
+                            <strong>€1,820</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; width: 100%;">
+                            <span>Aspirateur Pro</span>
+                            <strong>€1,540</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; width: 100%;">
+                            <span>Spray Désinfectant</span>
+                            <strong>€980</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Orders -->
+            <div class="table-card">
+                <div class="table-header">
+                    <h3 class="table-title">Dernières commandes</h3>
+                    <button style="padding: 0.5rem 1rem; background: var(--primary); color: var(--white); border: none; border-radius: 6px; font-size: 0.875rem; cursor: pointer;">Voir tout</button>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Commande</th>
+                            <th>Client</th>
+                            <th>Date</th>
+                            <th>Montant</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#CMD-2026-4521</td>
+                            <td>Marie K.</td>
+                            <td>20 Avr 2026</td>
+                            <td>€89,90</td>
+                            <td><span class="status-badge processing"><span class="status-dot"></span>En cours</span></td>
+                            <td>
+                                <div class="table-actions">
+                                    <button class="action-btn view" title="Voir">👁</button>
+                                    <button class="action-btn edit" title="Modifier">✏</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#CMD-2026-4520</td>
+                            <td>Jean D.</td>
+                            <td>20 Avr 2026</td>
+                            <td>€234,00</td>
+                            <td><span class="status-badge pending"><span class="status-dot"></span>En attente</span></td>
+                            <td>
+                                <div class="table-actions">
+                                    <button class="action-btn view" title="Voir">👁</button>
+                                    <button class="action-btn edit" title="Modifier">✏</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#CMD-2026-4519</td>
+                            <td>Sophie L.</td>
+                            <td>19 Avr 2026</td>
+                            <td>€56,50</td>
+                            <td><span class="status-badge completed"><span class="status-dot"></span>Livrée</span></td>
+                            <td>
+                                <div class="table-actions">
+                                    <button class="action-btn view" title="Voir">👁</button>
+                                    <button class="action-btn edit" title="Modifier">✏</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#CMD-2026-4518</td>
+                            <td>Paul M.</td>
+                            <td>19 Avr 2026</td>
+                            <td>€1,299,00</td>
+                            <td><span class="status-badge completed"><span class="status-dot"></span>Livrée</span></td>
+                            <td>
+                                <div class="table-actions">
+                                    <button class="action-btn view" title="Voir">👁</button>
+                                    <button class="action-btn edit" title="Modifier">✏</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#CMD-2026-4517</td>
+                            <td>Marie L.</td>
+                            <td>18 Avr 2026</td>
+                            <td>€45,90</td>
+                            <td><span class="status-badge cancelled"><span class="status-dot"></span>Annulée</span></td>
+                            <td>
+                                <div class="table-actions">
+                                    <button class="action-btn view" title="Voir">👁</button>
+                                    <button class="action-btn edit" title="Modifier">✏</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
