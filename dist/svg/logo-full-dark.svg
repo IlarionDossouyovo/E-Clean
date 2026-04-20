@@ -1,0 +1,13 @@
+<svg width="200" height="60" viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="iconGradDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00C2CB"/>
+      <stop offset="100%" style="stop-color:#2ECC71"/>
+    </linearGradient>
+  </defs>
+  <!-- Icon -->
+  <path d="M15 8 L30 12 V30 C30 42 27 48 15 52 V56 L30 52 V56 C30 56 30 56 30 56 L30 56 C42 52 45 42 45 30 V12 L15 8Z" fill="#FFFFFF"/>
+  <path d="M30 16 C30 16 24 24 24 30 C24 36 27 40 30 40 C33 40 36 36 36 30 C36 24 30 16 30 16Z" fill="url(#iconGradDark)"/>
+  <!-- Text -->
+  <text x="55" y="40" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="700" fill="#FFFFFF">E-Clean</text>
+</svg>
