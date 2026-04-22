@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stripe Connect | E-Clean - Configuration Paiements</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0A2540;
+            --primary-light: #1a3a5c;
+            --secondary: #00C2CB;
+            --accent: #2ECC71;
+            --danger: #EF4444;
+            --warning: #F59E0B;
+            --success: #10B981;
+            --white: #FFFFFF;
+            --light: #F8FAFC;
+            --gray: #64748B;
+            --gray-light: #E2E8F0;
+            --stripe: #635BFF;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .container {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 3rem;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.3);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+        
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+        
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+        
+        .benefit {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--light);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            align-items: flex-start;
+        }
+        
+        .benefit-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .benefit-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .benefit-content h3 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .benefit-content p {
+            font-size: 0.75rem;
+            color: var(--gray);
+        }
+        
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--gray-light);
+            border-radius: 10px;
+            font-size: 0.875rem;
+            transition: border-color 0.2s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .stripe-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-content: center;
+            background: var(--stripe);
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            margin-top: 1rem;
+            transition: all 0.2s;
+        }
+        
+        .stripe-badge:hover {
+            background: #4F46E5;
+            transform: translateY(-2px);
+        }
+        
+        .info-box {
+            background: rgba(99, 91, 255, 0.1);
+            border: 1px solid var(--stripe);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-top: 1.5rem;
+        }
+        
+        .info-box h4 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--stripe);
+        }
+        
+        .info-box p {
+            font-size: 0.75rem;
+            color: var(--gray);
+            line-height: 1.5;
+        }
+        
+        .security {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+            color: var(--gray);
+            font-size: 0.75rem;
+        }
+        
+        .security svg {
+            width: 16px;
+            height: 16px;
+        }
+        
+        /* Success State */
+        .success-state {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .success-icon svg {
+            width: 40px;
+            height: 40px;
+            color: var(--white);
+        }
+        
+        .connected-account {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .account-info {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            font-size: 0.875rem;
+        }
+        
+        .account-label {
+            color: var(--gray);
+        }
+        
+        .account-value {
+            font-weight: 600;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 2rem;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Form State -->
+        <div id="formState">
+            <div class="header">
+                <div class="logo">
+                    <svg class="logo-icon" viewBox="0 0 40 40" fill="none">
+                        <path d="M20 3 L35 8 V20 C35 30 28 35 20 37 C12 35 5 30 5 20 V8 L20 3Z" fill="#0A2540"/>
+                        <path d="M20 10 C20 10 14 17 14 22 C14 27 17 30 20 30 C23 30 26 27 26 22 C26 17 20 10 20 10Z" fill="#00C2CB"/>
+                    </svg>
+                    <span class="logo-text">E-Clean</span>
+                </div>
+                <h1>Configure Stripe Connect</h1>
+                <p class="subtitle">Connectez votre compte Stripe pour recevoir vos paiements</p>
+            </div>
+            
+            <div class="benefit">
+                <div class="benefit-icon">
+                    <svg fill="none" stroke="#FFFFFF" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1C9.11 8 8 9.402 8 11s1.343 2 3 2 3-.895 3-2-1.343-2-3-2z"/></svg>
+                </div>
+                <div class="benefit-content">
+                    <h3>Paiements instantanés</h3>
+                    <p>Recevez vos ventes directement sur votre compte en 2-3 jours</p>
+                </div>
+            </div>
+            
+            <div class="benefit">
+                <div class="benefit-icon">
+                    <svg fill="none" stroke="#FFFFFF" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                </div>
+                <div class="benefit-content">
+                    <h3>100% Sécurisé</h3>
+                    <p>Vos données bancaires sont chiffrées et hébergées par Stripe</p>
+                </div>
+            </div>
+            
+            <div class="benefit">
+                <div class="benefit-icon">
+                    <svg fill="none" stroke="#FFFFFF" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+                </div>
+                <div class="benefit-content">
+                    <h3>Tous moyens de paiement</h3>
+                    <p>CB, Visa, Mastercard, Apple Pay, Google Pay et plus</p>
+                </div>
+            </div>
+            
+            <form id="stripeForm">
+                <div class="form-group">
+                    <label class="form-label">Nom de l'entreprise *</label>
+                    <input type="text" class="form-input" placeholder="E-Clean" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Type de compte *</label>
+                    <select class="form-input" required>
+                        <option value="">Sélectionner...</option>
+                        <option value="individual">Particulier</option>
+                        <option value="company">Entreprise</option>
+                        <option value="association">Association</option>
+                    </select>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Prénom *</label>
+                        <input type="text" class="form-input" placeholder="John" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nom *</label>
+                        <input type="text" class="form-input" placeholder="Doe" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Email *</label>
+                    <input type="email" class="form-input" placeholder="john@example.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Téléphone *</label>
+                    <input type="tel" class="form-input" placeholder="+33 1 23 45 67 89" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Adresse *</label>
+                    <input type="text" class="form-input" placeholder="123 Rue de la Paix" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Code postal *</label>
+                        <input type="text" class="form-input" placeholder="75001" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Ville *</label>
+                        <input type="text" class="form-input" placeholder="Paris" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Numéro SIRET (France)</label>
+                    <input type="text" class="form-input" placeholder="123 456 789 00012">
+                </div>
+                
+                <button type="submit" class="stripe-badge">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.939 3.483 1.612 3.483 2.64 0 .933-.742 1.472-2.151 1.472-1.857 0-4.965-.858-6.878-2.025l-.889 5.556c1.719.949 4.828 1.916 8.106 1.916 2.66 0 4.859-.64 6.39-1.803 1.656-1.263 2.509-3.138 2.509-5.569 0-4.123-2.506-5.848-6.827-7.476z"/></svg>
+                    Connecter avec Stripe
+                </button>
+            </form>
+            
+            <div class="info-box">
+                <h4>🔒 Sécurité garantie</h4>
+                <p>Vos informations sont chiffrées via le protocole TLS et stockées sur des serveurs sécurisés. Stripe est certifié PCI DSS Level 1.</p>
+            </div>
+            
+            <div class="security">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                <span> Paiements sécurisés par Stripe</span>
+            </div>
+        </div>
+        
+        <!-- Success State -->
+        <div id="successState" class="success-state">
+            <div class="success-icon">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            
+            <h1>Compte Connecté! 🎉</h1>
+            <p class="subtitle">Votre compte Stripe est maintenant lié à E-Clean</p>
+            
+            <div class="connected-account">
+                <div class="account-info">
+                    <span class="account-label">Compte Stripe</span>
+                    <span class="account-value">acct_1234567890</span>
+                </div>
+                <div class="account-info">
+                    <span class="account-label">Statut</span>
+                    <span class="account-value" style="color: var(--accent);">Actif ✓</span>
+                </div>
+                <div class="account-info">
+                    <span class="account-label">Mode</span>
+                    <span class="account-value">Production</span>
+                </div>
+                <div class="account-info">
+                    <span class="account-label">Frais Stripe</span>
+                    <span class="account-value">1.4% + 0.25€</span>
+                </div>
+            </div>
+            
+            <button class="stripe-badge" style="margin-top: 1.5rem;" onclick="alert('Redirection vers le dashboard Stripe...')">
+                Voir sur Stripe
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('stripeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simulate Stripe Connect
+            const btn = this.querySelector('.stripe-badge');
+            btn.innerHTML = '⏳ Connexion en cours...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                document.getElementById('formState').style.display = 'none';
+                document.getElementById('successState').style.display = 'block';
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
