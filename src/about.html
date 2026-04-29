@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Clean | L'Entreprise - Nettoyage Professionnel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #0A2540; --primary-dark: #061524; --secondary: #00C2CB; --accent: #2ECC71; --warning: #F59E0B; --danger: #EF4444; --white: #FFFFFF; --light: #F8FAFC; --gray: #64748B; --gray-light: #E2E8F0; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--primary); color: var(--white); overflow-x: hidden; }
+        
+        /* Hero */
+        .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 30% 20%, rgba(0,194,203,0.15) 0%, transparent 50%), radial-gradient(circle at 70% 80%, rgba(46,204,113,0.1) 0%, transparent 50%); }
+        
+        .logo-large { width: 120px; height: 120px; margin-bottom: 2rem; animation: float 3s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        
+        .hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: 4rem; font-weight: 700; margin-bottom: 1rem; background: linear-gradient(135deg, var(--white) 0%, var(--secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero .tagline { font-size: 1.5rem; color: var(--gray); margin-bottom: 2rem; font-weight: 300; }
+        
+        .hero-stats { display: flex; gap: 3rem; margin-top: 3rem; }
+        .stat { text-align: center; }
+        .stat-value { font-size: 2.5rem; font-weight: 700; color: var(--secondary); }
+        .stat-label { font-size: 0.875rem; color: var(--gray); }
+        
+        /* Sections */
+        section { padding: 6rem 2rem; max-width: 1200px; margin: 0 auto; }
+        
+        .section-title { font-family: 'Space Grotesk', sans-serif; font-size: 2.5rem; margin-bottom: 1rem; }
+        .section-subtitle { color: var(--gray); font-size: 1.125rem; margin-bottom: 3rem; }
+        
+        /* About */
+        .about-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+        .about-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 2rem; transition: all 0.3s; }
+        .about-card:hover { transform: translateY(-5px); border-color: var(--secondary); }
+        .about-icon { width: 60px; height: 60px; background: linear-gradient(135deg, var(--secondary), var(--accent)); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.5rem; }
+        .about-card h3 { font-size: 1.25rem; margin-bottom: 0.75rem; }
+        .about-card p { color: var(--gray); font-size: 0.875rem; line-height: 1.6; }
+        
+        /* Services */
+        .services { background: rgba(255,255,255,0.02); border-radius: 40px; margin: 2rem; }
+        .services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+        .service-card { background: var(--white); color: var(--primary); border-radius: 16px; padding: 1.5rem; text-align: center; transition: all 0.3s; }
+        .service-card:hover { transform: scale(1.05); box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+        .service-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+        .service-card h3 { font-size: 1rem; font-weight: 600; }
+        .service-card p { font-size: 0.75rem; color: var(--gray); margin-top: 0.5rem; }
+        
+        /* AI */
+        .ai-section { background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%); border-radius: 40px; margin: 2rem; padding: 4rem; position: relative; overflow: hidden; }
+        .ai-section::before { content: ''; position: absolute; top: -50%; right: -20%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(0,194,203,0.2) 0%, transparent 70%); }
+        
+        .ai-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.5rem; margin-top: 3rem; }
+        .ai-agent { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 1.5rem; text-align: center; }
+        .ai-agent-icon { width: 50px; height: 50px; background: linear-gradient(135deg, var(--secondary), var(--accent)); border-radius: 12px; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; }
+        .ai-agent h4 { font-size: 0.875rem; margin-bottom: 0.5rem; }
+        .ai-agent p { font-size: 0.625rem; color: var(--gray); }
+        
+        /* Tech */
+        .tech-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1rem; }
+        .tech-item { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 1rem; text-align: center; font-size: 0.75rem; color: var(--gray); }
+        
+        /* Numbers */
+        .numbers { background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%); border-radius: 40px; margin: 2rem; padding: 4rem; }
+        .numbers-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center; }
+        .number-value { font-family: 'Space Grotesk', sans-serif; font-size: 3.5rem; font-weight: 700; }
+        .number-label { font-size: 1rem; opacity: 0.9; }
+        
+        /* Team */
+        .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+        .team-card { text-align: center; }
+        .team-avatar { width: 120px; height: 120px; background: linear-gradient(135deg, var(--secondary), var(--accent)); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; }
+        .team-name { font-size: 1.125rem; font-weight: 600; margin-bottom: 0.25rem; }
+        .team-role { color: var(--secondary); font-size: 0.875rem; }
+        
+        /* Contact */
+        .contact-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 3rem; }
+        .contact-item { display: flex; align-items: center; gap: 1rem; }
+        .contact-icon { width: 50px; height: 50px; background: rgba(255,255,255,0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; }
+        .contact-info h4 { font-size: 1rem; margin-bottom: 0.25rem; }
+        .contact-info p { color: var(--gray); font-size: 0.875rem; }
+        
+        /* CTA */
+        .cta { text-align: center; padding: 6rem 2rem; }
+        .cta h2 { font-family: 'Space Grotesk', sans-serif; font-size: 3rem; margin-bottom: 1rem; }
+        .cta p { color: var(--gray); margin-bottom: 2rem; font-size: 1.25rem; }
+        .cta-buttons { display: flex; gap: 1rem; justify-content: center; }
+        .btn { padding: 1rem 2rem; border-radius: 12px; font-weight: 600; text-decoration: none; transition: all 0.3s; }
+        .btn-primary { background: var(--secondary); color: var(--primary); }
+        .btn-primary:hover { transform: scale(1.05); }
+        .btn-outline { border: 2px solid rgba(255,255,255,0.3); color: var(--white); }
+        .btn-outline:hover { border-color: var(--secondary); }
+        
+        /* Footer */
+        footer { background: var(--primary-dark); padding: 3rem 2rem; text-align: center; color: var(--gray); font-size: 0.875rem; }
+        
+        @media (max-width: 900px) {
+            .about-grid, .services-grid, .ai-grid, .numbers-grid, .team-grid, .tech-grid { grid-template-columns: repeat(2, 1fr); }
+            .hero h1 { font-size: 2.5rem; }
+            .contact-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero -->
+    <section class="hero">
+        <svg class="logo-large" viewBox="0 0 120 120">
+            <defs>
+                <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#0A2540"/>
+                    <stop offset="100%" style="stop-color:#00C2CB"/>
+                </linearGradient>
+            </defs>
+            <path d="M60 10 L105 25 V60 C105 90 85 100 60 105 C35 100 15 90 15 60 V25 L60 10Z" fill="url(#grad)"/>
+            <path d="M60 30 C60 30 42 51 42 66 C42 81 50 90 60 90 C70 90 78 81 78 66 C78 51 60 30 60 30Z" fill="#00C2CB"/>
+        </svg>
+        
+        <h1>E-CLEAN</h1>
+        <p class="tagline">L'Intelligence Artificielle au Service du Nettoyage Professionnel</p>
+        
+        <div class="hero-stats">
+            <div class="stat"><div class="stat-value">500+</div><div class="stat-label">Produits</div></div>
+            <div class="stat"><div class="stat-value">24/7</div><div class="stat-label">IA Active</div></div>
+            <div class="stat"><div class="stat-value">50K+</div><div class="stat-label">Clients</div></div>
+            <div class="stat"><div class="stat-value">98%</div><div class="stat-label">Satisfaction</div></div>
+        </div>
+    </section>
+    
+    <!-- About -->
+    <section>
+        <h2 class="section-title">À Propos d'E-Clean</h2>
+        <p class="section-subtitle">L'entreprise de nettoyage du futur, propulsée par l'IA</p>
+        
+        <div class="about-grid">
+            <div class="about-card">
+                <div class="about-icon">🏢</div>
+                <h3>Qui Sommes-Nous?</h3>
+                <p>E-Clean est une plateforme e-commerce de nettoyage professionnel fondée par ELECTRON Group. Nous révolutionnons l'industrie avec des produits de haute qualité et une IA avancée.</p>
+            </div>
+            <div class="about-card">
+                <div class="about-icon">🌍</div>
+                <h3>Notre Mission</h3>
+                <p>Proposer des solutions de nettoyage écologiques, efficaces et accessibles à tous - des particuliers aux entreprises industrielles - en Afrique, Europe et au-delà.</p>
+            </div>
+            <div class="about-card">
+                <div class="about-icon">🚀</div>
+                <h3>Notre Vision</h3>
+                <p>Devenir la première plateforme de nettoyage alimentée par l'IA au monde, avec une autonomie totale et un service client disponible 24/7.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Services -->
+    <section class="services">
+        <h2 class="section-title">Nos Services</h2>
+        <p class="section-subtitle">Une gamme complète pour tous vos besoins</p>
+        
+        <div class="services-grid">
+            <div class="service-card"><div class="service-icon">🧴</div><h3>Produits Ménagers</h3><p>Nettoyants, detergents, entretenir</p></div>
+            <div class="service-card"><div class="service-icon">🏭</div><h3>Industriel</h3><p>Grade professionnel</p></div>
+            <div class="service-card"><div class="service-icon">🏥</div><h3>Hygiène</h3><p>désinfectants, gels</p></div>
+            <div class="service-card"><div class="service-icon">🌿</div><h3>Écologique</h3><p>Produits bio & verts</p></div>
+            <div class="service-card"><div class="service-icon">🛠️</div><h3>Équipement</h3><p>Accessoires, machines</p></div>
+            <div class="service-card"><div class="service-icon">👔</div><h3>B2B</h3><p>Solutions entreprises</p></div>
+            <div class="service-card"><div class="service-icon">🚚</div><h3>Livraison</h3><p>24-72h jaminan</p></div>
+            <div class="service-card"><div class="service-icon">💎</div><h3>Abonnement</h3><p>Livraison récurrente</p></div>
+        </div>
+    </section>
+    
+    <!-- AI System -->
+    <section class="ai-section">
+        <h2 class="section-title">🤖 Intelligence Artificielle 360°</h2>
+        <p class="section-subtitle">5 agents IA autonomes gèrent l'entreprise</p>
+        
+        <div class="ai-grid">
+            <div class="ai-agent">
+                <div class="ai-agent-icon">🤖</div>
+                <h4>Sales Agent</h4>
+                <p>Commercial auto<br/>24/7</p>
+            </div>
+            <div class="ai-agent">
+                <div class="ai-agent-icon">🎫</div>
+                <h4>Support Agent</h4>
+                <p>Support client<br/>IA</p>
+            </div>
+            <div class="ai-agent">
+                <div class="ai-agent-icon">💰</div>
+                <h4>Finance Agent</h4>
+                <p>Comptabilité<br/>auto</p>
+            </div>
+            <div class="ai-agent">
+                <div class="ai-agent-icon">📦</div>
+                <h4>Operations Agent</h4>
+                <p>Logistique<br/>auto</p>
+            </div>
+            <div class="ai-agent">
+                <div class="ai-agent-icon">📣</div>
+                <h4>Marketing Agent</h4>
+                <p>Campagnes<br/>auto</p>
+            </div>
+        </div>
+        
+        <div style="margin-top: 3rem;">
+            <h3 style="margin-bottom: 1.5rem;">Technologies</h3>
+            <div class="tech-grid">
+                <div class="tech-item">OpenAI GPT-4</div>
+                <div class="tech-item">Claude AI</div>
+                <div class="tech-item">Supabase</div>
+                <div class="tech-item">Stripe</div>
+                <div class="tech-item">DHL API</div>
+                <div class="tech-item">SendGrid</div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Numbers -->
+    <section class="numbers">
+        <div class="numbers-grid">
+            <div><div class="number-value">500+</div><div class="number-label">Produits</div></div>
+            <div><div class="number-value">50K+</div><div class="number-label">Clients</div></div>
+            <div><div class="number-value">98%</div><div class="number-label">Satisfaction</div></div>
+            <div><div class="number-value">24/7</div><div class="number-label">Disponibilité</div></div>
+        </div>
+    </section>
+    
+    <!-- Team -->
+    <section>
+        <h2 class="section-title">Fondateurs & Équipe</h2>
+        <p class="section-subtitle">Les minds derrière E-Clean</p>
+        
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="team-avatar">👨‍💼</div>
+                <div class="team-name">Ilarion Dossouyovo</div>
+                <div class="team-role">Fondateur & CEO</div>
+            </div>
+            <div class="team-card">
+                <div class="team-avatar">🧠</div>
+                <div class="team-name">AI Director</div>
+                <div class="team-role">Intelligence Artificielle</div>
+            </div>
+            <div class="team-card">
+                <div class="team-avatar">💻</div>
+                <div class="team-name">CTO</div>
+                <div class="team-role">Technique</div>
+            </div>
+            <div class="team-card">
+                <div class="team-avatar">📈</div>
+                <div class="team-name">Operations</div>
+                <div class="team-role">Gestion</div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact -->
+    <section>
+        <h2 class="section-title">Contactez-Nous</h2>
+        <p class="section-subtitle">Nous sommes disponibles</p>
+        
+        <div class="contact-grid">
+            <div class="contact-item">
+                <div class="contact-icon">📧</div>
+                <div class="contact-info"><h4>Email</h4><p>contact@e-clean.com</p></div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon">📞</div>
+                <div class="contact-info"><h4>Téléphone</h4><p>+33 1 23 45 67 89</p></div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon">📍</div>
+                <div class="contact-info"><h4>Adresse</h4><p>123 Rue de la Paix, Paris</p></div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon">🏢</div>
+                <div class="contact-info"><h4>Entreprise</h4><p>E-Clean by ELECTRON Group</p></div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA -->
+    <section class="cta">
+        <h2>Prêt à Commander?</h2>
+        <p>Découvrez nos produits et laissez notre IA vous guider</p>
+        <div class="cta-buttons">
+            <a href="/src/catalog.html" class="btn btn-primary">Voir le Catalogue</a>
+            <a href="/src/contact.html" class="btn btn-outline">Nous Contacter</a>
+        </div>
+    </section>
+    
+    <footer>
+        <p>© 2026 E-Clean by ELECTRON Group. Tous droits réservés.</p>
+        <p style="margin-top: 0.5rem;">Fait avec ❤️ et 🤖 Intelligence Artificielle</p>
+    </footer>
+</body>
+</html>
