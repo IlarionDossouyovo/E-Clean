@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commande Confirmée | E-Clean</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0A2540;
+            --secondary: #00C2CB;
+            --accent: #2ECC71;
+            --white: #FFFFFF;
+            --light: #F8FAFC;
+            --gray: #64748B;
+            --gray-light: #E2E8F0;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { font-family: 'Inter', sans-serif; background: var(--light); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+        
+        .container { background: var(--white); border-radius: 24px; padding: 3rem; max-width: 600px; width: 100%; text-align: center; margin: 2rem; }
+        
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 3rem;
+            color: var(--white);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        h1 { font-size: 1.75rem; color: var(--primary); margin-bottom: 0.5rem; }
+        .subtitle { color: var(--gray); margin-bottom: 2rem; }
+        
+        .order-box { background: var(--light); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; }
+        
+        .order-number { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem; }
+        
+        .order-summary {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            font-size: 0.875rem;
+        }
+        
+        .order-total { font-weight: 700; font-size: 1.125rem; border-top: 1px solid var(--gray-light); padding-top: 0.5rem; margin-top: 0.5rem; }
+        
+        .info-section { text-align: left; margin-bottom: 1.5rem; }
+        
+        .info-title { font-weight: 600; margin-bottom: 0.75rem; font-size: 0.875rem; }
+        
+        .info-content { background: var(--light); border-radius: 10px; padding: 1rem; font-size: 0.875rem; display: flex; align-items: center; gap: 0.75rem; }
+        
+        .info-icon { font-size: 1.25rem; }
+        
+        .actions { display: flex; flex-direction: column; gap: 0.75rem; }
+        
+        .btn {
+            padding: 1rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .btn-primary { background: var(--primary); color: var(--white); }
+        .btn-outline { background: transparent; border: 2px solid var(--gray-light); color: var(--gray); }
+        
+        .help { margin-top: 2rem; font-size: 0.75rem; color: var(--gray); }
+        .help a { color: var(--secondary); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="success-icon">✓</div>
+        
+        <h1>Merci pour votre commande!</h1>
+        <p class="subtitle">Votre commande a été confirmée avec succès</p>
+        
+        <div class="order-box">
+            <div class="order-number">#CMD-2026-0042</div>
+            <p style="font-size: 0.875rem; color: var(--gray); margin-bottom: 1rem;">15 Avril 2026 à 14:32</p>
+            
+            <div class="order-summary">
+                <span>Sous-total</span>
+                <span>53.20 €</span>
+            </div>
+            <div class="order-summary">
+                <span>Livraison</span>
+                <span>5.99 €</span>
+            </div>
+            <div class="order-summary">
+                <span>TVA</span>
+                <span>10.64 €</span>
+            </div>
+            <div class="order-summary order-total">
+                <span>Total</span>
+                <span>69.83 €</span>
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <div class="info-title">📍 Adresse de livraison</div>
+            <div class="info-content">
+                <span class="info-icon">🏠</span>
+                <div>
+                    John Doe<br>
+                    123 Rue de la Paix, 75001 Paris
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <div class="info-title">📧 Confirmation envoyée à</div>
+            <div class="info-content">
+                <span class="info-icon">📧</span>
+                <div>john@example.com</div>
+            </div>
+        </div>
+        
+        <div class="actions">
+            <a href="#" class="btn btn-primary">Suivre ma commande</a>
+            <a href="#" class="btn btn-outline">Télécharger la facture</a>
+        </div>
+        
+        <p class="help">Questions? <a href="#">Contactez le support</a></p>
+    </div>
+</body>
+</html>

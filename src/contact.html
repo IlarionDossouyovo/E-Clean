@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | E-Clean</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0A2540;
+            --secondary: #00C2CB;
+            --accent: #2ECC71;
+            --danger: #EF4444;
+            --white: #FFFFFF;
+            --light: #F8FAFC;
+            --gray: #64748B;
+            --gray-light: #E2E8F0;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { font-family: 'Inter', sans-serif; background: var(--light); }
+        
+        .header {
+            background: var(--white);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--gray-light);
+        }
+        
+        .logo { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 1.25rem; color: var(--primary); text-decoration: none;}
+        
+        .container { max-width: 1000px; margin: 2rem auto; padding: 0 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        
+        .contact-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+        
+        .contact-method { display: flex; align-items: center; gap: 1rem; padding: 1.5rem 0; border-bottom: 1px solid var(--gray-light); }
+        
+        .contact-method:last-child { border-bottom: none; }
+        
+        .method-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .method-info h3 { font-size: 1rem; margin-bottom: 0.25rem; }
+        .method-info p { font-size: 0.875rem; color: var(--gray); }
+        
+        .form-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+            grid-column: span 2;
+        }
+        
+        h1 { font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--primary); }
+        .subtitle { color: var(--gray); margin-bottom: 2rem; }
+        
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        
+        .form-group { margin-bottom: 1.25rem; }
+        
+        .form-label { display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem; }
+        
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--gray-light);
+            border-radius: 10px;
+            font-size: 0.875rem;
+            font-family: inherit;
+        }
+        
+        .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: var(--secondary); }
+        
+        .form-textarea { min-height: 150px; resize: vertical; }
+        
+        .file-input {
+            border: 2px dashed var(--gray-light);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        .file-input:hover { border-color: var(--secondary); }
+        
+        .submit-btn {
+            padding: 1rem 2rem;
+            background: var(--accent);
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        
+        .faq-section { grid-column: span 2; }
+        
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .faq-item {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.25rem;
+        }
+        
+        .faq-question { font-weight: 600; margin-bottom: 0.5rem; font-size: 0.875rem; }
+        .faq-answer { font-size: 0.75rem; color: var(--gray); }
+        
+        @media (max-width: 800px) {
+            .container { grid-template-columns: 1fr; }
+            .form-card, .faq-section { grid-column: 1; }
+            .form-row, .faq-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="#" class="logo">
+            <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
+                <path d="M20 3 L35 8 V20 C35 30 28 35 20 37 C12 35 5 30 5 20 V8 L20 3Z" fill="#0A2540"/>
+                <path d="M20 10 C20 10 14 17 14 22 C14 27 17 30 20 30 C23 30 26 27 26 22 C26 17 20 10 20 10Z" fill="#00C2CB"/>
+            </svg>
+            E-Clean
+        </a>
+    </header>
+    
+    <div class="container">
+        <div class="contact-card">
+            <h1>Contactez-nous</h1>
+            <p class="subtitle">Nous sommes disponibles pour vous aider</p>
+            
+            <div class="contact-method">
+                <div class="method-icon">💬</div>
+                <div class="method-info">
+                    <h3>Chat en direct</h3>
+                    <p>Disponible 24/7 pour les questions rapides</p>
+                </div>
+            </div>
+            
+            <div class="contact-method">
+                <div class="method-icon">📧</div>
+                <div class="method-info">
+                    <h3>Email</h3>
+                    <p>contact@e-clean.com - Réponse sous 24h</p>
+                </div>
+            </div>
+            
+            <div class="contact-method">
+                <div class="method-icon">📞</div>
+                <div class="method-info">
+                    <h3>Téléphone</h3>
+                    <p>+33 1 23 45 67 89 - Lun-Ven 9h-18h</p>
+                </div>
+            </div>
+            
+            <div class="contact-method">
+                <div class="method-icon">🎫</div>
+                <div class="method-info">
+                    <h3>Support technique</h3>
+                    <p>support@e-clean.com - Prioritaire</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="faq-section">
+            <h1>Questions Fréquentes</h1>
+            <p class="subtitle">Trouvez rapidement une réponse</p>
+            
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question">Comment retourner un produit?</div>
+                    <div class="faq-answer">Allez dans "Mes commandes", cliquez sur la commande puis "Retourner". Imprimez l'étiquette et emballez le produit.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">Quel est le délai de livraison?</div>
+                    <div class="faq-answer">2-5 jours ouvrés en France métropolitaine. Livraison gratuite dès 50€ d'achat.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">Comment suivre ma commande?</div>
+                    <div class="faq-answer">Utilisez le numéro de tracking dans l'email de confirmation ou dans "Mon compte".</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">Quelles garanties?</div>
+                    <div class="faq-answer">Tous nos produits ont une garantie de 2 ans. Satisfait ou remboursé sous 30 jours.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">Comment obtenir une facture?</div>
+                    <div class="faq-answer">Téléchargez-la depuis "Mon compte" > "Commandes" > "Télécharger facture".</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">Problème avec ma commande?</div>
+                    <div class="faq-answer">Contactez-nous immédiatement via le chat ou email avec votre numéro de commande.</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-card">
+            <h1>Envoyez-nous un message</h1>
+            <p class="subtitle">Nous répondons sous 24 heures</p>
+            
+            <form>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Prénom *</label>
+                        <input type="text" class="form-input" placeholder="John" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nom *</label>
+                        <input type="text" class="form-input" placeholder="Doe" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Email *</label>
+                        <input type="email" class="form-input" placeholder="john@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Téléphone</label>
+                        <input type="tel" class="form-input" placeholder="+33 1 23 45 67 89">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Sujet *</label>
+                    <select class="form-select" required>
+                        <option value="">Sélectionner un sujet...</option>
+                        <option value="order">Question sur une commande</option>
+                        <option value="product">Question sur un produit</option>
+                        <option value="return">Retour/Remboursement</option>
+                        <option value="technical">Problème technique</option>
+                        <option value="other">Autre</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Message *</label>
+                    <textarea class="form-textarea" placeholder="Décrivez votre problème ou question..." required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Pièce jointe (optionnel)</label>
+                    <div class="file-input">
+                        📎 Glissez un fichier ou cliquez pour sélectionner<br>
+                        <span style="font-size: 0.75rem; color: var(--gray);">JPG, PNG, PDF - Max 5MB</span>
+                    </div>
+                </div>
+                
+                <button type="submit" class="submit-btn">Envoyer le message</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

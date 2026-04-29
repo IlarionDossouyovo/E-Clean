@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Questions Fréquentes | E-Clean</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #0A2540; --secondary: #00C2CB; --accent: #2ECC71; --white: #FFFFFF; --light: #F8FAFC; --gray: #64748B; --gray-light: #E2E8F0; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--light); }
+        .header { background: var(--white); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--gray-light); }
+        .logo { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 1.25rem; color: var(--primary); text-decoration: none;}
+        .container { max-width: 800px; margin: 2rem auto; padding: 0 2rem; }
+        h1 { font-size: 1.75rem; margin-bottom: 0.5rem; color: var(--primary); }
+        .subtitle { color: var(--gray); margin-bottom: 2rem; }
+        .search-box { background: var(--white); border-radius: 12px; padding: 1rem; margin-bottom: 2rem; display: flex; gap: 1rem; align-items: center; }
+        .search-input { flex: 1; border: none; font-size: 1rem; background: var(--light); padding: 0.75rem 1rem; border-radius: 8px; }
+        .faq-list { background: var(--white); border-radius: 16px; overflow: hidden; }
+        .faq-item { border-bottom: 1px solid var(--gray-light); }
+        .faq-item:last-child { border-bottom: none; }
+        .faq-question { padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 600; }
+        .faq-question::after { content: '+'; font-size: 1.25rem; color: var(--gray); }
+        .faq-item.active .faq-question::after { content: '−'; }
+        .faq-answer { display: none; padding: 0 1.5rem 1.5rem; color: var(--gray); font-size: 0.875rem; line-height: 1.6; }
+        .faq-item.active .faq-answer { display: block; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="#" class="logo">
+            <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
+                <path d="M20 3 L35 8 V20 C35 30 28 35 20 37 C12 35 5 30 5 20 V8 L20 3Z" fill="#0A2540"/>
+                <path d="M20 10 C20 10 14 17 14 22 C14 27 17 30 20 30 C23 30 26 27 26 22 C26 17 20 10 20 10Z" fill="#00C2CB"/>
+            </svg>
+            E-Clean
+        </a>
+    </header>
+    <div class="container">
+        <h1>Questions Fréquentes</h1>
+        <p class="subtitle">Trouvez rapidement une réponse à vos questions</p>
+        <div class="search-box">
+            <input type="text" class="search-input" placeholder="Rechercher une question...">
+        </div>
+        <div class="faq-list">
+            <div class="faq-item">
+                <div class="faq-question">Quelle est la politique de retour?</div>
+                <div class="faq-answer">Vous avez 30 jours pour retourner tout produit. Le retour est gratuit pour les articles défectueux. Pour un changement d'avis, les frais de retour peuvent s'appliquer.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Quels sont les délais de livraison?</div>
+                <div class="faq-answer">Livraison standard: 3-5 jours ouvrés (5.99€). Express: 24-48h (12.99€). Gratuit dès 50€ d'achat.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Comment suivre ma commande?</div>
+                <div class="faq-answer">Utilisez le lien de tracking dans l'email de confirmation ou consultez "Mes commandes" sur votre compte.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Les produits sont-ils écologique?</div>
+                <div class="faq-answer">Oui! Nous privilégions les produits biodégradables, sans perturbateurs endocriniens, testés dermatologiquement.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Comment obtenir une facture?</div>
+                <div class="faq-answer">Téléchargez votre facture depuis "Mon compte" > "Commandes" > "Télécharger facture" au format PDF.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Puis-je commander en gros pour mon entreprise?</div>
+                <div class="faq-answer">Oui! Créez un compte professionnel pour accéder aux tarifs B2B et volumes discount.Contactez-nous pour un devis.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Comment contacter le support?</div>
+                <div class="faq-answer">Chat 24/7, email: contact@e-clean.com, ou téléphone: +33 1 23 45 67 89 (Lun-Ven 9h-18h).</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Mes données sont-elles sécurisées?</div>
+                <div class="faq-answer">100%! Chiffrement SSL, hébergement GDPR, aucun partage avec des tiers sans consentement.</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                q.parentElement.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>

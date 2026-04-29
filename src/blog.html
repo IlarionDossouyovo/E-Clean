@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog & Actualités | E-Clean</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0A2540;
+            --secondary: #00C2CB;
+            --accent: #2ECC71;
+            --white: #FFFFFF;
+            --light: #F8FAFC;
+            --gray: #64748B;
+            --gray-light: #E2E8F0;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { font-family: 'Inter', sans-serif; background: var(--light); }
+        
+        .header {
+            background: var(--white);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--gray-light);
+        }
+        
+        .logo { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 1.25rem; color: var(--primary); text-decoration: none;}
+        
+        .container { max-width: 1000px; margin: 2rem auto; padding: 0 2rem; }
+        
+        h1 { font-size: 1.75rem; margin-bottom: 0.5rem; color: var(--primary); }
+        .subtitle { color: var(--gray); margin-bottom: 2rem; }
+        
+        .featured {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+        
+        .featured-image {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+        }
+        
+        .featured-content { padding: 2rem; display: flex; flex-direction: column; justify-content: center; }
+        
+        .featured-badge {
+            background: var(--accent);
+            color: var(--white);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.625rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
+            width: fit-content;
+        }
+        
+        .featured-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.75rem; }
+        
+        .featured-excerpt { color: var(--gray); font-size: 0.875rem; line-height: 1.6; margin-bottom: 1rem; }
+        
+        .featured-meta { display: flex; gap: 1rem; font-size: 0.75rem; color: var(--gray); }
+        
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        
+        .article-card {
+            background: var(--white);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        
+        .article-image {
+            height: 150px;
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+        
+        .article-content { padding: 1.25rem; }
+        
+        .article-title { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; line-height: 1.4; }
+        
+        .article-excerpt { font-size: 0.75rem; color: var(--gray); margin-bottom: 0.75rem; line-height: 1.5; }
+        
+        .article-meta { display: flex; justify-content: space-between; font-size: 0.625rem; color: var(--gray); }
+        
+        .categories {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .category-btn {
+            padding: 0.5rem 1rem;
+            background: var(--white);
+            border: 1px solid var(--gray-light);
+            border-radius: 20px;
+            font-size: 0.875rem;
+            cursor: pointer;
+        }
+        
+        .category-btn.active { background: var(--primary); color: var(--white); border-color: var(--primary); }
+        
+        @media (max-width: 800px) {
+            .featured, .articles-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="#" class="logo">
+            <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
+                <path d="M20 3 L35 8 V20 C35 30 28 35 20 37 C12 35 5 30 5 20 V8 L20 3Z" fill="#0A2540"/>
+                <path d="M20 10 C20 10 14 17 14 22 C14 27 17 30 20 30 C23 30 26 27 26 22 C26 17 20 10 20 10Z" fill="#00C2CB"/>
+            </svg>
+            E-Clean
+        </a>
+    </header>
+    
+    <div class="container">
+        <h1>Blog & Actualités</h1>
+        <p class="subtitle">Conseils, guides et tendances pour un intérieur propre et sain</p>
+        
+        <div class="categories">
+            <button class="category-btn active">Tous</button>
+            <button class="category-btn">Conseils</button>
+            <button class="category-btn">Guides</button>
+            <button class="category-btn">Nouveautés</button>
+            <button class="category-btn">Écoresponsable</button>
+            <button class="category-btn">Santé</button>
+        </div>
+        
+        <article class="featured">
+            <div class="featured-image">🧹</div>
+            <div class="featured-content">
+                <span class="featured-badge">ARTICLE À LA UNE</span>
+                <h2 class="featured-title">10 Astuces pour un Nettoyage Écoresponsable</h2>
+                <p class="featured-excerpt">Découvrez comment nettoyer votre maison tout en respectant l'environnement. Astuces simples, efficaces et écologiques pour un intérieur sain sans produits chimiques agressifs.</p>
+                <div class="featured-meta">
+                    <span>📅 15 Avril 2026</span>
+                    <span>⏱️ 5 min de lecture</span>
+                </div>
+            </div>
+        </article>
+        
+        <div class="articles-grid">
+            <div class="article-card">
+                <div class="article-image">🧴</div>
+                <div class="article-content">
+                    <h3 class="article-title">Bien Choisir son Nettoyant</h3>
+                    <p class="article-excerpt">Guide complet pour sélectionner les produits adaptés à chaque surface de votre maison.</p>
+                    <div class="article-meta">
+                        <span>12 Avril 2026</span>
+                        <span>Guides</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="article-card">
+                <div class="article-image">🌿</div>
+                <div class="article-content">
+                    <h3 class="article-title">Produits Maison: 5 Recettes Faciles</h3>
+                    <p class="article-excerpt">FABriquez vos propres nettoyants avec des ingrédients simples du placard.</p>
+                    <div class="article-meta">
+                        <span>8 Avril 2026</span>
+                        <span>Écoresponsable</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="article-card">
+                <div class="article-image">🛏️</div>
+                <div class="article-content">
+                    <h3 class="article-title">Linge de Lit: Fréquence de Lavage</h3>
+                    <p class="article-excerpt">À quelle fréquence changer vos draps? Voici les recommandations des experts.</p>
+                    <div class="article-meta">
+                        <span>5 Avril 2026</span>
+                        <span>Santé</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="article-card">
+                <div class="article-image">🍳</div>
+                <div class="article-content">
+                    <h3 class="article-title">Nettoyer la Cuisine Après Cuisine</h3>
+                    <p class="article-excerpt">Astuces pour éliminer graisses et odeurs tenaces dans la cuisine.</p>
+                    <div class="article-meta">
+                        <span>1 Avril 2026</span>
+                        <span>Conseils</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="article-card">
+                <div class="article-image">🐈</div>
+                <div class="article-content">
+                    <h3 class="article-title">Maison avec Animaux: Guide Complet</h3>
+                    <p class="article-excerpt">Astuces pour garder votre maison propre avec des animaux de compagnie.</p>
+                    <div class="article-meta">
+                        <span>28 Mars 2026</span>
+                        <span>Conseils</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="article-card">
+                <div class="article-image">✨</div>
+                <div class="article-content">
+                    <h3 class="article-title">5 Erreurs de Nettoyage à Éviter</h3>
+                    <p class="article-excerpt">Les erreurs courantes qui risquent d'endommager vos surfaces et équipements.</p>
+                    <div class="article-meta">
+                        <span>25 Mars 2026</span>
+                        <span>Guides</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
