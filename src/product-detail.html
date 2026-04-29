@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nettoyant Multi-Surfaces Pro - E-Clean</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0A2540;
+            --primary-light: #1a3a5c;
+            --secondary: #00C2CB;
+            --accent: #2ECC71;
+            --danger: #EF4444;
+            --warning: #F59E0B;
+            --white: #FFFFFF;
+            --light: #F8FAFC;
+            --gray: #64748B;
+            --gray-light: #E2E8F0;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { font-family: 'Inter', sans-serif; background: var(--light); }
+        
+        .header {
+            background: var(--white);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--gray-light);
+        }
+        
+        .logo { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 1.25rem; color: var(--primary); text-decoration: none;}
+        
+        .header-nav { display: flex; gap: 2rem; }
+        .header-link { color: var(--gray); text-decoration: none; font-size: 0.875rem; }
+        .header-link:hover { color: var(--primary); }
+        
+        .breadcrumb { padding: 1rem 2rem; font-size: 0.75rem; color: var(--gray); background: var(--white); }
+        .breadcrumb a { color: var(--gray); text-decoration: none; }
+        .breadcrumb span { margin: 0 0.5rem; }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+        
+        /* Gallery */
+        .product-gallery { }
+        
+        .main-image {
+            width: 100%;
+            aspect-ratio: 1;
+            background: var(--light);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .thumbnails {
+            display: flex;
+            gap: 0.75rem;
+        }
+        
+        .thumb {
+            width: 80px;
+            height: 80px;
+            background: var(--light);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .thumb.active, .thumb:hover { border-color: var(--secondary); }
+        
+        /* Details */
+        .product-details { }
+        
+        .product-badges {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.625rem;
+            font-weight: 600;
+        }
+        
+        .badge.new { background: var(--secondary); color: var(--white); }
+        .badge.eco { background: var(--accent); color: var(--white); }
+        .badge.bestseller { background: var(--warning); color: var(--white); }
+        
+        .product-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .product-sku {
+            font-size: 0.875rem;
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+        
+        .product-price {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .product-price .old {
+            font-size: 1.25rem;
+            color: var(--gray);
+            text-decoration: line-through;
+            margin-left: 1rem;
+        }
+        
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stars { color: var(--warning); }
+        .rating-text { font-size: 0.875rem; color: var(--gray); }
+        
+        .product-desc {
+            font-size: 0.875rem;
+            color: var(--gray);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .product-features {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; font-size: 0.875rem; }
+        .feature:last-child { margin-bottom: 0; }
+        .feature-icon { font-size: 1.25rem; }
+        
+        /* Add to Cart */
+        .add-to-cart {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .qty-selector {
+            display: flex;
+            align-items: center;
+            background: var(--light);
+            border-radius: 10px;
+            padding: 0.25rem;
+        }
+        
+        .qty-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: var(--white);
+            border-radius: 8px;
+            font-size: 1.25rem;
+            cursor: pointer;
+        }
+        
+        .qty-value {
+            width: 50px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .add-btn {
+            flex: 1;
+            padding: 1rem 2rem;
+            background: var(--accent);
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .add-btn:hover { background: #27ae60; }
+        
+        .stock-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .stock-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+        
+        .stock-dot.low { background: var(--warning); }
+        .stock-dot.out { background: var(--danger); }
+        
+        /* Tabs */
+        .product-tabs {
+            margin-top: 3rem;
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+        
+        .tabs-nav {
+            display: flex;
+            gap: 2rem;
+            border-bottom: 1px solid var(--gray-light);
+            margin-bottom: 1.5rem;
+        }
+        
+        .tab-btn {
+            padding: 1rem 0;
+            background: none;
+            border: none;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--gray);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .tab-btn.active { color: var(--primary); border-bottom-color: var(--secondary); }
+        
+        .tab-content { font-size: 0.875rem; line-height: 1.7; color: var(--gray); }
+        
+        @media (max-width: 800px) {
+            .product-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="#" class="logo">
+            <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
+                <path d="M20 3 L35 8 V20 C35 30 28 35 20 37 C12 35 5 30 5 20 V8 L20 3Z" fill="#0A2540"/>
+                <path d="M20 10 C20 10 14 17 14 22 C14 27 17 30 20 30 C23 30 26 27 26 22 C26 17 20 10 20 10Z" fill="#00C2CB"/>
+            </svg>
+            E-Clean
+        </a>
+        <nav class="header-nav">
+            <a href="#" class="header-link">Produits</a>
+            <a href="#" class="header-link">Promotions</a>
+            <a href="#" class="header-link">Mon compte</a>
+        </nav>
+    </header>
+    
+    <div class="breadcrumb">
+        <a href="#">Accueil</a> <span>›</span>
+        <a href="#">Nettoyants</a> <span>›</span>
+        Nettoyant Multi-Surfaces Pro
+    </div>
+    
+    <div class="container">
+        <div class="product-grid">
+            <div class="product-gallery">
+                <div class="main-image">🧴</div>
+                <div class="thumbnails">
+                    <div class="thumb active">🧴</div>
+                    <div class="thumb">💧</div>
+                    <div class="thumb">📦</div>
+                    <div class="thumb">🌿</div>
+                </div>
+            </div>
+            
+            <div class="product-details">
+                <div class="product-badges">
+                    <span class="badge new">NOUVEAU</span>
+                    <span class="badge eco">ÉCOLOGIQUE</span>
+                    <span class="badge bestseller">BEST-SELLER</span>
+                </div>
+                
+                <h1 class="product-title">Nettoyant Multi-Surfaces Pro - 1L</h1>
+                <p class="product-sku">Réf: NC-001 • Code-barres: 3760123456789</p>
+                
+                <div class="product-price">
+                    12.90 €
+                    <span class="old">15.90 €</span>
+                </div>
+                
+                <div class="product-rating">
+                    <span class="stars">★★★★★</span>
+                    <span class="rating-text">4.8 (245 avis)</span>
+                </div>
+                
+                <p class="product-desc">
+                    Formule professionnelle ultra-performante pour nettoyer et dégraisser toutes les surfaces de votre maison.
+                    Écoresponsable, biodégradable à 98% et sans danger pour les enfants et animaux.
+                </p>
+                
+                <div class="product-features">
+                    <div class="feature">
+                        <span class="feature-icon">✅</span>
+                        <span>Écoresponsable - 98% biodégradable</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">✅</span>
+                        <span>Sûr pour les surfaces fragiles</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">✅</span>
+                        <span>Testé sous contrôle dermatologique</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">✅</span>
+                        <span>Fabriqué en France</span>
+                    </div>
+                </div>
+                
+                <div class="add-to-cart">
+                    <div class="qty-selector">
+                        <button class="qty-btn" onclick="updateQty(-1)">−</button>
+                        <span class="qty-value" id="qty">2</span>
+                        <button class="qty-btn" onclick="updateQty(1)">+</button>
+                    </div>
+                    <button class="add-btn">Ajouter au panier - 25.80 €</button>
+                </div>
+                
+                <div class="stock-status">
+                    <span class="stock-dot"></span>
+                    <span>En stock - Livraison 24-48h</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="product-tabs">
+            <div class="tabs-nav">
+                <button class="tab-btn active">Description</button>
+                <button class="tab-btn">Composition</button>
+                <button class="tab-btn">Avis (245)</button>
+            </div>
+            <div class="tab-content">
+                <p><strong>Nettoyant Multi-Surfaces Pro</strong> est une formule professionnelle conçue pour éliminer simultanément saletés, graisses et bactéries sur toutes les surfaces de votre maison.</p>
+                <br>
+                <p><strong>Points forts:</strong></p>
+                <ul>
+                    <li>Action 3-en-1 : nettoyer, dégraisser, assainir</li>
+                    <li>Sans rinçage, sèche rapidement</li>
+                    <li>Compatible bois, verre, inox, marbre, PVC</li>
+                    <li>Parfum frais océan</li>
+                    <li>Prix professionnel accessible aux particuliers</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let qty = 2;
+        function updateQty(delta) {
+            qty = Math.max(1, Math.min(10, qty + delta));
+            document.getElementById('qty').textContent = qty;
+        }
+    </script>
+</body>
+</html>

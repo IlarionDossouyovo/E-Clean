@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panier | E-Clean</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0A2540;
+            --primary-light: #1a3a5c;
+            --secondary: #00C2CB;
+            --accent: #2ECC71;
+            --danger: #EF4444;
+            --white: #FFFFFF;
+            --light: #F8FAFC;
+            --gray: #64748B;
+            --gray-light: #E2E8F0;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { font-family: 'Inter', sans-serif; background: var(--light); }
+        
+        /* Header */
+        .header {
+            background: var(--white);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--gray-light);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 1.25rem; color: var(--primary); text-decoration: none;}
+        
+        .header-actions { display: flex; align-items: center; gap: 1.5rem; }
+        
+        .header-link { color: var(--gray); font-size: 0.875rem; text-decoration: none; }
+        .header-link:hover { color: var(--primary); }
+        
+        .cart-icon { position: relative; }
+        
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--danger);
+            color: var(--white);
+            font-size: 0.625rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Main */
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        
+        h1 { font-size: 1.75rem; margin-bottom: 2rem; color: var(--primary); }
+        
+        /* Cart Grid */
+        .cart-grid {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 2rem;
+        }
+        
+        /* Cart Items */
+        .cart-items { background: var(--white); border-radius: 16px; padding: 1.5rem; }
+        
+        .cart-item {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--gray-light);
+        }
+        
+        .cart-item:last-child { border-bottom: none; }
+        
+        .item-image {
+            width: 120px;
+            height: 120px;
+            background: var(--light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+        
+        .item-details { flex: 1; }
+        
+        .item-name { font-weight: 600; margin-bottom: 0.5rem; color: var(--primary); }
+        
+        .item-sku { font-size: 0.75rem; color: var(--gray); margin-bottom: 0.75rem; }
+        
+        .item-price { font-size: 1.125rem; font-weight: 700; color: var(--primary); }
+        
+        .item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+        
+        .qty-btn {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--gray-light);
+            background: var(--white);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .qty-btn:hover { border-color: var(--secondary); }
+        
+        .qty-value { font-weight: 600; min-width: 30px; text-align: center; }
+        
+        .item-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.5rem;
+        }
+        
+        .remove-btn {
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+        
+        .remove-btn:hover { color: var(--danger); }
+        
+        /* Summary */
+        .cart-summary {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 1.5rem;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+        
+        .summary-title { font-size: 1.125rem; font-weight: 600; margin-bottom: 1.5rem; }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            font-size: 0.875rem;
+        }
+        
+        .summary-row.total {
+            border-top: 2px solid var(--gray-light);
+            font-weight: 700;
+            font-size: 1.125rem;
+            margin-top: 0.5rem;
+            padding-top: 1rem;
+        }
+        
+        .coupon-form {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .coupon-input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid var(--gray-light);
+            border-radius: 8px;
+            font-size: 0.875rem;
+        }
+        
+        .coupon-btn {
+            padding: 0.75rem 1rem;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .checkout-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--accent);
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.2s;
+        }
+        
+        .checkout-btn:hover { background: #27ae60; }
+        
+        .features {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--gray-light);
+        }
+        
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.75rem;
+            color: var(--gray);
+            margin-bottom: 0.75rem;
+        }
+        
+        .feature-icon { font-size: 1rem; }
+        
+        /* Empty Cart */
+        .empty-cart { text-align: center; padding: 4rem 2rem; }
+        .empty-icon { font-size: 4rem; margin-bottom: 1rem; }
+        .empty-title { font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--primary); }
+        .empty-text { color: var(--gray); margin-bottom: 1.5rem; }
+        
+        .continue-btn {
+            padding: 0.75rem 2rem;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        @media (max-width: 900px) {
+            .cart-grid { grid-template-columns: 1fr; }
+            .cart-summary { position: static; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="#" class="logo">
+            <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
+                <path d="M20 3 L35 8 V20 C35 30 28 35 20 37 C12 35 5 30 5 20 V8 L20 3Z" fill="#0A2540"/>
+                <path d="M20 10 C20 10 14 17 14 22 C14 27 17 30 20 30 C23 30 26 27 26 22 C26 17 20 10 20 10Z" fill="#00C2CB"/>
+            </svg>
+            E-Clean
+        </a>
+        <div class="header-actions">
+            <a href="#" class="header-link">Continuer les achats</a>
+            <div class="cart-icon">
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.6 10m0 0h10M13 13l2.6 10"/></svg>
+                <span class="cart-badge">3</span>
+            </div>
+        </div>
+    </header>
+    
+    <main class="container">
+        <h1>Mon Panier (3 produits)</h1>
+        
+        <div class="cart-grid">
+            <div class="cart-items">
+                <!-- Item 1 -->
+                <div class="cart-item">
+                    <div class="item-image">🧴</div>
+                    <div class="item-details">
+                        <div class="item-name">Nettoyant Multi-Surfaces Pro - 1L</div>
+                        <div class="item-sku">Réf: NC-001 • En stock</div>
+                        <div class="item-price">12.90 €</div>
+                        <div class="item-quantity">
+                            <button class="qty-btn" onclick="updateQty(this, -1)">−</button>
+                            <span class="qty-value">2</span>
+                            <button class="qty-btn" onclick="updateQty(this, 1)">+</button>
+                        </div>
+                    </div>
+                    <div class="item-actions">
+                        <div class="item-price">25.80 €</div>
+                        <button class="remove-btn">Supprimer</button>
+                    </div>
+                </div>
+                
+                <!-- Item 2 -->
+                <div class="cart-item">
+                    <div class="item-image">🧹</div>
+                    <div class="item-details">
+                        <div class="item-name">Balai Microfibres Premium</div>
+                        <div class="item-sku">Réf: EQ-045 • En stock</div>
+                        <div class="item-price">18.50 €</div>
+                        <div class="item-quantity">
+                            <button class="qty-btn" onclick="updateQty(this, -1)">−</button>
+                            <span class="qty-value">1</span>
+                            <button class="qty-btn" onclick="updateQty(this, 1)">+</button>
+                        </div>
+                    </div>
+                    <div class="item-actions">
+                        <div class="item-price">18.50 €</div>
+                        <button class="remove-btn">Supprimer</button>
+                    </div>
+                </div>
+                
+                <!-- Item 3 -->
+                <div class="cart-item">
+                    <div class="item-image">🧤</div>
+                    <div class="item-details">
+                        <div class="item-name">Gants de Ménage - Lot de 3</div>
+                        <div class="item-sku">Réf: AC-012 • En stock</div>
+                        <div class="item-price">8.90 €</div>
+                        <div class="item-quantity">
+                            <button class="qty-btn" onclick="updateQty(this, -1)">−</button>
+                            <span class="qty-value">1</span>
+                            <button class="qty-btn" onclick="updateQty(this, 1)">+</button>
+                        </div>
+                    </div>
+                    <div class="item-actions">
+                        <div class="item-price">8.90 €</div>
+                        <button class="remove-btn">Supprimer</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cart-summary">
+                <h2 class="summary-title">Récapitulatif</h2>
+                
+                <div class="summary-row">
+                    <span>Sous-total</span>
+                    <span>53.20 €</span>
+                </div>
+                <div class="summary-row">
+                    <span>Livraison</span>
+                    <span>5.99 €</span>
+                </div>
+                <div class="summary-row">
+                    <span>TVA (20%)</span>
+                    <span>10.64 €</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total</span>
+                    <span>69.83 €</span>
+                </div>
+                
+                <div class="coupon-form">
+                    <input type="text" class="coupon-input" placeholder="Code promo">
+                    <button class="coupon-btn">Appliquer</button>
+                </div>
+                
+                <button class="checkout-btn">Passer la commande</button>
+                
+                <div class="features">
+                    <div class="feature">
+                        <span class="feature-icon">🚚</span>
+                        <span>Livraison gratuite dès 50€</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">↩️</span>
+                        <span>Retours sous 30 jours</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">🔒</span>
+                        <span>Paiement sécurisé</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        function updateQty(btn, delta) {
+            const qtyEl = btn.parentElement.querySelector('.qty-value');
+            let qty = parseInt(qtyEl.textContent) + delta;
+            if (qty < 1) qty = 1;
+            if (qty > 10) qty = 10;
+            qtyEl.textContent = qty;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion | E-Clean</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0A2540;
+            --primary-light: #1a3a5c;
+            --secondary: #00C2CB;
+            --accent: #2ECC71;
+            --danger: #EF4444;
+            --white: #FFFFFF;
+            --light: #F8FAFC;
+            --gray: #64748B;
+            --gray-light: #E2E8F0;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .container {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.3);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+        
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+        
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: var(--gray);
+            font-size: 0.875rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .tabs {
+            display: flex;
+            background: var(--light);
+            border-radius: 10px;
+            padding: 0.25rem;
+            margin-bottom: 2rem;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            background: none;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--gray);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .tab.active {
+            background: var(--white);
+            color: var(--primary);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--gray-light);
+            border-radius: 10px;
+            font-size: 0.875rem;
+            transition: border-color 0.2s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .checkbox-group input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--secondary);
+        }
+        
+        .checkbox-group label {
+            font-size: 0.75rem;
+            color: var(--gray);
+        }
+        
+        .checkbox-group a {
+            color: var(--secondary);
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-light);
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--gray-light);
+        }
+        
+        .divider span {
+            font-size: 0.75rem;
+            color: var(--gray);
+        }
+        
+        .social-login {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .social-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid var(--gray-light);
+            border-radius: 10px;
+            background: var(--white);
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .social-btn:hover {
+            border-color: var(--secondary);
+        }
+        
+        .forgot {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        
+        .forgot a {
+            color: var(--secondary);
+            font-size: 0.875rem;
+            text-decoration: none;
+        }
+        
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+        }
+        
+        @media (max-width: 450px) {
+            .container { padding: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <svg class="logo-icon" viewBox="0 0 40 40" fill="none">
+                <path d="M20 3 L35 8 V20 C35 30 28 35 20 37 C12 35 5 30 5 20 V8 L20 3Z" fill="#0A2540"/>
+                <path d="M20 10 C20 10 14 17 14 22 C14 27 17 30 20 30 C23 30 26 27 26 22 C26 17 20 10 20 10Z" fill="#00C2CB"/>
+            </svg>
+            <span class="logo-text">E-Clean</span>
+        </div>
+        
+        <!-- Form State -->
+        <div id="formState">
+            <h1>Bon retour!</h1>
+            <p class="subtitle">Connectez-vous pour continuer vos achats</p>
+            
+            <div class="tabs">
+                <button class="tab active" onclick="showLogin()">Connexion</button>
+                <button class="tab" onclick="showRegister()">Inscription</button>
+            </div>
+            
+            <form id="authForm">
+                <div class="form-group" id="nameGroup" style="display: none;">
+                    <label class="form-label">Nom complet</label>
+                    <input type="text" class="form-input" placeholder="John Doe">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" placeholder="john@example.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Mot de passe</label>
+                    <input type="password" class="form-input" placeholder="••••••••" required>
+                </div>
+                
+                <div class="checkbox-group" id="rememberGroup">
+                    <input type="checkbox" id="remember">
+                    <label for="remember">Se souvenir de moi</label>
+                </div>
+                
+                <button type="submit" class="btn-primary" id="submitBtn">Se connecter</button>
+            </form>
+            
+            <div class="divider"><span>ou</span></div>
+            
+            <div class="social-login">
+                <button class="social-btn" title="Google">G</button>
+                <button class="social-btn" title="Facebook">f</button>
+                <button class="social-btn" title="Apple"></button>
+            </div>
+            
+            <div class="forgot">
+                <a href="#">Mot de passe oublié?</a>
+            </div>
+        </div>
+        
+        <!-- Success State -->
+        <div id="successState" class="success-message">
+            <div class="success-icon">✓</div>
+            <h2>Connexion réussie!</h2>
+            <p class="subtitle">Redirection vers le panier...</p>
+        </div>
+        
+        <!-- Register Success -->
+        <div id="registerSuccess" class="success-message">
+            <div class="success-icon">✓</div>
+            <h2>Compte créé!</h2>
+            <p class="subtitle">Vérifiez votre email pour activer</p>
+        </div>
+    </div>
+    
+    <script>
+        let isLogin = true;
+        
+        function showLogin() {
+            isLogin = true;
+            document.querySelectorAll('.tab')[0].classList.add('active');
+            document.querySelectorAll('.tab')[1].classList.remove('active');
+            document.getElementById('nameGroup').style.display = 'none';
+            document.getElementById('rememberGroup').style.display = 'flex';
+            document.getElementById('submitBtn').textContent = 'Se connecter';
+            document.getElementById('authForm').querySelector('h1').textContent = 'Bon retour!';
+            document.querySelector('.subtitle').textContent = 'Connectez-vous pour continuer vos achats';
+        }
+        
+        function showRegister() {
+            isLogin = false;
+            document.querySelectorAll('.tab')[0].classList.remove('active');
+            document.querySelectorAll('.tab')[1].classList.add('active');
+            document.getElementById('nameGroup').style.display = 'block';
+            document.getElementById('rememberGroup').style.display = 'none';
+            document.getElementById('submitBtn').textContent = 'Créer mon compte';
+            document.getElementById('authForm').querySelector('h1').textContent = 'Créer un compte';
+            document.querySelector('.subtitle').textContent = 'Rejoignez E-Clean pour des offres exclusives';
+        }
+        
+        document.getElementById('authForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('submitBtn');
+            btn.textContent = '⏳ Connexion...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                document.getElementById('formState').style.display = 'none';
+                
+                if (isLogin) {
+                    document.getElementById('successState').style.display = 'block';
+                } else {
+                    document.getElementById('registerSuccess').style.display = 'block';
+                }
+            }, 1500);
+        });
+    </script>
+</body>
+</html>

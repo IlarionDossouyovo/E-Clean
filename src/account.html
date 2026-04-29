@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Compte | E-Clean</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0A2540;
+            --primary-light: #1a3a5c;
+            --secondary: #00C2CB;
+            --accent: #2ECC71;
+            --danger: #EF4444;
+            --white: #FFFFFF;
+            --light: #F8FAFC;
+            --gray: #64748B;
+            --gray-light: #E2E8F0;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { font-family: 'Inter', sans-serif; background: var(--light); }
+        
+        .header {
+            background: var(--white);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--gray-light);
+        }
+        
+        .logo { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 1.25rem; color: var(--primary); text-decoration: none;}
+        
+        .container { display: flex; max-width: 1200px; margin: 0 auto; padding: 2rem; gap: 2rem; }
+        
+        /* Sidebar */
+        .account-sidebar {
+            width: 280px;
+            background: var(--white);
+            border-radius: 16px;
+            padding: 1.5rem;
+            height: fit-content;
+        }
+        
+        .user-header {
+            text-align: center;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--gray-light);
+            margin-bottom: 1.5rem;
+        }
+        
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+            color: var(--white);
+        }
+        
+        .user-name { font-weight: 600; }
+        .user-email { font-size: 0.75rem; color: var(--gray); }
+        .user-level { 
+            display: inline-block; 
+            background: var(--accent); 
+            color: var(--white);
+            font-size: 0.625rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            margin-top: 0.5rem;
+        }
+        
+        .account-menu { }
+        
+        .menu-section { margin-bottom: 1.5rem; }
+        
+        .menu-title {
+            font-size: 0.625rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--gray);
+            margin-bottom: 0.75rem;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+        
+        .menu-item:hover, .menu-item.active {
+            background: var(--light);
+            color: var(--primary);
+        }
+        
+        .menu-item.active {
+            background: rgba(0, 194, 203, 0.1);
+            color: var(--secondary);
+        }
+        
+        .menu-badge {
+            margin-left: auto;
+            background: var(--danger);
+            color: var(--white);
+            font-size: 0.625rem;
+            padding: 0.125rem 0.5rem;
+            border-radius: 10px;
+        }
+        
+        /* Main Content */
+        .account-main { flex: 1; }
+        
+        .account-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-title { font-size: 1.125rem; font-weight: 600; }
+        
+        .card-link { color: var(--secondary); font-size: 0.875rem; text-decoration: none; }
+        
+        /* Stats */
+        ..stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+        
+        .stat-card {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+        
+        .stat-value { font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+        .stat-label { font-size: 0.75rem; color: var(--gray); }
+        
+        /* Orders */
+        .orders-list { }
+        
+        .order-card {
+            border: 1px solid var(--gray-light);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .order-number { font-weight: 600; }
+        .order-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.625rem;
+            font-weight: 600;
+        }
+        
+        .order-status.delivered { background: rgba(46, 204, 113, 0.1); color: var(--accent); }
+        .order-status.shipping { background: rgba(0, 194, 203, 0.1); color: var(--secondary); }
+        .order-status.processing { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        
+        .order-items { display: flex; gap: 0.5rem; }
+        
+        .order-item {
+            width: 60px;
+            height: 60px;
+            background: var(--light);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .order-total {
+            font-weight: 600;
+            margin-top: 0.75rem;
+            text-align: right;
+        }
+        
+        /* Addresses */
+        .addresses-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .address-card {
+            border: 2px solid var(--gray-light);
+            border-radius: 12px;
+            padding: 1.25rem;
+        }
+        
+        .address-card.default { border-color: var(--accent); }
+        
+        .address-type {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+        }
+        
+        .address-text { font-size: 0.875rem; }
+        
+        .address-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            font-size: 0.75rem;
+        }
+        
+        .address-actions a { color: var(--secondary); text-decoration: none; }
+        
+        /* Loyalty */
+        .loyalty-card {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 16px;
+            padding: 2rem;
+            color: var(--white);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .loyalty-info h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+        .loyalty-points { font-size: 2.5rem; font-weight: 800; }
+        
+        .loyalty-progress { text-align: right; }
+        .progress-bar {
+            width: 200px;
+            height: 8px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            border-radius: 4px;
+            width: 60%;
+        }
+        
+        @media (max-width: 900px) {
+            .container { flex-direction: column; }
+            .account-sidebar { width: 100%; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .addresses-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="#" class="logo">
+            <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
+                <path d="M20 3 L35 8 V20 C35 30 28 35 20 37 C12 35 5 30 5 20 V8 L20 3Z" fill="#0A2540"/>
+                <path d="M20 10 C20 10 14 17 14 22 C14 27 17 30 20 30 C23 30 26 27 26 22 C26 17 20 10 20 10Z" fill="#00C2CB"/>
+            </svg>
+            E-Clean
+        </a>
+    </header>
+    
+    <div class="container">
+        <aside class="account-sidebar">
+            <div class="user-header">
+                <div class="user-avatar">JD</div>
+                <div class="user-name">John Doe</div>
+                <div class="user-email">john@example.com</div>
+                <span class="user-level">💎 PREMIUM</span>
+            </div>
+            
+            <div class="account-menu">
+                <div class="menu-section">
+                    <div class="menu-title">Achats</div>
+                    <a href="#" class="menu-item active">📦 Commandes</a>
+                    <a href="#" class="menu-item">🛒 Paniers sauvegardés</a>
+                    <a href="#" class="menu-item">❤️ Favoris</a>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-title">Compte</div>
+                    <a href="#" class="menu-item">👤 Profil</a>
+                    <a href="#" class="menu-item">📍 Adresses <span class="menu-badge">3</span></a>
+                    <a href="#" class="menu-item">💳 Moyens de paiement</a>
+                    <a href="#" class="menu-item">🎁 Coupons & cartes</a>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-title"> Fidélité</div>
+                    <a href="#" class="menu-item">⭐ Programme fidélité</a>
+                    <a href="#" class="menu-item">🎫 Mes coupons</a>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-title">Support</div>
+                    <a href="#" class="menu-item">🎫 Tickets <span class="menu-badge">2</span></a>
+                    <a href="#" class="menu-item">❓ Foire Aux Questions</a>
+                </div>
+            </div>
+        </aside>
+        
+        <main class="account-main">
+            <div class="account-card">
+                <div class="card-header">
+                    <h2 class="card-title">Mes statistiques</h2>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">12</div>
+                        <div class="stat-label">Commandes</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">687€</div>
+                        <div class="stat-label">Total dépensé</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">1 240</div>
+                        <div class="stat-label">Points fidélité</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">15%</div>
+                        <div class="stat-label">Réduction</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="account-card">
+                <div class="card-header">
+                    <h2 class="card-title">Dernières commandes</h2>
+                    <a href="#" class="card-link">Voir tout →</a>
+                </div>
+                
+                <div class="orders-list">
+                    <div class="order-card">
+                        <div class="order-header">
+                            <span class="order-number">#CMD-2026-0042</span>
+                            <span class="order-status delivered">Livré</span>
+                        </div>
+                        <div class="order-items">
+                            <div class="order-item">🧴</div>
+                            <div class="order-item">🧹</div>
+                            <div class="order-item">🧤</div>
+                        </div>
+                        <div class="order-total">69.83 € • 15 Avril 2026</div>
+                    </div>
+                    
+                    <div class="order-card">
+                        <div class="order-header">
+                            <span class="order-number">#CMD-2026-0038</span>
+                            <span class="order-status shipping">En livraison</span>
+                        </div>
+                        <div class="order-items">
+                            <div class="order-item">🧽</div>
+                            <div class="order-item">💨</div>
+                        </div>
+                        <div class="order-total">34.90 € • 18 Avril 2026</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="account-card">
+                <div class="card-header">
+                    <h2 class="card-title">Mes adresses</h2>
+                    <a href="#" class="card-link">Ajouter +</a>
+                </div>
+                
+                <div class="addresses-grid">
+                    <div class="address-card default">
+                        <div class="address-type">🏠 Principal</div>
+                        <div class="address-text">
+                            John Doe<br>
+                            123 Rue de la Paix<br>
+                            75001 Paris, France
+                        </div>
+                        <div class="address-actions">
+                            <a href="#">Modifier</a>
+                            <a href="#">Supprimer</a>
+                        </div>
+                    </div>
+                    
+                    <div class="address-card">
+                        <div class="address-type">🏢 Bureau</div>
+                        <div class="address-text">
+                            John Doe<br>
+                            456 Avenue des Champs-Élysées<br>
+                            75008 Paris, France
+                        </div>
+                        <div class="address-actions">
+                            <a href="#">Modifier</a>
+                            <a href="#">Supprimer</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="loyalty-card">
+                <div class="loyalty-info">
+                    <h3>Programme Fidélité 💎</h3>
+                    <div class="loyalty-points">1 240 points</div>
+                </div>
+                <div class="loyalty-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <div>260 points pour le palier suivant</div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | E-Clean</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0A2540;
+            --primary-light: #1a3a5c;
+            --secondary: #00C2CB;
+            --accent: #2ECC71;
+            --danger: #EF4444;
+            --warning: #F59E0B;
+            --white: #FFFFFF;
+            --light: #F8FAFC;
+            --gray: #64748B;
+            --gray-light: #E2E8F0;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { font-family: 'Inter', sans-serif; background: var(--light); }
+        
+        .header {
+            background: var(--white);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--gray-light);
+        }
+        
+        .logo { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 1.25rem; color: var(--primary); text-decoration: none;}
+        
+        .secure-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent);
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .container { max-width: 1000px; margin: 2rem auto; padding: 0 2rem; }
+        
+        .steps {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+        
+        .step.active { color: var(--primary); font-weight: 600; }
+        .step.completed { color: var(--accent); }
+        
+        .step-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--gray-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .step.active .step-num { background: var(--primary); color: var(--white); }
+        .step.completed .step-num { background: var(--accent); color: var(--white); }
+        
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 2rem;
+        }
+        
+        .checkout-form {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+        
+        .form-section {
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .form-group { margin-bottom: 1rem; }
+        
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .form-input, .form-select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--gray-light);
+            border-radius: 10px;
+            font-size: 0.875rem;
+            transition: border-color 0.2s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+        
+        /* Payment Methods */
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .payment-method {
+            border: 2px solid var(--gray-light);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .payment-method:hover { border-color: var(--secondary); }
+        .payment-method.active { border-color: var(--accent); background: rgba(46, 204, 113, 0.05); }
+        
+        .payment-icon { font-size: 1.5rem; margin-bottom: 0.25rem; }
+        .payment-name { font-size: 0.75rem; font-weight: 600; }
+        
+        /* Card Input */
+        .card-inputs {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        /* Order Summary */
+        .order-summary {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 1.5rem;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+        
+        .summary-title { font-size: 1.125rem; font-weight: 600; margin-bottom: 1.5rem; }
+        
+        .summary-items {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+        }
+        
+        .summary-item {
+            display: flex;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--gray-light);
+        }
+        
+        .summary-item:last-child { border-bottom: none; }
+        
+        .summary-item-image {
+            width: 50px;
+            height: 50px;
+            background: var(--light);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .summary-item-info { flex: 1; }
+        .summary-item-name { font-size: 0.875rem; font-weight: 500; }
+        .summary-item-qty { font-size: 0.75rem; color: var(--gray); }
+        .summary-item-price { font-weight: 600; }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            font-size: 0.875rem;
+        }
+        
+        .summary-row.total {
+            border-top: 2px solid var(--gray-light);
+            font-weight: 700;
+            font-size: 1.125rem;
+            padding-top: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .order-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--accent);
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+        
+        .order-btn:hover { background: #27ae60; }
+        
+        .secure-note {
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--gray);
+            margin-top: 1rem;
+        }
+        
+        @media (max-width: 800px) {
+            .checkout-grid { grid-template-columns: 1fr; }
+            .order-summary { position: static; }
+            .payment-methods { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="#" class="logo">
+            <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
+                <path d="M20 3 L35 8 V20 C35 30 28 35 20 37 C12 35 5 30 5 20 V8 L20 3Z" fill="#0A2540"/>
+                <path d="M20 10 C20 10 14 17 14 22 C14 27 17 30 20 30 C23 30 26 27 26 22 C26 17 20 10 20 10Z" fill="#00C2CB"/>
+            </svg>
+            E-Clean
+        </a>
+        <div class="secure-badge">
+            🔒 Paiement sécurisé
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="steps">
+            <div class="step completed">
+                <span class="step-num">✓</span>
+                <span>Panier</span>
+            </div>
+            <div class="step active">
+                <span class="step-num">2</span>
+                <span>Informations</span>
+            </div>
+            <div class="step">
+                <span class="step-num">3</span>
+                <span>Paiement</span>
+            </div>
+            <div class="step">
+                <span class="step-num">4</span>
+                <span>Confirmation</span>
+            </div>
+        </div>
+        
+        <div class="checkout-grid">
+            <div class="checkout-form">
+                <div class="form-section">
+                    <h3 class="section-title">📍 Adresse de livraison</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Prénom *</label>
+                            <input type="text" class="form-input" value="John" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Nom *</label>
+                            <input type="text" class="form-input" value="Doe" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Adresse *</label>
+                        <input type="text" class="form-input" value="123 Rue de la Paix" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Code postal *</label>
+                            <input type="text" class="form-input" value="75001" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Ville *</label>
+                            <input type="text" class="form-input" value="Paris" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Téléphone</label>
+                        <input type="tel" class="form-input" value="+33 1 23 45 67 89">
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="section-title">💳 Mode de paiement</h3>
+                    <div class="payment-methods">
+                        <div class="payment-method active">
+                            <div class="payment-icon">💳</div>
+                            <div class="payment-name">Carte</div>
+                        </div>
+                        <div class="payment-method">
+                            <div class="payment-icon">🅿️</div>
+                            <div class="payment-name">PayPal</div>
+                        </div>
+                        <div class="payment-method">
+                            <div class="payment-icon">🏦</div>
+                            <div class="payment-name">Virement</div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-inputs">
+                        <div class="form-group">
+                            <label class="form-label">Numéro de carte</label>
+                            <input type="text" class="form-input" placeholder="1234 5678 9012 3456">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Date d'expiration</label>
+                                <input type="text" class="form-input" placeholder="MM/AA">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">CVC</label>
+                                <input type="text" class="form-input" placeholder="123">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Nom sur la carte</label>
+                            <input type="text" class="form-input" value="JOHN DOE">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="order-summary">
+                <h2 class="summary-title">Ma commande</h2>
+                
+                <div class="summary-items">
+                    <div class="summary-item">
+                        <div class="summary-item-image">🧴</div>
+                        <div class="summary-item-info">
+                            <div class="summary-item-name">Nettoyant Multi-Surfaces Pro</div>
+                            <div class="summary-item-qty">x 2</div>
+                        </div>
+                        <div class="summary-item-price">25.80 €</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-item-image">🧹</div>
+                        <div class="summary-item-info">
+                            <div class="summary-item-name">Balai Microfibres</div>
+                            <div class="summary-item-qty">x 1</div>
+                        </div>
+                        <div class="summary-item-price">18.50 €</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-item-image">🧤</div>
+                        <div class="summary-item-info">
+                            <div class="summary-item-name">Gants de Ménage</div>
+                            <div class="summary-item-qty">x 1</div>
+                        </div>
+                        <div class="summary-item-price">8.90 €</div>
+                    </div>
+                </div>
+                
+                <div class="summary-row">
+                    <span>Sous-total</span>
+                    <span>53.20 €</span>
+                </div>
+                <div class="summary-row">
+                    <span>Livraison</span>
+                    <span>5.99 €</span>
+                </div>
+                <div class="summary-row">
+                    <span>TVA</span>
+                    <span>10.64 €</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total</span>
+                    <span>69.83 €</span>
+                </div>
+                
+                <button class="order-btn">Payer 69.83 €</button>
+                
+                <p class="secure-note">🔒 Paiement sécurisé par Stripe</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
