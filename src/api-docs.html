@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation | E-Clean</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #0A2540; --secondary: #00C2CB; --accent: #2ECC71; --dark: #1a1a2e; --white: #FFFFFF; --light: #F8FAFC; --gray: #64748B; --gray-light: #E2E8F0; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--dark); color: var(--white); }
+        .header { background: rgba(0,0,0,0.3); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); position: sticky; top: 0; backdrop-filter: blur(10px); }
+        .logo { font-weight: 700; font-size: 1.25rem; display: flex; align-items: center; gap: 0.5rem; color: var(--white); text-decoration: none; }
+        .badge { background: var(--secondary); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.625rem; font-weight: 600; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .subtitle { color: var(--gray); margin-bottom: 2rem; font-size: 1rem; }
+        .search-box { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 1rem; margin-bottom: 2rem; }
+        .search-box input { background: transparent; border: none; color: var(--white); width: 100%; font-size: 1rem; outline: none; }
+        .section { margin-bottom: 2rem; }
+        .section-title { font-size: 1.25rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem; }
+        .endpoint { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; }
+        .endpoint-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+        .method { padding: 0.375rem 0.75rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; font-family: 'Fira Code', monospace; }
+        .method.get { background: #22c55e; color: var(--white); }
+        .method.post { background: #3b82f6; color: var(--white); }
+        .method.put { background: #f59e0b; color: var(--white); }
+        .method.delete { background: #ef4444; color: var(--white); }
+        .path { font-family: 'Fira Code', monospace; font-size: 0.875rem; color: var(--secondary); }
+        .description { color: var(--gray); font-size: 0.875rem; margin-bottom: 1rem; }
+        .params { margin-top: 1rem; }
+        .param { display: flex; gap: 1rem; padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.875rem; }
+        .param:last-child { border-bottom: none; }
+        .param-name { font-family: 'Fira Code', monospace; color: var(--secondary); min-width: 120px; }
+        .param-type { color: var(--gray); min-width: 80px; }
+        .param-desc { color: var(--gray); flex: 1; }
+        code { font-family: 'Fira Code', monospace; background: rgba(255,255,255,0.1); padding: 0.125rem 0.375rem; border-radius: 4px; font-size: 0.75rem; }
+        .example { background: rgba(0,0,0,0.3); border-radius: 8px; padding: 1rem; margin-top: 1rem; }
+        .example-title { font-size: 0.75rem; color: var(--gray); margin-bottom: 0.5rem; }
+        .code-block { font-family: 'Fira Code', monospace; font-size: 0.75rem; line-height: 1.6; white-space: pre-wrap; overflow-x: auto; }
+        .nav { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .nav a { color: var(--gray); text-decoration: none; font-size: 0.875rem; transition: color 0.2s; }
+        .nav a:hover { color: var(--secondary); }
+        .status { display: flex; gap: 0.5rem; margin-top: 1rem; font-size: 0.75rem; }
+        .status-badge { padding: 0.25rem 0.5rem; border-radius: 4px; background: rgba(255,255,255,0.1); color: var(--gray); }
+        .status-code { color: var(--accent); }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="/" class="logo">
+            <svg width="24" height="24" viewBox="0 0 40 40" fill="none">
+                <path d="M20 3 L35 8 V20 C35 30 28 35 20 37 C12 35 5 30 5 20 V8 L20 3Z" fill="#00C2CB"/>
+                <path d="M20 10 C20 10 14 17 14 22 C14 27 17 30 20 30 C23 30 26 27 26 22 C26 17 20 10 20 10Z" fill="#0A2540"/>
+            </svg>
+            E-Clean API <span class="badge">v1</span>
+        </a>
+        <nav class="nav">
+            <a href="#authentication">Auth</a>
+            <a href="#products">Products</a>
+            <a href="#orders">Orders</a>
+            <a href="#payments">Payments</a>
+            <a href="#support">Support</a>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <h1>API Documentation</h1>
+        <p class="subtitle">Complete reference for E-Clean REST API. Base URL: <code>https://api.e-clean.com/v1</code></p>
+        
+        <div class="search-box">
+            <input type="text" placeholder="Search endpoints... (Ctrl+K)">
+        </div>
+        
+        <div class="section" id="authentication">
+            <h2 class="section-title">🔐 Authentication</h2>
+            
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method post">POST</span>
+                    <span class="path">/auth/login</span>
+                </div>
+                <p class="description">Authenticate user and get access token</p>
+                <div class="params">
+                    <div class="param">
+                        <span class="param-name">email</span>
+                        <span class="param-type">string</span>
+                        <span class="param-desc">User email address</span>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">password</span>
+                        <span class="param-type">string</span>
+                        <span class="param-desc">User password</span>
+                    </div>
+                </div>
+                <div class="example">
+                    <div class="example-title">Request</div>
+                    <div class="code-block">curl -X POST https://api.e-clean.com/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email": "user@example.com", "password": "secret"}'</div>
+                </div>
+                <div class="status">
+                    <span class="status-badge">200</span> <span class="status-code">Success</span>
+                    <span class="status-badge">401</span> Invalid credentials
+                </div>
+            </div>
+            
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method post">POST</span>
+                    <span class="path">/auth/register</span>
+                </div>
+                <p class="description">Register new user account</p>
+                <div class="params">
+                    <div class="param">
+                        <span class="param-name">email</span>
+                        <span class="param-type">string</span>
+                        <span class="param-desc">User email (unique)</span>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">password</span>
+                        <span class="param-type">string</span>
+                        <span class="param-desc">Min 8 characters</span>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">first_name</span>
+                        <span class="param-type">string</span>
+                        <span class="param-desc">First name</span>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">last_name</span>
+                        <span class="param-type">string</span>
+                        <span class="param-desc">Last name</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section" id="products">
+            <h2 class="section-title">🛍️ Products</h2>
+            
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method get">GET</span>
+                    <span class="path">/products</span>
+                </div>
+                <p class="description">List all products with filtering and pagination</p>
+                <div class="params">
+                    <div class="param">
+                        <span class="param-name">category</span>
+                        <span class="param-type">string</span>
+                        <span class="param-desc">Filter by category slug</span>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">search</span>
+                        <span class="param-type">string</span>
+                        <span class="param-desc">Search in name/description</span>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">min_price</span>
+                        <span class="param-type">number</span>
+                        <span class="param-desc">Minimum price filter</span>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">max_price</span>
+                        <span class="param-type">number</span>
+                        <span class="param-desc">Maximum price filter</span>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">page</span>
+                        <span class="param-type">integer</span>
+                        <span class="param-desc">Page number (default: 1)</span>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">limit</span>
+                        <span class="param-type">integer</span>
+                        <span class="param-desc">Items per page (max: 50)</span>
+                    </div>
+                </div>
+                <div class="example">
+                    <div class="example-title">Response</div>
+                    <div class="code-block">{
+  "success": true,
+  "data": [...],
+  "pagination": {
+    "page": 1,
+    "limit": 20,
+    "total": 150,
+    "pages": 8
+  }
+}</div>
+                </div>
+            </div>
+            
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method get">GET</span>
+                    <span class="path">/products/:id</span>
+                </div>
+                <p class="description">Get single product details</p>
+            </div>
+            
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method get">GET</span>
+                    <span class="path">/products/:id/recommendations</span>
+                </div>
+                <p class="description">Get AI-powered product recommendations</p>
+            </div>
+        </div>
+        
+        <div class="section" id="orders">
+            <h2 class="section-title">📦 Orders</h2>
+            
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method get">GET</span>
+                    <span class="path">/orders</span>
+                </div>
+                <p class="description">List user orders</p>
+            </div>
+            
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method post">POST</span>
+                    <span class="path">/orders</span>
+                </div>
+                <p class="description">Create new order</p>
+                <div class="params">
+                    <div class="param">
+                        <span class="param-name">items</span>
+                        <span class="param-type">array</span>
+                        <span class="param-desc">Array of {product_id, quantity}</span>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">shipping_address</span>
+                        <span class="param-type">object</span>
+                        <span class="param-desc">Shipping address object</span>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">payment_method</span>
+                        <span class="param-type">string</span>
+                        <span class="param-desc">"card" | "paypal"</span>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">coupon_code</span>
+                        <span class="param-type">string</span>
+                        <span class="param-desc">Optional discount code</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method get">GET</span>
+                    <span class="path">/orders/:id/tracking</span>
+                </div>
+                <p class="description">Get order tracking information</p>
+            </div>
+        </div>
+        
+        <div class="section" id="payments">
+            <h2 class="section-title">💳 Payments</h2>
+            
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method post">POST</span>
+                    <span class="path">/payments/create-intent</span>
+                </div>
+                <p class="description">Create Stripe payment intent</p>
+            </div>
+            
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method post">POST</span>
+                    <span class="path">/payments/confirm</span>
+                </div>
+                <p class="description">Confirm payment with card details</p>
+            </div>
+        </div>
+        
+        <div class="section" id="support">
+            <h2 class="section-title">🎫 Support</h2>
+            
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method post">POST</span>
+                    <span class="path">/support/tickets</span>
+                </div>
+                <p class="description">Create support ticket</p>
+            </div>
+            
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method get">GET</span>
+                    <span class="path">/support/tickets/:id</span>
+                </div>
+                <p class="description">Get ticket details and messages</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">🤖 AI Endpoints</h2>
+            
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method post">POST</span>
+                    <span class="path">/ai/chat</span>
+                </div>
+                <p class="description">Chat with E-Clean AI Assistant</p>
+                <div class="params">
+                    <div class="param">
+                        <span class="param-name">message</span>
+                        <span class="param-type">string</span>
+                        <span class="param-desc">User message</span>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">session_id</span>
+                        <span class="param-type">string</span>
+                        <span class="param-desc">Session identifier</span>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">language</span>
+                        <span class="param-type">string</span>
+                        <span class="param-desc">Response language (fr/en/es)</span>
+                    </div>
+                </div>
+                <div class="example">
+                    <div class="example-title">Example Response</div>
+                    <div class="code-block">{
+  "success": true,
+  "response": "Je vous recommande le nettoyant multi-surfaces Pro...",
+  "agent": "sales",
+  "action": "recommendation",
+  "timestamp": "2026-04-20T12:00:00Z"
+}</div>
+                </div>
+            </div>
+            
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method get">GET</span>
+                    <span class="path">/ai/analytics</span>
+                </div>
+                <p class="description">Get AI system analytics</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Search functionality
+        document.querySelector('.search-box input').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            document.querySelectorAll('.endpoint').forEach(el => {
+                const text = el.textContent.toLowerCase();
+                el.style.display = text.includes(query) ? 'block' : 'none';
+            });
+        });
+        
+        // Keyboard shortcut
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                document.querySelector('.search-box input').focus();
+            }
+        });
+    </script>
+</body>
+</html>
