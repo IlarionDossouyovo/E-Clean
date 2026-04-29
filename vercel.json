@@ -1,0 +1,7 @@
+{
+  "buildCommand": "echo 'Static site - no build required'",
+  "outputDirectory": ".",
+  "installCommand": "echo 'No dependencies to install'",
+  "framework": null,
+  "devCommand": "echo 'Opening index.html' && python3 -m http.server 3000"
+}
