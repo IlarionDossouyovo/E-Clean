@@ -4,8 +4,9 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// Use "postgresql" for Docker, "sqlite" for local without Docker
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"  // Change to "postgresql" if using Docker
   url      = env("DATABASE_URL")
 }
 
