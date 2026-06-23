@@ -1,0 +1,19 @@
+{
+  "name": "eclean-server",
+  "version": "1.0.0",
+  "description": "E-Clean AI Backend Server - Clean Stack",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "pg": "^8.11.3",
+    "cors": "^2.8.5",
+    "node-fetch": "^2.7.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
