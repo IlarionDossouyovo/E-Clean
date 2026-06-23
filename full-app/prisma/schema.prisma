@@ -33,6 +33,7 @@ model User {
   couponsUsed     CouponUsage[]
   loyaltyPoints   LoyaltyPoint[]
   reviews        ProductReview[]
+  payments       Payment[]
 
   referrer         User?     @relation("Referrals", fields: [referrerId], references: [id])
   referredUsers   User[]    @relation("Referrals")
@@ -70,7 +71,9 @@ model UserAddress {
   isBilling   Boolean  @default(true) @map("is_billing")
   createdAt   DateTime @default(now()) @map("created_at")
 
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  shippingOrders    Order[]  @relation("ShippingAddress")
+  billingOrders    Order[]  @relation("BillingAddress")
 
   @@map("user_addresses")
 }
