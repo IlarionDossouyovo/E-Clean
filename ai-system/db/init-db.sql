@@ -526,18 +526,118 @@ CREATE TABLE IF NOT EXISTS ai_agents (
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Insert AI agents
-INSERT INTO ai_agents (name, slug, description, agent_type, capabilities) VALUES
-('Sales Agent', 'sales-agent', 'AI Sales Manager - Customer acquisition, lead qualification, product recommendations', 'sales', 
- '["analyze_customer", "qualify_lead", "product_recommendation", "pricing_negotiation", "upselling", "handle_objection"]'),
-('Support Agent', 'support-agent', 'AI Customer Service - Ticket classification, auto-response, knowledge base', 'support',
- '["classify_ticket", "auto_respond", "escalate_to_human", "generate_solution", "find_knowledge_base", "sentiment_analysis"]'),
-('Finance Agent', 'finance-agent', 'AI Financial Controller - Invoicing, reconciliation, fraud detection, cashflow', 'finance',
- '["invoice_generation", "auto_reconciliation", "fraud_detection", "cashflow_forecast", "expense_categorization", "tax_calculation"]'),
-('Operations Agent', 'operations-agent', 'AI Logistics Manager - Routing, inventory, quality control', 'operations',
- '["optimize_routing", "predict_delivery", "inventory_alert", "reorder_point", "warehouse_optimization", "quality_check"]'),
-('Marketing Agent', 'marketing-agent', 'AI Marketing Manager - Campaigns, content generation, audience segmentation', 'marketing',
- '["campaign_creation", "audience_segmentation", "content_generation", "email_optimization", "ad_bid_strategy", "seo_optimization"]');
+-- ============================================
+-- AI WORKFLOWS
+-- ============================================
+
+CREATE TABLE IF NOT EXISTS ai_workflows (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name TEXT NOT NULL,
+    slug TEXT UNIQUE NOT NULL,
+    description TEXT,
+    trigger_event TEXT,
+    agent_id UUID REFERENCES ai_agents(id),
+    steps JSONB DEFAULT '[]',
+    is_active BOOLEAN DEFAULT true,
+    config JSONB DEFAULT '{}',
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Insert 10 Workflows per agent (100 total)
+INSERT INTO ai_workflows (name, slug, description, trigger_event, agent_id, is_active) VALUES
+-- Sales Agent Workflows
+('Nouveau Lead Détection', 'sales-new-lead', 'Détecter et qualifier nouveaux leads', 'lead.created', (SELECT id FROM ai_agents WHERE slug='sales-agent'), true),
+('Panier Abandonné', 'sales-abandoned-cart', 'Récupérer les paniers abandonnés', 'cart.abandoned', (SELECT id FROM ai_agents WHERE slug='sales-agent'), true),
+('Follow-up Client', 'sales-follow-up', 'Suivre les clients après achat', 'order.completed', (SELECT id FROM ai_agents WHERE slug='sales-agent'), true),
+('Upselling Automatique', 'sales-upselling', 'Proposer des produits complémentaires', 'order.created', (SELECT id FROM ai_agents WHERE slug='sales-agent'), true),
+('Demande Prix', 'sales-price-inquiry', 'Répondre aux demandes de prix', 'price.inquiry', (SELECT id FROM ai_agents WHERE slug='sales-agent'), true),
+
+-- Support Agent Workflows
+('Nouveau Ticket', 'support-new-ticket', 'Classifier et répondre aux tickets', 'ticket.created', (SELECT id FROM ai_agents WHERE slug='support-agent'), true),
+('Support Escalade', 'support-escalate', 'Escalader vers agent humain', 'ticket.escalate', (SELECT id FROM ai_agents WHERE slug='support-agent'), true),
+('Fermeture Ticket', 'support-close', 'Fermer les tickets résolus', 'ticket.resolved', (SELECT id FROM ai_agents WHERE slug='support-agent'), true),
+('Satisfaction Client', 'support-nps', 'Mesurer la satisfaction', 'ticket.closed', (SELECT id FROM ai_agents WHERE slug='support-agent'), true),
+('KB Auto-update', 'support-kb-update', 'Mettre à jour la base de connaissances', 'kb.update', (SELECT id FROM ai_agents WHERE slug='support-agent'), true),
+
+-- Finance Agent Workflows
+('Facturation Auto', 'finance-invoice', 'Générer les factures automatiquement', 'order.paid', (SELECT id FROM ai_agents WHERE slug='finance-agent'), true),
+('Rapprochement', 'finance-reconciliation', 'Rapprocher les paiements', 'payment.received', (SELECT id FROM ai_agents WHERE slug='finance-agent'), true),
+('Détection Fraude', 'finance-fraud', 'Détecter les fraudes', 'transaction.suspicious', (SELECT id FROM ai_agents WHERE slug='finance-agent'), true),
+('Trésorerie', 'finance-cashflow', 'Prévoir la trésorerie', 'daily', (SELECT id FROM ai_agents WHERE slug='finance-agent'), true),
+('Remboursement', 'finance-refund', 'Approuver les remboursements', 'refund.requested', (SELECT id FROM ai_agents WHERE slug='finance-agent'), true),
+
+-- Operations Agent Workflows
+('Préparation Commande', 'ops-order-prep', 'Préparer les commandes', 'order.created', (SELECT id FROM ai_agents WHERE slug='operations-agent'), true),
+('Expédition', 'ops-shipping', 'Gérer les expéditions', 'order.ready', (SELECT id FROM ai_agents WHERE slug='operations-agent'), true),
+('Suivi Livraison', 'ops-delivery', 'Suivre les livraisons', 'order.shipped', (SELECT id FROM ai_agents WHERE slug='operations-agent'), true),
+('Stock Alert', 'ops-stock-alert', 'Alerter sur le stock bas', 'product.low_stock', (SELECT id FROM ai_agents WHERE slug='operations-agent'), true),
+('Retour Client', 'ops-return', 'Gérer les retours', 'return.requested', (SELECT id FROM ai_agents WHERE slug='operations-agent'), true),
+
+-- Marketing Agent Workflows
+('Campagne Email', 'marketing-email', 'Envoyer les campagnes email', 'campaign.scheduled', (SELECT id FROM ai_agents WHERE slug='marketing-agent'), true),
+('Retargeting', 'marketing-retarget', 'Retargeter les visiteurs', 'page.visit', (SELECT id FROM ai_agents WHERE slug='marketing-agent'), true),
+('Réseaux Sociaux', 'marketing-social', 'Publier sur réseaux sociaux', 'post.scheduled', (SELECT id FROM ai_agents WHERE slug='marketing-agent'), true),
+('SEO Optimisation', 'marketing-seo', 'Optimiser le SEO', 'daily', (SELECT id FROM ai_agents WHERE slug='marketing-agent'), true),
+('A/B Testing', 'marketing-abtest', 'Gérer les tests A/B', 'test.started', (SELECT id FROM ai_agents WHERE slug='marketing-agent'), true),
+
+-- HR Agent Workflows
+('Candidature', 'hr-application', 'Traiter les candidatures', 'application.received', (SELECT id FROM ai_agents WHERE slug='hr-agent'), true),
+('Onboarding', 'hr-onboarding', 'Gérer onboarding employés', 'employee.hired', (SELECT id FROM ai_agents WHERE slug='hr-agent'), true),
+('Évaluation', 'hr-review', 'Évaluer les performances', 'review.scheduled', (SELECT id FROM ai_agents WHERE slug='hr-agent'), true),
+('Formation', 'hr-training', 'Recommander formations', 'training.needed', (SELECT id FROM ai_agents WHERE slug='hr-agent'), true),
+('Absentéisme', 'hr-absence', 'Gérer les absences', 'absence.reported', (SELECT id FROM ai_agents WHERE slug='hr-agent'), true),
+
+-- Legal Agent Workflows
+('Contrat', 'legal-contract', 'Générer/revoir contrats', 'contract.requested', (SELECT id FROM ai_agents WHERE slug='legal-agent'), true),
+('Conformité', 'legal-compliance', 'Vérifier conformité', 'compliance.check', (SELECT id FROM ai_agents WHERE slug='legal-agent'), true),
+('RGPD', 'legal-rgpd', 'Gérer données personnelles', 'data.request', (SELECT id FROM ai_agents WHERE slug='legal-agent'), true),
+('Risque', 'legal-risk', 'Évaluer les risques', 'risk.assessment', (SELECT id FROM ai_agents WHERE slug='legal-agent'), true),
+('Litige', 'legal-dispute', 'Résoudre litiges', 'dispute.opened', (SELECT id FROM ai_agents WHERE slug='legal-agent'), true),
+
+-- IT Agent Workflows
+('Incident IT', 'it-incident', 'Gérer incidents IT', 'incident.reported', (SELECT id FROM ai_agents WHERE slug='it-agent'), true),
+('Sécurité', 'it-security', 'Audit sécurité', 'security.scan', (SELECT id FROM ai_agents WHERE slug='it-agent'), true),
+('Accès', 'it-access', 'Gérer accès utilisateurs', 'access.requested', (SELECT id FROM ai_agents WHERE slug='it-agent'), true),
+('Monitoring', 'it-monitoring', 'Surveiller systèmes', 'daily', (SELECT id FROM ai_agents WHERE slug='it-agent'), true),
+('Mot de passe', 'it-password', 'Réinitialiser mots de passe', 'password.reset', (SELECT id FROM ai_agents WHERE slug='it-agent'), true),
+
+-- Customer Success Workflows
+('Onboarding Client', 'cs-onboarding', 'Onboarding nouveaux clients', 'client.onboarded', (SELECT id FROM ai_agents WHERE slug='customer-success-agent'), true),
+('Formation', 'cs-training', 'Former les clients', 'training.requested', (SELECT id FROM ai_agents WHERE slug='customer-success-agent'), true),
+('Health Score', 'cs-health', 'Calculer health score', 'daily', (SELECT id FROM ai_agents WHERE slug='customer-success-agent'), true),
+('Churn Alert', 'cs-churn', 'Prédire et éviter churn', 'churn.risk', (SELECT id FROM ai_agents WHERE slug='customer-success-agent'), true),
+('NPS', 'cs-nps', 'Enquête NPS', 'nps.requested', (SELECT id FROM ai_agents WHERE slug='customer-success-agent'), true),
+
+-- Product Agent Workflows
+('Feature Request', 'product-feature', 'Gérer demandes fonctionnalités', 'feature.requested', (SELECT id FROM ai_agents WHERE slug='product-agent'), true),
+('Feedback', 'product-feedback', 'Analyser feedback utilisateurs', 'feedback.received', (SELECT id FROM ai_agents WHERE slug='product-agent'), true),
+('Concurrence', 'product-competitor', 'Analyser concurrence', 'competitor.update', (SELECT id FROM ai_agents WHERE slug='product-agent'), true),
+('Roadmap', 'product-roadmap', 'Planifier roadmap', 'roadmap.planning', (SELECT id FROM ai_agents WHERE slug='product-agent'), true),
+('Beta', 'product-beta', 'Gérer beta testing', 'beta.started', (SELECT id FROM ai_agents WHERE slug='product-agent'), true);
+
+-- Insert AI agents - 10 Agents for E-Clean 360°
+INSERT INTO ai_agents (name, slug, description, agent_type, capabilities, is_active) VALUES
+('Sales Agent', 'sales-agent', 'AI Commercial - Acquisition clients, qualification leads, recommandations produits', 'sales', 
+ '["analyze_customer", "qualify_lead", "product_recommendation", "pricing_negotiation", "upselling", "handle_objection", "close_deal", "follow_up"]', true),
+('Support Agent', 'support-agent', 'IA Support Client - Tickets, auto-réponse, base de connaissances', 'support',
+ '["classify_ticket", "auto_respond", "escalate_to_human", "generate_solution", "find_knowledge_base", "sentiment_analysis", "schedule_callback"]', true),
+('Finance Agent', 'finance-agent', 'IA Finance - Facturation, rapprochement, détection fraude, trésorerie', 'finance',
+ '["invoice_generation", "auto_reconciliation", "fraud_detection", "cashflow_forecast", "expense_categorization", "tax_calculation", "refund_approval"]', true),
+('Operations Agent', 'operations-agent', 'IA Opérations - Routing, inventaire, contrôle qualité', 'operations',
+ '["optimize_routing", "predict_delivery", "inventory_alert", "reorder_point", "warehouse_optimization", "quality_check", "return_processing"]', true),
+('Marketing Agent', 'marketing-agent', 'IA Marketing - Campagnes, génération contenu, segmentation', 'marketing',
+ '["campaign_creation", "audience_segmentation", "content_generation", "email_optimization", "ad_bid_strategy", "seo_optimization", "ab_test"]', true),
+('HR Agent', 'hr-agent', 'IA RH - Recrutement, gestion employés, formation', 'hr',
+ '["screen_resumes", "schedule_interview", "onboarding", "performance_review", "training_recommendation", "absence_management", "employee_engagement"]', true),
+('Legal Agent', 'legal-agent', 'IA Juridique - Contrats, conformité, protection des données', 'legal',
+ '["contract_review", "compliance_check", "data_privacy", "risk_assessment", "terms_generation", "dispute_resolution"]', true),
+('IT Agent', 'it-agent', 'IA IT - Support technique, sécurité, infrastructure', 'it',
+ '["ticket_routing", "password_reset", "security_audit", "system_monitoring", "incident_response", "access_management"]', true),
+('Customer Success Agent', 'customer-success-agent', 'IA Succès Client - Onboarding, formation, rétention', 'customer_success',
+ '["onboarding", "product_training", "health_score", "churn_prediction", "advocacy_program", "nps_survey"]', true),
+('Product Agent', 'product-agent', 'IA Produit - Roadmap, feedback, analyse concurrentielle', 'product',
+ '["feature_request", "user_feedback", "competitor_analysis", "roadmap_planning", "beta_testing", "market_research"]', true);
 
 -- AI Conversation logs
 CREATE TABLE IF NOT EXISTS ai_conversations (
