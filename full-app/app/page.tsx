@@ -27,6 +27,7 @@ export default function Home() {
             <Link href="/cart" className="hover:text-blue-200">Panier 🛒</Link>
             <Link href="/checkout" className="hover:text-blue-200">Commander</Link>
             <Link href="/about" className="hover:text-blue-200">À propos</Link>
+            <Link href="/admin/dashboard" className="hover:text-blue-200 text-yellow-300">⚙️ Admin</Link>
             <Link href="/login" className="hover:text-blue-200">Connexion</Link>
           </nav>
         </div>
