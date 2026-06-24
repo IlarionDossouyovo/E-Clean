@@ -53,6 +53,28 @@ export const config = {
   },
 
   // ==========================================
+  // OLLAMA (Local AI - DEFAULT)
+  // ==========================================
+  ollama: {
+    baseUrl: process.env.OLLAMA_BASE_URL || 'http://localhost:11434',
+    
+    // Modèles disponibles localement
+    models: {
+      // Modèle principal pour les conversations
+      chat: process.env.OLLAMA_MODEL_CHAT || 'llama3.2',
+      // Modèle pour les embeddings
+      embedding: process.env.OLLAMA_MODEL_EMBEDDING || 'nomic-embed-text',
+      // Modèle vision (si disponible)
+      vision: process.env.OLLAMA_MODEL_VISION || 'llama3.2-vision',
+    },
+    
+    // Options
+    temperature: 0.7,
+    maxTokens: 4000,
+    stream: true,
+  },
+
+  // ==========================================
   // STRIPE PAYMENT
   // ==========================================
   stripe: {

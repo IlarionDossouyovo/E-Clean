@@ -57,6 +57,23 @@ export default function AdminDashboard() {
     { id: '5', name: 'Operations Agent', role: 'operations', status: 'idle', description: 'Logistique, stocks, réapprovisionnement', tasks: 678, success: 96.1, icon: '📦' },
   ])
 
+  const [ollamaStatus, setOllamaStatus] = useState<{ connected: boolean; models: string[] }>({ connected: false, models: [] })
+
+  useEffect(() => {
+    // Vérifier Ollama
+    fetch('/api/ollama')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.models) {
+          setOllamaStatus({
+            connected: true,
+            models: data.models.map((m: any) => m.name)
+          })
+        }
+      })
+      .catch(() => setOllamaStatus({ connected: false, models: [] }))
+  }, [])
+
   const [workflows, setWorkflows] = useState<Workflow[]>([
     { id: 'w1', name: 'Order → Fulfillment', trigger: 'order.created', status: 'active', runs: 342 },
     { id: 'w2', name: 'Cart Recovery', trigger: 'cart.abandoned', status: 'active', runs: 89 },
@@ -101,11 +118,20 @@ export default function AdminDashboard() {
             <button onClick={() => router.back()} className="text-blue-200 hover:text-white">←</button>
             <Link href="/" className="text-xl font-bold hover:text-blue-200">E-Clean Admin</Link>
           </div>
-          <nav className="flex gap-4">
+          <div className="flex items-center gap-4">
+            {/* Indicateur Ollama */}
+            <div className="flex items-center gap-2 bg-blue-800 px-3 py-1 rounded-full text-sm">
+              <span className={`w-2 h-2 rounded-full ${ollamaStatus.connected ? 'bg-green-400' : 'bg-red-400'}`}></span>
+              <span className="text-blue-200">
+                {ollamaStatus.connected 
+                  ? `🤖 Ollama: ${ollamaStatus.models.length} modèles` 
+                  : '🤖 Ollama: Hors ligne'}
+              </span>
+            </div>
             <Link href="/" className="hover:text-blue-200">Accueil</Link>
             <Link href="/admin/dashboard" className="text-blue-200">Dashboard</Link>
             <Link href="/catalog" className="hover:text-blue-200">Catalogue</Link>
-          </nav>
+          </div>
         </div>
       </header>
 
