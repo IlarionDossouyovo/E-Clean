@@ -74,16 +74,16 @@ export default function Home() {
             <p className="text-gray-600 mt-2">Stripe, PayPal →</p>
           </button>
           
-          <button onClick={() => router.push('/catalog')} className="bg-gray-50 rounded-lg p-6 text-center hover:bg-gray-100 cursor-pointer">
+          <button onClick={() => router.push('/order-tracking')} className="bg-gray-50 rounded-lg p-6 text-center hover:bg-gray-100 cursor-pointer">
             <div className="text-3xl mb-2">📦</div>
             <h3 className="text-lg font-semibold text-blue-900">Logistique</h3>
             <p className="text-gray-600 mt-2">Suivi commandes →</p>
           </button>
           
-          <button onClick={handleLogin} className="bg-gray-50 rounded-lg p-6 text-center hover:bg-gray-100 cursor-pointer">
+          <button onClick={() => router.push('/admin/dashboard')} className="bg-gray-50 rounded-lg p-6 text-center hover:bg-gray-100 cursor-pointer">
             <div className="text-3xl mb-2">🤖</div>
             <h3 className="text-lg font-semibold text-blue-900">Agents IA</h3>
-            <p className="text-gray-600 mt-2">Connexion IA →</p>
+            <p className="text-gray-600 mt-2">Dashboard IA →</p>
           </button>
         </div>
       </main>
