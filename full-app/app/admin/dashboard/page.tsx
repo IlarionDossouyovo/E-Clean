@@ -50,11 +50,16 @@ export default function AdminDashboard() {
   })
   const [loading, setLoading] = useState(true)
   const [agents, setAgents] = useState<Agent[]>([
-    { id: '1', name: 'Sales Agent', role: 'sales', status: 'idle', description: 'Ventes, recommandations, négociation de prix, upselling', tasks: 1247, success: 94.5, icon: '💰' },
-    { id: '2', name: 'Finance Agent', role: 'finance', status: 'idle', description: 'Facturation, détection fraude, cashflow', tasks: 856, success: 98.2, icon: '💵' },
-    { id: '3', name: 'Marketing Agent', role: 'marketing', status: 'idle', description: 'Campagnes, SEO, contenu, A/B testing', tasks: 523, success: 91.3, icon: '📢' },
-    { id: '4', name: 'Support Agent', role: 'support', status: 'idle', description: 'Ticketing, KB, escalade humaine', tasks: 2341, success: 89.7, icon: '🎧' },
+    { id: '1', name: 'Sales Agent', role: 'sales', status: 'idle', description: 'Ventes, recommandations, upselling, négociation', tasks: 1247, success: 94.5, icon: '💰' },
+    { id: '2', name: 'Finance Agent', role: 'finance', status: 'idle', description: 'Facturation, fraude, cashflow, rapports', tasks: 856, success: 98.2, icon: '💵' },
+    { id: '3', name: 'Marketing Agent', role: 'marketing', status: 'idle', description: 'Campagnes, SEO, email, A/B testing', tasks: 523, success: 91.3, icon: '📢' },
+    { id: '4', name: 'Support Agent', role: 'support', status: 'idle', description: 'Ticketing, KB, escalade', tasks: 2341, success: 89.7, icon: '🎧' },
     { id: '5', name: 'Operations Agent', role: 'operations', status: 'idle', description: 'Logistique, stocks, réapprovisionnement', tasks: 678, success: 96.1, icon: '📦' },
+    { id: '6', name: 'Inventory Agent', role: 'inventory', status: 'idle', description: 'Gestion stocks, alertes, prévisions', tasks: 445, success: 97.8, icon: '📊' },
+    { id: '7', name: 'Shipping Agent', role: 'shipping', status: 'idle', description: 'Suivi, transporteurs, livraison', tasks: 892, success: 95.2, icon: '🚚' },
+    { id: '8', name: 'Refund Agent', role: 'refund', status: 'idle', description: 'Traitement retours, remboursements', tasks: 234, success: 92.1, icon: '↩️' },
+    { id: '9', name: 'Review Agent', role: 'review', status: 'idle', description: 'Gestion avis, réponses', tasks: 567, success: 88.5, icon: '⭐' },
+    { id: '10', name: 'Chat Agent', role: 'chat', status: 'idle', description: 'Chat en direct, recommandations', tasks: 1890, success: 91.0, icon: '💬' },
   ])
 
   const [ollamaStatus, setOllamaStatus] = useState<{ connected: boolean; models: string[] }>({ connected: false, models: [] })
@@ -83,6 +88,10 @@ export default function AdminDashboard() {
     { id: 'w4', name: 'Inventory Check', trigger: 'schedule (6h)', status: 'active', runs: 30 },
     { id: 'w5', name: 'Refund Processing', trigger: 'refund.requested', status: 'active', runs: 45 },
     { id: 'w6', name: 'Review Request', trigger: 'order.delivered', status: 'active', runs: 278 },
+    { id: 'w7', name: 'Payment Verification', trigger: 'payment.pending', status: 'active', runs: 167 },
+    { id: 'w8', name: 'Shipping Update', trigger: 'shipment.tracked', status: 'active', runs: 423 },
+    { id: 'w9', name: 'Low Stock Alert', trigger: 'product.low_stock', status: 'active', runs: 56 },
+    { id: 'w10', name: 'VIP Customer Flow', trigger: 'customer.upgraded', status: 'active', runs: 34 },
   ])
 
   useEffect(() => {
@@ -166,7 +175,7 @@ export default function AdminDashboard() {
             <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
               <Bot className="w-6 h-6" /> Agents IA
             </h2>
-            <span className="text-sm text-gray-500">5 agents actifs</span>
+            <span className="text-sm text-gray-500">{agents.length} agents actifs</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
