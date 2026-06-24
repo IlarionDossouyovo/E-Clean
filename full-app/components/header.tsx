@@ -4,13 +4,29 @@ import Link from 'next/link'
 import { useCartStore } from '@/lib/cart'
 import { useSession, signOut } from 'next-auth/react'
 import { ShoppingCart, User, Menu, X } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function Header() {
   const { getItemCount } = useCartStore()
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
   const [menuOpen, setMenuOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const itemCount = getItemCount()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  // Attendre que le composant soit mounted et session chargée
+  if (!mounted || status === 'loading') {
+    return (
+      <header className="bg-primary text-white h-16">
+        <div className="max-w-7xl mx-auto px-4 h-full flex items-center">
+          <span className="text-xl font-bold text-secondary">E-Clean</span>
+        </div>
+      </header>
+    )
+  }
 
   return (
     <header className="bg-primary text-white sticky top-0 z-50">
