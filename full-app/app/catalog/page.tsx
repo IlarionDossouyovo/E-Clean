@@ -14,12 +14,12 @@ export default function CatalogPage() {
 
   // Produits de démonstration si l'API échoue
   const demoProducts = [
-    { id: '1', name: 'Nettoyant Multi-Surfaces', price: 12.90, summary: 'Nettoyant écologique pour toutes surfaces', category: { name: 'Nettoyants' } },
-    { id: '2', name: 'Désinfectant Main', price: 8.50, summary: 'Gel hydroalcoolique 500ml', category: { name: 'Hygiène' } },
-    { id: '3', name: 'Eponge Magique', price: 5.90, summary: 'Eponge nettoyante réutilisable', category: { name: 'Accessoires' } },
-    { id: '4', name: 'Gants Latex XL', price: 15.90, summary: 'Boîte de 100 gants', category: { name: 'Protection' } },
-    { id: '5', name: 'Sac Poubelle', price: 9.90, summary: 'Rouleau de 30 sacs', category: { name: 'Accessoires' } },
-    { id: '6', name: 'Liquide Vaissel', price: 11.90, summary: 'Liquide lave-vaisselle 1L', category: { name: 'Nettoyants' } },
+    { id: '1', name: 'Nettoyant Multi-Surfaces', price: 12.90, summary: 'Nettoyant écologique pour toutes surfaces', category: { name: 'Nettoyants' }, images: [{ url: 'https://images.unsplash.com/photo-1585421514284-efb6c2f11eda?w=400' }] },
+    { id: '2', name: 'Désinfectant Principal', price: 8.50, summary: 'Gel hydroalcoolique 500ml', category: { name: 'Hygiène' }, images: [{ url: 'https://images.unsplash.com/photo-1584634731339-252c581abfc5?w=400' }] },
+    { id: '3', name: 'Éponge Magique', price: 5.90, summary: 'Eponge nettoyante réutilisable', category: { name: 'Accessoires' }, images: [{ url: 'https://images.unsplash.com/photo-1585671969322-f732d5dfb3f2?w=400' }] },
+    { id: '4', name: 'Gants en latex XL', price: 15.90, summary: 'Boîte de 100 gants', category: { name: 'Protection' }, images: [{ url: 'https://images.unsplash.com/photo-1584827642868-86fcb6e6f83c?w=400' }] },
+    { id: '5', name: 'Sac Poubelle', price: 9.90, summary: 'Rouleau de 30 sacs', category: { name: 'Accessoires' }, images: [{ url: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=400' }] },
+    { id: '6', name: 'Liquide Vaissel', price: 11.90, summary: 'Liquide lave-vaisselle 1L', category: { name: 'Nettoyants' }, images: [{ url: 'https://images.unsplash.com/photo-1563453392212-326f5e854473?w=400' }] },
   ]
 
   async function fetchProducts() {
