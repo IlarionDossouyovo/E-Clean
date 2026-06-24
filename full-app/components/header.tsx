@@ -2,30 +2,41 @@
 
 import Link from 'next/link'
 import { useCartStore } from '@/lib/cart'
-import { useSession, signOut } from 'next-auth/react'
 import { ShoppingCart, User, Menu, X } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
 export default function Header() {
   const { getItemCount } = useCartStore()
-  const { data: session, status } = useSession()
   const [menuOpen, setMenuOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const [user, setUser] = useState<{ name?: string } | null>(null)
   const itemCount = getItemCount()
 
   useEffect(() => {
     setMounted(true)
+    // Vérifier si utilisateur connecté (stocké en localStorage)
+    const savedUser = localStorage.getItem('eclean_user')
+    if (savedUser) {
+      try {
+        setUser(JSON.parse(savedUser))
+      } catch {}
+    }
   }, [])
 
-  // Attendre que le composant soit mounted et session chargée
-  if (!mounted || status === 'loading') {
+  // Attendre que le composant soit mounted
+  if (!mounted) {
     return (
-      <header className="bg-primary text-white h-16">
+      <header className="bg-blue-900 text-white h-16">
         <div className="max-w-7xl mx-auto px-4 h-full flex items-center">
-          <span className="text-xl font-bold text-secondary">E-Clean</span>
+          <span className="text-xl font-bold">E-Clean</span>
         </div>
       </header>
     )
+  }
+
+  const handleSignOut = () => {
+    localStorage.removeItem('eclean_user')
+    setUser(null)
   }
 
   return (
@@ -61,29 +72,26 @@ export default function Header() {
               )}
             </Link>
 
-            {session ? (
+            {user ? (
               <div className="relative group">
-                <button className="p-2 hover:text-secondary transition">
+                <button className="p-2 hover:text-blue-200 transition">
                   <User className="w-6 h-6" />
                 </button>
-                <div className="absolute right-0 mt-2 w-48 bg-white text-primary rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+                <div className="absolute right-0 mt-2 w-48 bg-white text-gray-900 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
                   <Link href="/account" className="block px-4 py-2 hover:bg-gray-100">
-                    My Account
-                  </Link>
-                  <Link href="/account/orders" className="block px-4 py-2 hover:bg-gray-100">
-                    My Orders
+                    Mon Compte
                   </Link>
                   <button
-                    onClick={() => signOut()}
+                    onClick={handleSignOut}
                     className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600"
                   >
-                    Sign Out
+                    Déconnexion
                   </button>
                 </div>
               </div>
             ) : (
-              <Link href="/login" className="bg-secondary text-primary px-4 py-2 rounded-lg font-medium hover:bg-secondary/90 transition">
-                Sign In
+              <Link href="/login" className="bg-yellow-400 text-blue-900 px-4 py-2 rounded-lg font-medium hover:bg-yellow-300 transition">
+                Connexion
               </Link>
             )}
 
