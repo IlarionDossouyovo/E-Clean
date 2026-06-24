@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useCartStore } from '@/lib/cart'
 import { ShoppingCart, User, Menu, X } from 'lucide-react'
 import { useState, useEffect } from 'react'
+import LanguageSelector from './LanguageSelector'
 
 export default function Header() {
   const { getItemCount } = useCartStore()
@@ -59,6 +60,7 @@ export default function Header() {
             <Link href="/contact" className="hover:text-secondary transition">
               Contact
             </Link>
+            <LanguageSelector />
           </nav>
 
           {/* Actions */}
@@ -117,6 +119,9 @@ export default function Header() {
             <Link href="/contact" className="block py-2 hover:text-secondary">
               Contact
             </Link>
+            <div className="py-2">
+              <LanguageSelector />
+            </div>
           </nav>
         )}
       </div>
