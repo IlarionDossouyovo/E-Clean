@@ -248,7 +248,10 @@ export default function AdminDashboard() {
                     </td>
                     <td className="py-3 px-4 text-sm">{workflow.runs}</td>
                     <td className="py-3 px-4">
-                      <button className="text-blue-600 hover:text-blue-800 text-sm">
+                      <button 
+                        onClick={() => alert(`Détails du workflow: ${workflow.name}`)}
+                        className="text-blue-600 hover:text-blue-800 text-sm cursor-pointer"
+                      >
                         Voir détails →
                       </button>
                     </td>
@@ -264,13 +267,19 @@ export default function AdminDashboard() {
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-xl font-bold text-gray-900 mb-4">Gestion du Catalogue</h2>
             <div className="space-y-3">
-              <Link href="/catalog" className="block py-2 px-4 bg-gray-50 rounded hover:bg-gray-100">
+              <Link href="/catalog" className="block py-2 px-4 bg-gray-50 rounded hover:bg-gray-100 cursor-pointer">
                 Voir les produits
               </Link>
-              <button className="block w-full text-left py-2 px-4 bg-gray-50 rounded hover:bg-gray-100">
+              <button 
+                onClick={() => router.push('/catalog?add=true')}
+                className="block w-full text-left py-2 px-4 bg-gray-50 rounded hover:bg-gray-100 cursor-pointer"
+              >
                 Ajouter un produit
               </button>
-              <button className="block w-full text-left py-2 px-4 bg-gray-50 rounded hover:bg-gray-100">
+              <button 
+                onClick={() => router.push('/catalog?categories=true')}
+                className="block w-full text-left py-2 px-4 bg-gray-50 rounded hover:bg-gray-100 cursor-pointer"
+              >
                 Gérer les catégories
               </button>
             </div>
@@ -279,13 +288,22 @@ export default function AdminDashboard() {
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-xl font-bold text-gray-900 mb-4">Gestion des Commandes</h2>
             <div className="space-y-3">
-              <button className="block w-full text-left py-2 px-4 bg-gray-50 rounded hover:bg-gray-100">
+              <button 
+                onClick={() => router.push('/order-tracking?status=pending')}
+                className="block w-full text-left py-2 px-4 bg-gray-50 rounded hover:bg-gray-100 cursor-pointer"
+              >
                 Commandes en attente
               </button>
-              <button className="block w-full text-left py-2 px-4 bg-gray-50 rounded hover:bg-gray-100">
+              <button 
+                onClick={() => router.push('/order-tracking?shipments=true')}
+                className="block w-full text-left py-2 px-4 bg-gray-50 rounded hover:bg-gray-100 cursor-pointer"
+              >
                 Suivi des expéditions
               </button>
-              <button className="block w-full text-left py-2 px-4 bg-gray-50 rounded hover:bg-gray-100">
+              <button 
+                onClick={() => router.push('/order-tracking?refunds=true')}
+                className="block w-full text-left py-2 px-4 bg-gray-50 rounded hover:bg-gray-100 cursor-pointer"
+              >
                 Retours et remboursements
               </button>
             </div>
