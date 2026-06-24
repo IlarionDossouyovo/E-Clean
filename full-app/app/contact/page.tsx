@@ -65,7 +65,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-900">Téléphone</h3>
-                  <p className="text-gray-600">+225 07 08 09 10 11</p>
+                  <p className="text-gray-600">+229 01 977 003 47</p>
                   <p className="text-sm text-gray-500">Lun-Ven: 8h-18h</p>
                 </div>
               </div>
@@ -87,8 +87,8 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-900">Adresse</h3>
-                  <p className="text-gray-600">Abidjan, Côte d'Ivoire</p>
-                  <p className="text-gray-500">Plateau - Avenue de la République</p>
+                  <p className="text-gray-600">Cotonou, Béni</p>
+                  <p className="text-gray-500">Bénin</p>
                 </div>
               </div>
 
