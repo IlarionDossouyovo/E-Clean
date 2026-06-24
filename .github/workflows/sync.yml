@@ -1,0 +1,32 @@
+# E-Clean - GitHub Actions Sync Workflow
+# Synchronise automatiquement les changements
+
+name: 🔄 Auto Sync
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # Synchronise toutes les heures
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🔄 Synchroniser vers autre remote
+        run: |
+          # Ajouter un second remote pour la synchro croisée
+          git remote add secondary https://${{ secrets.SYNC_TOKEN }}@github.com/IlarionDossouyovo/E-Clean.git 2>/dev/null || true
+          git push secondary main
+        env:
+          SYNC_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: ✅ Statut
+        run: echo "✅ Synchronisation terminée"
