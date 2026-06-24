@@ -93,7 +93,7 @@ export default function CatalogPage() {
                 className="bg-white rounded-lg shadow-sm hover:shadow-md transition overflow-hidden"
               >
                 <div className="aspect-square bg-gray-100 relative">
-                  {product.images[0] ? (
+                  {product.images && product.images[0] ? (
                     <img
                       src={product.images[0].url}
                       alt={product.name}
@@ -101,15 +101,15 @@ export default function CatalogPage() {
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-gray-400">
-                      No Image
+                      Pas d'image
                     </div>
                   )}
                 </div>
                 <div className="p-4">
-                  <p className="text-sm text-secondary">{product.category.name}</p>
+                  <p className="text-sm text-secondary">{product.category?.name || 'Catégorie'}</p>
                   <h3 className="font-semibold text-primary mt-1">{product.name}</h3>
                   <p className="text-lg font-bold text-primary mt-2">
-                    €{product.price.toFixed(2)}
+                    €{product.price?.toFixed(2) || '0.00'}
                   </p>
                 </div>
               </Link>
