@@ -74,4 +74,6 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 }
 
-export default NextAuth(authOptions)
+// Pour Next.js 14 App Router - exporter les handlers GET et POST
+const handler = NextAuth(authOptions)
+export { handler as GET, handler as POST }
