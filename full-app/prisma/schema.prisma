@@ -19,8 +19,8 @@ model User {
   firstName      String   @map("first_name")
   lastName       String   @map("last_name")
   phone         String?
-  type           UserType @default(INDIVIDUAL)
-  status         UserStatus @default(ACTIVE)
+  type           String   @default("INDIVIDUAL") // UserType
+  status         String   @default("ACTIVE") // UserStatus
   emailVerified  Boolean  @default(false) @map("email_verified")
   phoneVerified  Boolean  @default(false) @map("phone_verified")
   referrerId    String?  @map("referrer_id")
@@ -42,18 +42,19 @@ model User {
   @@map("users")
 }
 
-enum UserType {
-  INDIVIDUAL
-  PROFESSIONAL
-  DROPSHIPPER
-  VENDOR
-}
+// SQLite ne supporte pas les enums - utiliser des strings à la place
+// enum UserType {
+//   INDIVIDUAL
+//   PROFESSIONAL
+//   DROPSHIPPER
+//   VENDOR
+// }
 
-enum UserStatus {
-  ACTIVE
-  INACTIVE
-  SUSPENDED
-}
+// enum UserStatus {
+//   ACTIVE
+//   INACTIVE
+//   SUSPENDED
+// }
 
 model UserAddress {
   id          String   @id @default(cuid())
@@ -202,7 +203,7 @@ model ProductOption {
   id        String   @id @default(cuid())
   productId String   @map("product_id")
   name     String
-  values   String[]
+  values   String   // JSON array stored as string - SQLite doesn't support arrays
 
   product  Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
 
@@ -243,7 +244,7 @@ model Order {
   id                String      @id @default(cuid())
   orderNumber        String      @unique @map("order_number")
   userId           String?     @map("user_id")
-  status           OrderStatus @default(PENDING)
+  status           String      @default("PENDING") // OrderStatus
   currency         String      @default("EUR") @map("currency")
   subtotal         Float
   shippingCost     Float       @default(0) @map("shipping_cost")
@@ -268,15 +269,15 @@ model Order {
   @@map("orders")
 }
 
-enum OrderStatus {
-  PENDING
-  PAID
-  PROCESSING
-  SHIPPED
-  DELIVERED
-  CANCELLED
-  REFUNDED
-}
+// enum OrderStatus {
+//   PENDING
+//   PAID
+//   PROCESSING
+//   SHIPPED
+//   DELIVERED
+//   CANCELLED
+//   REFUNDED
+// }
 
 model OrderItem {
   id          String   @id @default(cuid())
@@ -322,7 +323,7 @@ model Payment {
   amount           Float
   currency         String       @default("EUR") @map("currency")
   method           String       @map("method")
-  status           PaymentStatus @default(PENDING)
+  status           String       @default("PENDING") // PaymentStatus
   reference        String?      @map("reference")
   provider         String?      @map("provider")
   providerReference String?    @map("provider_reference")
@@ -336,12 +337,12 @@ model Payment {
   @@map("payments")
 }
 
-enum PaymentStatus {
-  PENDING
-  PAID
-  FAILED
-  REFUNDED
-}
+// enum PaymentStatus {
+//   PENDING
+//   PAID
+//   FAILED
+//   REFUNDED
+// }
 
 model Refund {
   id          String      @id @default(cuid())
@@ -349,7 +350,7 @@ model Refund {
   orderId     String     @map("order_id")
   amount      Float
   reason      String?
-  status      RefundStatus @default(PENDING)
+  status      String     @default("PENDING") // RefundStatus
   processedAt DateTime?   @map("processed_at")
   createdAt   DateTime    @default(now()) @map("created_at")
 
@@ -358,19 +359,19 @@ model Refund {
   @@map("refunds")
 }
 
-enum RefundStatus {
-  PENDING
-  PROCESSED
-  COMPLETED
-  FAILED
-}
+// enum RefundStatus {
+//   PENDING
+//   PROCESSED
+//   COMPLETED
+//   FAILED
+// }
 
 // ============== MARKETING ==============
 
 model Coupon {
   id             String    @id @default(cuid())
   code           String    @unique
-  type           CouponType
+  type           String   @default("PERCENT") // CouponType
   value          Float
   minOrderAmount Float?    @map("min_order_amount")
   maxUses        Int?       @map("max_uses")
@@ -384,11 +385,11 @@ model Coupon {
   @@map("coupons")
 }
 
-enum CouponType {
-  PERCENT
-  FIXED
-  FREE_SHIPPING
-}
+// enum CouponType {
+//   PERCENT
+//   FIXED
+//   FREE_SHIPPING
+// }
 
 model CouponUsage {
   id             String   @id @default(cuid())
@@ -408,7 +409,7 @@ model LoyaltyPoint {
   id          String      @id @default(cuid())
   userId      String     @map("user_id")
   points      Int
-  type       LoyaltyType
+  type       String     @default("EARNED") // LoyaltyType
   reference  String?
   expiresAt  DateTime?   @map("expires_at")
   createdAt  DateTime    @default(now()) @map("created_at")
@@ -418,11 +419,11 @@ model LoyaltyPoint {
   @@map("loyalty_points")
 }
 
-enum LoyaltyType {
-  EARNED
-  REDEEMED
-  EXPIRED
-}
+// enum LoyaltyType {
+//   EARNED
+//   REDEEMED
+//   EXPIRED
+// }
 
 // ============== CART ==============
 
@@ -448,19 +449,19 @@ model AdminUser {
   email       String     @unique
   passwordHash String    @map("password_hash")
   name        String
-  role        AdminRole   @default(ADMIN)
-  permissions Json?
+  role        String     @default("ADMIN") // AdminRole
+  permissions String?  // Json not supported in SQLite - store as string
   lastLogin   DateTime?  @map("last_login")
   createdAt  DateTime   @default(now()) @map("created_at")
 
   @@map("admin_users")
 }
 
-enum AdminRole {
-  ADMIN
-  MANAGER
-  SUPPORT
-}
+// enum AdminRole {
+//   ADMIN
+//   MANAGER
+//   SUPPORT
+// }
 
 model ActivityLog {
   id          String   @id @default(cuid())
@@ -468,7 +469,7 @@ model ActivityLog {
   action     String
   entityType  String?  @map("entity_type")
   entityId   String?  @map("entity_id")
-  data       Json?
+  data       String?  // Json not supported in SQLite - store as string
   ipAddress  String?  @map("ip_address")
   createdAt  DateTime @default(now()) @map("created_at")
 
