@@ -60,15 +60,17 @@ export default function AdminDashboard() {
   const [ollamaStatus, setOllamaStatus] = useState<{ connected: boolean; models: string[] }>({ connected: false, models: [] })
 
   useEffect(() => {
-    // Vérifier Ollama
+    // Vérifier Ollama (optionnel - pas critique si hors ligne)
     fetch('/api/ollama')
       .then(res => res.json())
       .then(data => {
-        if (data.success && data.models) {
+        if (data.success && data.models && data.models.length > 0) {
           setOllamaStatus({
             connected: true,
             models: data.models.map((m: any) => m.name)
           })
+        } else {
+          setOllamaStatus({ connected: false, models: [] })
         }
       })
       .catch(() => setOllamaStatus({ connected: false, models: [] }))
