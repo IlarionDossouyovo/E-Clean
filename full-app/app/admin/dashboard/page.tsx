@@ -3,6 +3,11 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { 
+  Bot, DollarSign, ShoppingCart, Users, Package, 
+  TrendingUp, Activity, Zap, Clock, CheckCircle,
+  AlertTriangle, ArrowRight, BarChart3, Settings
+} from 'lucide-react'
 
 // Types pour les agents IA
 interface Agent {
@@ -12,6 +17,19 @@ interface Agent {
   status: 'active' | 'idle' | 'error'
   lastRun?: string
   description: string
+  tasks: number
+  success: number
+  icon: string
+}
+
+// Workflow automatisé
+interface Workflow {
+  id: string
+  name: string
+  trigger: string
+  status: 'active' | 'paused'
+  lastRun?: string
+  runs: number
 }
 
 // Statistiques simulées
@@ -32,11 +50,20 @@ export default function AdminDashboard() {
   })
   const [loading, setLoading] = useState(true)
   const [agents, setAgents] = useState<Agent[]>([
-    { id: '1', name: 'Sales Agent', role: 'sales', status: 'idle', description: 'Gère les ventes et les conversions' },
-    { id: '2', name: 'Finance Agent', role: 'finance', status: 'idle', description: 'Gestion financière et comptabilité' },
-    { id: '3', name: 'Marketing Agent', role: 'marketing', status: 'idle', description: 'Campagnes marketing et SEO' },
-    { id: '4', name: 'Support Agent', role: 'support', status: 'idle', description: 'Support client 24/7' },
-    { id: '5', name: 'Operations Agent', role: 'operations', status: 'idle', description: 'Logistique et inventaire' },
+    { id: '1', name: 'Sales Agent', role: 'sales', status: 'idle', description: 'Ventes, recommandations, négociation de prix, upselling', tasks: 1247, success: 94.5, icon: '💰' },
+    { id: '2', name: 'Finance Agent', role: 'finance', status: 'idle', description: 'Facturation, détection fraude, cashflow', tasks: 856, success: 98.2, icon: '💵' },
+    { id: '3', name: 'Marketing Agent', role: 'marketing', status: 'idle', description: 'Campagnes, SEO, contenu, A/B testing', tasks: 523, success: 91.3, icon: '📢' },
+    { id: '4', name: 'Support Agent', role: 'support', status: 'idle', description: 'Ticketing, KB, escalade humaine', tasks: 2341, success: 89.7, icon: '🎧' },
+    { id: '5', name: 'Operations Agent', role: 'operations', status: 'idle', description: 'Logistique, stocks, réapprovisionnement', tasks: 678, success: 96.1, icon: '📦' },
+  ])
+
+  const [workflows, setWorkflows] = useState<Workflow[]>([
+    { id: 'w1', name: 'Order → Fulfillment', trigger: 'order.created', status: 'active', runs: 342 },
+    { id: 'w2', name: 'Cart Recovery', trigger: 'cart.abandoned', status: 'active', runs: 89 },
+    { id: 'w3', name: 'Welcome Journey', trigger: 'user.registered', status: 'active', runs: 156 },
+    { id: 'w4', name: 'Inventory Check', trigger: 'schedule (6h)', status: 'active', runs: 30 },
+    { id: 'w5', name: 'Refund Processing', trigger: 'refund.requested', status: 'active', runs: 45 },
+    { id: 'w6', name: 'Review Request', trigger: 'order.delivered', status: 'active', runs: 278 },
   ])
 
   useEffect(() => {
@@ -108,42 +135,101 @@ export default function AdminDashboard() {
         {/* Section Agents IA */}
         <div className="bg-white rounded-lg shadow p-6 mb-8">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-bold text-gray-900">🤖 Agents IA</h2>
-            <span className="text-sm text-gray-500">5 agents disponibles</span>
+            <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+              <Bot className="w-6 h-6" /> Agents IA
+            </h2>
+            <span className="text-sm text-gray-500">5 agents actifs</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {agents.map((agent) => (
-              <div key={agent.id} className="border rounded-lg p-4">
+              <div key={agent.id} className="border rounded-lg p-4 hover:shadow-md transition">
                 <div className="flex justify-between items-start mb-2">
-                  <h3 className="font-semibold text-gray-900">{agent.name}</h3>
+                  <div className="flex items-center gap-2">
+                    <span className="text-2xl">{agent.icon}</span>
+                    <h3 className="font-semibold text-gray-900">{agent.name}</h3>
+                  </div>
                   <span className={`px-2 py-1 rounded text-xs ${
                     agent.status === 'active' ? 'bg-green-100 text-green-800' :
                     agent.status === 'error' ? 'bg-red-100 text-red-800' :
-                    'bg-gray-100 text-gray-800'
+                    'bg-blue-100 text-blue-800'
                   }`}>
-                    {agent.status === 'active' ? 'En cours' : 'Inactif'}
+                    {agent.status === 'active' ? 'Actif' : 'Inactif'}
                   </span>
                 </div>
-                <p className="text-sm text-gray-600 mb-4">{agent.description}</p>
+                <p className="text-sm text-gray-600 mb-3">{agent.description}</p>
+                
+                <div className="flex gap-4 text-xs text-gray-500 mb-4">
+                  <span>Tâches: <strong className="text-gray-900">{agent.tasks}</strong></span>
+                  <span>Succès: <strong className="text-green-600">{agent.success}%</strong></span>
+                </div>
+                
                 <button 
                   onClick={() => runAgent(agent.id)}
                   disabled={agent.status === 'active'}
-                  className={`w-full py-2 rounded ${
+                  className={`w-full py-2 rounded flex items-center justify-center gap-2 ${
                     agent.status === 'active' 
                       ? 'bg-gray-300 cursor-not-allowed' 
                       : 'bg-blue-600 text-white hover:bg-blue-700'
                   }`}
                 >
-                  {agent.status === 'active' ? 'En cours...' : 'Lancer l\'agent'}
+                  <Zap className="w-4 h-4" />
+                  {agent.status === 'active' ? 'En cours...' : 'Lancer'}
                 </button>
                 {agent.lastRun && (
                   <p className="text-xs text-gray-400 mt-2">
-                    Dernier lancement: {new Date(agent.lastRun).toLocaleString()}
+                    Dernier: {new Date(agent.lastRun).toLocaleString('fr-FR')}
                   </p>
                 )}
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* Section Workflows Automatisés */}
+        <div className="bg-white rounded-lg shadow p-6 mb-8">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+              <Activity className="w-6 h-6" /> Workflows Automatisés
+            </h2>
+            <span className="text-sm text-gray-500">{workflows.length} workflows actifs</span>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b">
+                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Workflow</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Déclencheur</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Status</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Exécutions</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {workflows.map((workflow) => (
+                  <tr key={workflow.id} className="border-b hover:bg-gray-50">
+                    <td className="py-3 px-4 font-medium">{workflow.name}</td>
+                    <td className="py-3 px-4 text-sm text-gray-600">{workflow.trigger}</td>
+                    <td className="py-3 px-4">
+                      <span className={`px-2 py-1 rounded text-xs ${
+                        workflow.status === 'active' 
+                          ? 'bg-green-100 text-green-800' 
+                          : 'bg-gray-100 text-gray-800'
+                      }`}>
+                        {workflow.status === 'active' ? 'Actif' : 'En pause'}
+                      </span>
+                    </td>
+                    <td className="py-3 px-4 text-sm">{workflow.runs}</td>
+                    <td className="py-3 px-4">
+                      <button className="text-blue-600 hover:text-blue-800 text-sm">
+                        Voir détails →
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
 
