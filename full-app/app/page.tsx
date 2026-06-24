@@ -6,28 +6,28 @@ import { useRouter } from 'next/navigation'
 export default function Home() {
   const router = useRouter()
   
-  const handleCatalog = () => {
-    router.push('/catalog')
-  }
-  
-  const handleAbout = () => {
-    router.push('/about')
-  }
-  
-  const handleCart = () => {
-    router.push('/cart')
-  }
+  const handleCatalog = () => router.push('/catalog')
+  const handleAbout = () => router.push('/about')
+  const handleCart = () => router.push('/cart')
+  const handleCheckout = () => router.push('/checkout')
+  const handleLogin = () => router.push('/login')
+  const goBack = () => router.back()
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header simple */}
-      <header className="bg-blue-900 text-white py-4 px-4">
+      {/* Header avec navigation complète */}
+      <header className="bg-blue-900 text-white py-4 px-4 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <h1 className="text-xl font-bold">E-Clean</h1>
+          <div className="flex items-center gap-4">
+            <button onClick={goBack} className="text-blue-200 hover:text-white" title="Retour">←</button>
+            <Link href="/" className="text-xl font-bold hover:text-blue-200">E-Clean</Link>
+          </div>
           <nav className="flex gap-4">
             <Link href="/catalog" className="hover:text-blue-200">Catalogue</Link>
-            <Link href="/cart" className="hover:text-blue-200">Panier</Link>
+            <Link href="/cart" className="hover:text-blue-200">Panier 🛒</Link>
+            <Link href="/checkout" className="hover:text-blue-200">Commander</Link>
             <Link href="/about" className="hover:text-blue-200">À propos</Link>
+            <Link href="/login" className="hover:text-blue-200">Connexion</Link>
           </nav>
         </div>
       </header>
@@ -64,25 +64,25 @@ export default function Home() {
           <button onClick={handleCatalog} className="bg-gray-50 rounded-lg p-6 text-center hover:bg-gray-100 cursor-pointer">
             <div className="text-3xl mb-2">🛒</div>
             <h3 className="text-lg font-semibold text-blue-900">E-Commerce</h3>
-            <p className="text-gray-600 mt-2">Système complet de catalogue et de panier</p>
+            <p className="text-gray-600 mt-2">Catalogue & Panier →</p>
           </button>
           
-          <button onClick={() => {}} className="bg-gray-50 rounded-lg p-6 text-center hover:bg-gray-100 cursor-pointer">
+          <button onClick={handleCheckout} className="bg-gray-50 rounded-lg p-6 text-center hover:bg-gray-100 cursor-pointer">
             <div className="text-3xl mb-2">💳</div>
             <h3 className="text-lg font-semibold text-blue-900">Paiements</h3>
-            <p className="text-gray-600 mt-2">Stripe, PayPal, Crypto</p>
+            <p className="text-gray-600 mt-2">Stripe, PayPal →</p>
           </button>
           
-          <button onClick={() => {}} className="bg-gray-50 rounded-lg p-6 text-center hover:bg-gray-100 cursor-pointer">
+          <button onClick={() => router.push('/catalog')} className="bg-gray-50 rounded-lg p-6 text-center hover:bg-gray-100 cursor-pointer">
             <div className="text-3xl mb-2">📦</div>
             <h3 className="text-lg font-semibold text-blue-900">Logistique</h3>
-            <p className="text-gray-600 mt-2">Expédition multi-transporteurs</p>
+            <p className="text-gray-600 mt-2">Suivi commandes →</p>
           </button>
           
-          <button onClick={() => {}} className="bg-gray-50 rounded-lg p-6 text-center hover:bg-gray-100 cursor-pointer">
+          <button onClick={handleLogin} className="bg-gray-50 rounded-lg p-6 text-center hover:bg-gray-100 cursor-pointer">
             <div className="text-3xl mb-2">🤖</div>
             <h3 className="text-lg font-semibold text-blue-900">Agents IA</h3>
-            <p className="text-gray-600 mt-2">5 agents intelligent</p>
+            <p className="text-gray-600 mt-2">Connexion IA →</p>
           </button>
         </div>
       </main>

@@ -2,32 +2,21 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import Header from '@/components/header'
-
-interface Product {
-  id: string
-  name: string
-  slug: string
-  price: number
-  summary?: string
-  category: { name: string }
-  images: { url: string }[]
-}
+import { useRouter } from 'next/navigation'
 
 export default function CatalogPage() {
-  const [products, setProducts] = useState<Product[]>([])
+  const router = useRouter()
+  const [products, setProducts] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
 
-  useEffect(() => {
-    fetchProducts()
-  }, [])
+  useEffect(() => { fetchProducts() }, [])
 
   async function fetchProducts() {
     try {
       const res = await fetch('/api/products')
       const data = await res.json()
-      setProducts(data)
+      setProducts(data || [])
     } catch (error) {
       console.error('Failed to fetch products:', error)
     } finally {
@@ -35,13 +24,25 @@ export default function CatalogPage() {
     }
   }
 
-  const filteredProducts = products.filter(p => 
-    p.name.toLowerCase().includes(search.toLowerCase())
-  )
+  const filteredProducts = products.filter(p => p.name?.toLowerCase().includes(search.toLowerCase()))
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
+      {/* Header inline */}
+      <header className="bg-blue-900 text-white py-4 px-4 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <div className="flex items-center gap-4">
+            <button onClick={() => router.back()} className="text-blue-200 hover:text-white">←</button>
+            <Link href="/" className="text-xl font-bold hover:text-blue-200">E-Clean</Link>
+          </div>
+          <nav className="flex gap-4">
+            <Link href="/" className="hover:text-blue-200">Accueil</Link>
+            <Link href="/cart" className="hover:text-blue-200">Panier 🛒</Link>
+            <Link href="/checkout" className="hover:text-blue-200">Commander</Link>
+            <Link href="/login" className="hover:text-blue-200">Connexion</Link>
+          </nav>
+        </div>
+      </header>
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
