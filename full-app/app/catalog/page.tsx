@@ -12,19 +12,34 @@ export default function CatalogPage() {
 
   useEffect(() => { fetchProducts() }, [])
 
+  // Produits de démonstration si l'API échoue
+  const demoProducts = [
+    { id: '1', name: 'Nettoyant Multi-Surfaces', price: 12.90, summary: 'Nettoyant écologique pour toutes surfaces', category: { name: 'Nettoyants' } },
+    { id: '2', name: 'Désinfectant Main', price: 8.50, summary: 'Gel hydroalcoolique 500ml', category: { name: 'Hygiène' } },
+    { id: '3', name: 'Eponge Magique', price: 5.90, summary: 'Eponge nettoyante réutilisable', category: { name: 'Accessoires' } },
+    { id: '4', name: 'Gants Latex XL', price: 15.90, summary: 'Boîte de 100 gants', category: { name: 'Protection' } },
+    { id: '5', name: 'Sac Poubelle', price: 9.90, summary: 'Rouleau de 30 sacs', category: { name: 'Accessoires' } },
+    { id: '6', name: 'Liquide Vaissel', price: 11.90, summary: 'Liquide lave-vaisselle 1L', category: { name: 'Nettoyants' } },
+  ]
+
   async function fetchProducts() {
     try {
       const res = await fetch('/api/products')
+      if (!res.ok) throw new Error('API error')
       const data = await res.json()
       setProducts(data || [])
     } catch (error) {
-      console.error('Failed to fetch products:', error)
+      // Utiliser les produits démo si l'API échoue
+      console.log('Using demo products')
+      setProducts(demoProducts)
     } finally {
       setLoading(false)
     }
   }
 
-  const filteredProducts = products.filter(p => p.name?.toLowerCase().includes(search.toLowerCase()))
+  const filteredProducts = products.length > 0 
+    ? products.filter(p => p.name?.toLowerCase().includes(search.toLowerCase()))
+    : demoProducts.filter(p => p.name.toLowerCase().includes(search.toLowerCase()))
 
   return (
     <div className="min-h-screen bg-gray-50">
