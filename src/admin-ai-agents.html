@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agents Dashboard | Clean Stack - E-Clean</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0A2540;
+            --secondary: #00C2CB;
+            --accent: #2ECC71;
+            --danger: #E74C3C;
+            --warning: #F39C12;
+            --purple: #9B59B6;
+            --light: #F8FAFC;
+            --white: #FFFFFF;
+            --gray: #64748B;
+            --gray-light: #E2E8F0;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { font-family: 'Inter', sans-serif; background: var(--light); }
+        
+        .login-screen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary);
+        }
+        
+        .login-box {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .login-box h1 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        
+        .login-box .subtitle {
+            color: var(--gray);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 0.875rem;
+        }
+        
+        .form-group { margin-bottom: 1.5rem; }
+        
+        .form-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--gray-light);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 0.875rem;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            color: var(--primary);
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .btn:hover { transform: translateY(-2px); }
+        
+        .error { color: var(--danger); font-size: 0.875rem; margin-top: 0.5rem; display: none; }
+        
+        .dashboard { display: none; }
+        
+        .header {
+            background: var(--primary);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--white);
+        }
+        
+        .header-brand h1 { font-size: 1.25rem; }
+        
+        .header-brand .badge {
+            background: var(--secondary);
+            color: var(--primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.625rem;
+            font-weight: 700;
+        }
+        
+        .header-user {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--white);
+        }
+        
+        .header-user .avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .logout-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+        
+        .container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .stat-card .icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-card .value { font-size: 2rem; font-weight: 700; color: var(--primary); }
+        .stat-card .label { color: var(--gray); font-size: 0.875rem; }
+        
+        .agents-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        
+        .agent-card {
+            background: var(--white);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .agent-header {
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-bottom: 1px solid var(--gray-light);
+        }
+        
+        .agent-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+        }
+        
+        .agent-icon.sales { background: linear-gradient(135deg, #3498DB, #2980B9); }
+        .agent-icon.support { background: linear-gradient(135deg, #2ECC71, #27AE60); }
+        .agent-icon.finance { background: linear-gradient(135deg, #9B59B6, #8E44AD); }
+        .agent-icon.operations { background: linear-gradient(135deg, #E74C3C, #C0392B); }
+        .agent-icon.marketing { background: linear-gradient(135deg, #F39C12, #E67E22); }
+        
+        .agent-info h3 { font-size: 1.125rem; color: var(--primary); margin-bottom: 0.25rem; }
+        .agent-info .type { font-size: 0.75rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        .agent-status {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .agent-status.active { background: rgba(46, 204, 113, 0.1); color: var(--accent); }
+        .agent-status.inactive { background: rgba(231, 76, 60, 0.1); color: var(--danger); }
+        
+        .agent-status .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+        
+        .agent-body { padding: 1.5rem; }
+        
+        .capabilities-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .capability-tag {
+            background: var(--light);
+            padding: 0.375rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--gray);
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+        }
+        
+        .capability-tag .check { color: var(--accent); }
+        
+        .agent-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+        
+        .btn-agent {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-agent.primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+        
+        .btn-agent.secondary {
+            background: var(--light);
+            color: var(--primary);
+        }
+        
+        .btn-agent:hover { transform: translateY(-1px); }
+        
+        .agent-chat {
+            display: none;
+            padding: 1.5rem;
+            border-top: 1px solid var(--gray-light);
+            background: var(--light);
+        }
+        
+        .chat-messages {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+        }
+        
+        .chat-message {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: 12px;
+        }
+        
+        .chat-message.user {
+            background: var(--primary);
+            color: var(--white);
+            margin-left: 2rem;
+        }
+        
+        .chat-message.ai {
+            background: var(--white);
+            color: var(--primary);
+            margin-right: 2rem;
+        }
+        
+        .chat-message .time {
+            font-size: 0.625rem;
+            opacity: 0.7;
+            margin-top: 0.5rem;
+        }
+        
+        .chat-input {
+            display: flex;
+            gap: 0.75rem;
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.875rem;
+        }
+        
+        .chat-input button {
+            padding: 0.75rem 1.5rem;
+            background: var(--secondary);
+            color: var(--primary);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .workflows-section {
+            margin-top: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.25rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .workflows-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+        
+        .workflow-card {
+            background: var(--white);
+            padding: 1.25rem;
+            border-radius: 12px;
+            border: 1px solid var(--gray-light);
+        }
+        
+        .workflow-card h4 {
+            font-size: 0.875rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .workflow-card p {
+            font-size: 0.75rem;
+            color: var(--gray);
+        }
+        
+        .workflow-card .status {
+            display: inline-block;
+            margin-top: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.625rem;
+            font-weight: 600;
+        }
+        
+        .workflow-card .status.active { background: rgba(46, 204, 113, 0.1); color: var(--accent); }
+        
+        .analytics-section {
+            margin-top: 2rem;
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 16px;
+        }
+        
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+        
+        .analytics-item {
+            text-align: center;
+        }
+        
+        .analytics-item .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .analytics-item .label {
+            font-size: 0.75rem;
+            color: var(--gray);
+        }
+        
+        @media (max-width: 1200px) {
+            .agents-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid, .agents-grid, .workflows-grid, .analytics-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-box">
+            <h1>🔐 Clean Stack</h1>
+            <p class="subtitle">E-Clean AI Management Platform</p>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Email Administrateur</label>
+                    <input type="email" id="email" placeholder="admin@eclean.com" value="admin@eclean.com">
+                </div>
+                <div class="form-group">
+                    <label>Mot de passe</label>
+                    <input type="password" id="password" placeholder="••••••••••">
+                </div>
+                <button type="submit" class="btn">Connexion</button>
+                <p class="error" id="loginError">Identifiants incorrects</p>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard">
+        <header class="header">
+            <div class="header-brand">
+                <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
+                    <path d="M20 3 L35 8 V20 C35 30 28 35 20 37 C12 35 5 30 5 20 V8 L20 3Z" fill="#00C2CB"/>
+                    <path d="M20 10 C20 10 14 17 14 22 C14 27 17 30 20 30 C23 30 26 27 26 22 C26 17 20 10 20 10Z" fill="#0A2540"/>
+                </svg>
+                <h1>Clean Stack</h1>
+                <span class="badge">ADMIN</span>
+            </div>
+            <div class="header-user">
+                <span>Clean Stack</span>
+                <div class="avatar">CS</div>
+                <button class="logout-btn" onclick="logout()">Déconnexion</button>
+            </div>
+        </header>
+        
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="icon" style="background: rgba(0, 194, 203, 0.1);">🤖</div>
+                    <div class="value" id="totalAgents">10</div>
+                    <div class="label">Agents AI Actifs</div>
+                </div>
+                <div class="stat-card">
+                    <div class="icon" style="background: rgba(46, 204, 113, 0.1);">💬</div>
+                    <div class="value" id="totalConversations">0</div>
+                    <div class="label">Conversations Today</div>
+                </div>
+                <div class="stat-card">
+                    <div class="icon" style="background: rgba(155, 89, 182, 0.1);">⚡</div>
+                    <div class="value" id="workflowsActive">50</div>
+                    <div class="label">Workflows Automatisés</div>
+                </div>
+                <div class="stat-card">
+                    <div class="icon" style="background: rgba(243, 156, 18, 0.1);">🎯</div>
+                    <div class="value">98%</div>
+                    <div class="label">Précision Moyenne</div>
+                </div>
+            </div>
+            
+            <h2 class="section-title">🤖 Agents AI</h2>
+            <div class="agents-grid" id="agentsGrid">
+                <!-- Agents will be rendered here -->
+            </div>
+            
+            <div class="workflows-section">
+                <h2 class="section-title">⚡ Workflows Automatisés</h2>
+                <div class="workflows-grid" id="workflowsGrid">
+                    <div class="workflow-card">
+                        <h4>📦 Order-to-Fulfillment</h4>
+                        <p>Traitement automatique des commandes</p>
+                        <span class="status active">● ACTIF</span>
+                    </div>
+                    <div class="workflow-card">
+                        <h4>👋 Customer Welcome</h4>
+                        <p>Parcours client nouveau</p>
+                        <span class="status active">● ACTIF</span>
+                    </div>
+                    <div class="workflow-card">
+                        <h4>🛒 Abandoned Cart</h4>
+                        <p>Récupération panier abandonné</p>
+                        <span class="status active">● ACTIF</span>
+                    </div>
+                    <div class="workflow-card">
+                        <h4>📊 Inventory Management</h4>
+                        <p>Gestion stock automatique</p>
+                        <span class="status active">● ACTIF</span>
+                    </div>
+                    <div class="workflow-card">
+                        <h4>🎫 Support Ticket Flow</h4>
+                        <p>Traitement tickets support</p>
+                        <span class="status active">● ACTIF</span>
+                    </div>
+                    <div class="workflow-card">
+                        <h4>💰 Refund Processing</h4>
+                        <p>Traitement remboursements</p>
+                        <span class="status active">● ACTIF</span>
+                    </div>
+                    <div class="workflow-card">
+                        <h4>⭐ Review Generation</h4>
+                        <p>Demandes d'avis</p>
+                        <span class="status active">● ACTIF</span>
+                    </div>
+                    <div class="workflow-card">
+                        <h4>💵 Price Optimization</h4>
+                        <p>Optimisation dynamique</p>
+                        <span class="status active">● ACTIF</span>
+                    </div>
+                    <div class="workflow-card">
+                        <h4>📣 Marketing Campaign</h4>
+                        <p>Campagnes automatisées</p>
+                        <span class="status active">● ACTIF</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="analytics-section">
+                <h2 class="section-title">📈 Analytics en Temps Réel</h2>
+                <div class="analytics-grid">
+                    <div class="analytics-item">
+                        <div class="value">24</div>
+                        <div class="label">Leads Qualifiés</div>
+                    </div>
+                    <div class="analytics-item">
+                        <div class="value">156€</div>
+                        <div class="label">Revenu Auto</div>
+                    </div>
+                    <div class="analytics-item">
+                        <div class="value">12</div>
+                        <div class="label">Tickets Résolus</div>
+                    </div>
+                    <div class="analytics-item">
+                        <div class="value">89%</div>
+                        <div class="label">Satisfaction</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Admin credentials (in production, this should be server-side)
+        const ADMIN_EMAIL = 'admin@eclean.com';
+        const ADMIN_PASSWORD = 'CleanStack2026!';
+        
+        // AI Agents data - 10 Agents for E-Clean 360°
+        const agents = [
+            {
+                id: 1,
+                name: 'Sales Agent',
+                slug: 'sales-agent',
+                description: 'IA Commercial - Acquisition clients, qualification leads, recommandations produits',
+                type: 'sales',
+                icon: '💼',
+                color: '#3498DB',
+                capabilities: [
+                    { name: 'analyze_customer', label: 'Analyse Client', icon: '🔍' },
+                    { name: 'qualify_lead', label: 'Qualification Lead', icon: '✅' },
+                    { name: 'product_recommendation', label: 'Recommandations', icon: '🎁' },
+                    { name: 'pricing_negotiation', label: 'Négociation Prix', icon: '💰' },
+                    { name: 'upselling', label: 'Vente Croisée', icon: '📈' },
+                    { name: 'handle_objection', label: 'Gestion Objections', icon: '🛡️' },
+                    { name: 'close_deal', label: 'Clôturer', icon: '🤝' },
+                    { name: 'follow_up', label: 'Suivi', icon: '📞' }
+                ],
+                is_active: true,
+                workflows: ['Nouveau Lead', 'Panier Abandonné', 'Follow-up', 'Upselling', 'Demande Prix']
+            },
+            {
+                id: 2,
+                name: 'Support Agent',
+                slug: 'support-agent',
+                description: 'IA Support Client - Tickets, auto-réponse, base de connaissances',
+                type: 'support',
+                icon: '🎧',
+                color: '#2ECC71',
+                capabilities: [
+                    { name: 'classify_ticket', label: 'Classification', icon: '🏷️' },
+                    { name: 'auto_respond', label: 'Auto-Réponse', icon: '🤖' },
+                    { name: 'escalate_to_human', label: 'Escalade', icon: '👤' },
+                    { name: 'generate_solution', label: 'Génération Solution', icon: '💡' },
+                    { name: 'find_knowledge_base', label: 'Base Conn.', icon: '📚' },
+                    { name: 'sentiment_analysis', label: 'Analyse Sentiment', icon: '❤️' },
+                    { name: 'schedule_callback', label: 'Rappel', icon: '📅' }
+                ],
+                is_active: true,
+                workflows: ['Nouveau Ticket', 'Escalade', 'Fermeture', 'Satisfaction', 'KB Update']
+            },
+            {
+                id: 3,
+                name: 'Finance Agent',
+                slug: 'finance-agent',
+                description: 'IA Finance - Facturation, rapprochement, détection fraude, trésorerie',
+                type: 'finance',
+                icon: '💰',
+                color: '#9B59B6',
+                capabilities: [
+                    { name: 'invoice_generation', label: 'Génération Factures', icon: '📄' },
+                    { name: 'auto_reconciliation', label: 'Rapprochement', icon: '🔄' },
+                    { name: 'fraud_detection', label: 'Détection Fraude', icon: '🚨' },
+                    { name: 'cashflow_forecast', label: 'Prévision Tréso', icon: '📊' },
+                    { name: 'expense_categorization', label: 'Catégorisation', icon: '📁' },
+                    { name: 'tax_calculation', label: 'Calcul Taxes', icon: '🧾' },
+                    { name: 'refund_approval', label: 'Approbation', icon: '✅' }
+                ],
+                is_active: true,
+                workflows: ['Facturation', 'Rapprochement', 'Fraude', 'Trésorerie', 'Remboursement']
+            },
+            {
+                id: 4,
+                name: 'Operations Agent',
+                slug: 'operations-agent',
+                description: 'IA Opérations - Routing, inventaire, contrôle qualité',
+                type: 'operations',
+                icon: '📦',
+                color: '#E74C3C',
+                capabilities: [
+                    { name: 'optimize_routing', label: 'Optimisation Routes', icon: '🗺️' },
+                    { name: 'predict_delivery', label: 'Prédiction Livraison', icon: '🚚' },
+                    { name: 'inventory_alert', label: 'Alerte Stock', icon: '⚠️' },
+                    { name: 'reorder_point', label: 'Réapprovisionnement', icon: '📦' },
+                    { name: 'warehouse_optimization', label: 'Optimisation Entrepôt', icon: '🏭' },
+                    { name: 'quality_check', label: 'Contrôle Qualité', icon: '✅' },
+                    { name: 'return_processing', label: 'Traitement Retours', icon: '↩️' }
+                ],
+                is_active: true,
+                workflows: ['Préparation', 'Expédition', 'Suivi', 'Stock Alert', 'Retours']
+            },
+            {
+                id: 5,
+                name: 'Marketing Agent',
+                slug: 'marketing-agent',
+                description: 'IA Marketing - Campagnes, génération contenu, segmentation',
+                type: 'marketing',
+                icon: '📢',
+                color: '#F39C12',
+                capabilities: [
+                    { name: 'campaign_creation', label: 'Création Campagne', icon: '📣' },
+                    { name: 'audience_segmentation', label: 'Segmentation', icon: '👥' },
+                    { name: 'content_generation', label: 'Génération Contenu', icon: '✍️' },
+                    { name: 'email_optimization', label: 'Optimisation Email', icon: '📧' },
+                    { name: 'ad_bid_strategy', label: 'Stratégie Enchères', icon: '💵' },
+                    { name: 'seo_optimization', label: 'Optimisation SEO', icon: '🔍' },
+                    { name: 'ab_test', label: 'A/B Testing', icon: '🧪' }
+                ],
+                is_active: true,
+                workflows: ['Email', 'Retargeting', 'Social', 'SEO', 'A/B Test']
+            },
+            {
+                id: 6,
+                name: 'HR Agent',
+                slug: 'hr-agent',
+                description: 'IA RH - Recrutement, gestion employés, formation',
+                type: 'hr',
+                icon: '👥',
+                color: '#1ABC9C',
+                capabilities: [
+                    { name: 'screen_resumes', label: 'Candidatures', icon: '📝' },
+                    { name: 'schedule_interview', label: 'Entretiens', icon: '📅' },
+                    { name: 'onboarding', label: 'Intégration', icon: '🚪' },
+                    { name: 'performance_review', label: 'Évaluation', icon: '📊' },
+                    { name: 'training_recommendation', label: 'Formation', icon: '🎓' },
+                    { name: 'absence_management', label: 'Absences', icon: '📅' },
+                    { name: 'employee_engagement', label: 'Engagement', icon: '❤️' }
+                ],
+                is_active: true,
+                workflows: ['Candidature', 'Onboarding', 'Évaluation', 'Formation', 'Absentéisme']
+            },
+            {
+                id: 7,
+                name: 'Legal Agent',
+                slug: 'legal-agent',
+                description: 'IA Juridique - Contrats, conformité, protection des données',
+                type: 'legal',
+                icon: '⚖️',
+                color: '#34495E',
+                capabilities: [
+                    { name: 'contract_review', label: 'Contrats', icon: '📄' },
+                    { name: 'compliance_check', label: 'Conformité', icon: '✅' },
+                    { name: 'data_privacy', label: 'RGPD', icon: '🔒' },
+                    { name: 'risk_assessment', label: 'Risques', icon: '⚠️' },
+                    { name: 'terms_generation', label: 'CGV', icon: '📝' },
+                    { name: 'dispute_resolution', label: 'Litiges', icon: '⚖️' }
+                ],
+                is_active: true,
+                workflows: ['Contrats', 'Conformité', 'RGPD', 'Risques', 'Litiges']
+            },
+            {
+                id: 8,
+                name: 'IT Agent',
+                slug: 'it-agent',
+                description: 'IA IT - Support technique, sécurité, infrastructure',
+                type: 'it',
+                icon: '💻',
+                color: '#E67E22',
+                capabilities: [
+                    { name: 'ticket_routing', label: 'Routing', icon: '🛤️' },
+                    { name: 'password_reset', label: 'Mot de passe', icon: '🔑' },
+                    { name: 'security_audit', label: 'Sécurité', icon: '🔒' },
+                    { name: 'system_monitoring', label: 'Monitoring', icon: '📊' },
+                    { name: 'incident_response', label: 'Incidents', icon: '🚨' },
+                    { name: 'access_management', label: 'Accès', icon: '👤' }
+                ],
+                is_active: true,
+                workflows: ['Incident', 'Sécurité', 'Accès', 'Monitoring', 'Mot de passe']
+            },
+            {
+                id: 9,
+                name: 'Customer Success Agent',
+                slug: 'customer-success-agent',
+                description: 'IA Succès Client - Onboarding, formation, rétention',
+                type: 'customer_success',
+                icon: '🌟',
+                color: '#00C2CB',
+                capabilities: [
+                    { name: 'onboarding', label: 'Onboarding', icon: '🚪' },
+                    { name: 'product_training', label: 'Formation', icon: '🎓' },
+                    { name: 'health_score', label: 'Health Score', icon: '❤️' },
+                    { name: 'churn_prediction', label: 'Churn', icon: '📉' },
+                    { name: 'advocacy_program', label: 'Ambassadeurs', icon: '⭐' },
+                    { name: 'nps_survey', label: 'NPS', icon: '📝' }
+                ],
+                is_active: true,
+                workflows: ['Onboarding', 'Formation', 'Health', 'Churn', 'NPS']
+            },
+            {
+                id: 10,
+                name: 'Product Agent',
+                slug: 'product-agent',
+                description: 'IA Produit - Roadmap, feedback, analyse concurrentielle',
+                type: 'product',
+                icon: '🎯',
+                color: '#8E44AD',
+                capabilities: [
+                    { name: 'feature_request', label: 'Features', icon: '✨' },
+                    { name: 'user_feedback', label: 'Feedback', icon: '💬' },
+                    { name: 'competitor_analysis', label: 'Concurrence', icon: '🔍' },
+                    { name: 'roadmap_planning', label: 'Roadmap', icon: '🗺️' },
+                    { name: 'beta_testing', label: 'Beta', icon: '🧪' },
+                    { name: 'market_research', label: 'Marché', icon: '📈' }
+                ],
+                is_active: true,
+                workflows: ['Feature', 'Feedback', 'Concurrence', 'Roadmap', 'Beta']
+            }
+        ];
+        
+        let currentAgent = null;
+        
+        // Login handler
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+                renderAgents();
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+            }
+        });
+        
+        // Logout handler
+        function logout() {
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('password').value = '';
+        }
+        
+        // Render agents
+        function renderAgents() {
+            const grid = document.getElementById('agentsGrid');
+            grid.innerHTML = agents.map(agent => `
+                <div class="agent-card">
+                    <div class="agent-header">
+                        <div class="agent-icon" style="background: linear-gradient(135deg, ${agent.color}, ${adjustColor(agent.color, -20)});">${agent.icon}</div>
+                        <div class="agent-info">
+                            <h3>${agent.name}</h3>
+                            <span class="type">${agent.type} AI</span>
+                        </div>
+                        <div class="agent-status ${agent.is_active ? 'active' : 'inactive'}">
+                            <span class="dot"></span>
+                            ${agent.is_active ? 'ACTIF' : 'INACTIF'}
+                        </div>
+                    </div>
+                    <div class="agent-body">
+                        <p style="color: var(--gray); font-size: 0.875rem; margin-bottom: 1rem;">${agent.description}</p>
+                        <div class="capabilities-list">
+                            ${agent.capabilities.map(cap => `
+                                <span class="capability-tag">
+                                    <span class="check">✓</span> ${cap.icon} ${cap.label}
+                                </span>
+                            `).join('')}
+                        </div>
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--gray-light);">
+                            <small style="color: var(--gray); font-weight: 600;">⚡ Workflows:</small>
+                            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
+                                ${agent.workflows.map(wf => `
+                                    <span style="background: rgba(46, 204, 113, 0.1); color: var(--accent); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.625rem;">
+                                        ${wf}
+                                    </span>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div class="agent-actions">
+                            <button class="btn-agent primary" onclick="toggleChat(${agent.id})">
+                                💬 Converser
+                            </button>
+                            <button class="btn-agent secondary" onclick="viewAnalytics(${agent.id})">
+                                📊 Analytics
+                            </button>
+                        </div>
+                    </div>
+                    <div class="agent-chat" id="chat-${agent.id}">
+                        <div class="chat-messages" id="messages-${agent.id}">
+                            <div class="chat-message ai">
+                                <p>Bonjour! Je suis ${agent.name}. Comment puis-je vous aider?</p>
+                                <div class="time">${new Date().toLocaleTimeString('fr-FR')}</div>
+                            </div>
+                        </div>
+                        <div class="chat-input">
+                            <input type="text" placeholder="Tapez votre message..." id="input-${agent.id}" onkeypress="handleKeyPress(event, ${agent.id})">
+                            <button onclick="sendMessage(${agent.id})">Envoyer</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function adjustColor(hex, amount) {
+            const num = parseInt(hex.replace('#', ''), 16);
+            const r = Math.min(255, Math.max(0, (num >> 16) + amount));
+            const g = Math.min(255, Math.max(0, ((num >> 8) & 0x00FF) + amount));
+            const b = Math.min(255, Math.max(0, (num & 0x0000FF) + amount));
+            return '#' + (1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1);
+        }
+        
+        function getAgentEmoji(type) {
+            const emojis = {
+                sales: '💼',
+                support: '🎧',
+                finance: '💰',
+                operations: '📦',
+                marketing: '📢',
+                hr: '👥',
+                legal: '⚖️',
+                it: '💻',
+                customer_success: '🌟',
+                product: '🎯'
+            };
+            return emojis[type] || '🤖';
+        }
+        
+        function getAgentColor(type) {
+            const colors = {
+                sales: '#3498DB',
+                support: '#2ECC71',
+                finance: '#9B59B6',
+                operations: '#E74C3C',
+                marketing: '#F39C12',
+                hr: '#1ABC9C',
+                legal: '#34495E',
+                it: '#E67E22',
+                customer_success: '#00C2CB',
+                product: '#8E44AD'
+            };
+            return colors[type] || '#64748B';
+        }
+        
+        function toggleChat(agentId) {
+            const chat = document.getElementById(`chat-${agentId}`);
+            chat.style.display = chat.style.display === 'block' ? 'none' : 'block';
+        }
+        
+        function handleKeyPress(event, agentId) {
+            if (event.key === 'Enter') {
+                sendMessage(agentId);
+            }
+        }
+        
+        function sendMessage(agentId) {
+            const input = document.getElementById(`input-${agentId}`);
+            const messages = document.getElementById(`messages-${agentId}`);
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'chat-message user';
+            userMsg.innerHTML = `<p>${message}</p><div class="time">${new Date().toLocaleTimeString('fr-FR')}</div>`;
+            messages.appendChild(userMsg);
+            
+            input.value = '';
+            
+            // Simulate AI response (in production, this would call the Ollama API)
+            setTimeout(() => {
+                const agent = agents.find(a => a.id === agentId);
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'chat-message ai';
+                aiMsg.innerHTML = `<p>Message reçu par ${agent.name}. Je traite votre demande...</p><div class="time">${new Date().toLocaleTimeString('fr-FR')}</div>`;
+                messages.appendChild(aiMsg);
+                messages.scrollTop = messages.scrollHeight;
+            }, 1000);
+        }
+        
+        function viewAnalytics(agentId) {
+            alert('Analytics pour l\'agent ' + agentId + ' - Coming soon!');
+        }
+    </script>
+</body>
+</html>
