@@ -80,12 +80,25 @@ export default function CatalogPage() {
   
   const filteredProducts = allProducts.filter(p => {
     const matchSearch = p.name?.toLowerCase().includes(search.toLowerCase()) || p.summary?.toLowerCase().includes(search.toLowerCase())
-    const matchCategory = !selectedCategory || p.category === selectedCategory
+    // Handle both API data (object) and demo data (string)
+    const productCategoryId = typeof p.category === 'object' ? p.category?.slug : p.category
+    const matchCategory = !selectedCategory || productCategoryId === selectedCategory
     const matchSubcategory = !selectedSubcategory || p.subcategory === selectedSubcategory
     return matchSearch && matchCategory && matchSubcategory
   })
 
-  const getCategoryName = (id: string) => categories.find(c => c.id === id)?.name || id
+  // Handle both API data (object) and demo data (string)
+  const getCategoryName = (cat: any) => {
+    if (!cat) return ''
+    if (typeof cat === 'string') return categories.find(c => c.id === cat)?.name || cat
+    return cat.name || ''
+  }
+  
+  const getCategoryIcon = (cat: any) => {
+    if (!cat) return ''
+    if (typeof cat === 'string') return categories.find(c => c.id === cat)?.icon || ''
+    return ''
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -251,7 +264,7 @@ export default function CatalogPage() {
                 </div>
                 <div className="p-4">
                   <p className="text-sm text-blue-600">
-                    {categories.find(c => c.id === product.category)?.icon} {getCategoryName(product.category)}
+                    {getCategoryIcon(product.category)} {getCategoryName(product.category)}
                   </p>
                   <h3 className="font-semibold text-gray-900 mt-1">{product.name}</h3>
                   <p className="text-sm text-gray-500 mt-1">{product.summary}</p>
