@@ -3,6 +3,7 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import AuthProvider from '@/components/providers'
 import { Toaster } from 'react-hot-toast'
+import Navigation, { Footer } from '@/components/Navigation'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -17,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="fr">
       <body className={inter.className}>
         <AuthProvider>
           {children}
